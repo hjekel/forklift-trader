@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forklift Trader — Opportunity Scout v0.1</title>
+  <style>
+    :root {
+      --primary: #e74c3c;
+      --dark: #2c3e50;
+      --bg: #ecf0f1;
+      --card: #ffffff;
+      --text: #2c3e50;
+      --muted: #7f8c8d;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1rem;
+    }
+    
+    .container { max-width: 1400px; margin: 0 auto; }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), #c0392b);
+      color: white;
+      padding: 2.5rem 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    header p { opacity: 0.95; font-size: 1.1rem; }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: var(--card);
+      padding: 1.75rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border-left: 4px solid var(--primary);
+    }
+    
+    .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--primary); }
+    .stat-label { font-size: 0.95rem; color: var(--muted); margin-top: 0.75rem; }
+    
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    button {
+      padding: 0.85rem 1.75rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--primary);
+      color: white;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    button:hover { background: #c0392b; }
+    
+    .table-container {
+      background: var(--card);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: var(--dark);
+      color: white;
+      padding: 1.25rem 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 1.25rem 1rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    tr:hover { background: #f8f9fa; }
+    .model { font-weight: 700; color: var(--primary); }
+    .price { font-weight: 700; color: var(--primary); }
+    
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>?? Forklift Trader</h1>
+      <p>Spot opportunities. Match demand. Close deals faster.</p>
+    </header>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number" id="statTotal">0</div>
+        <div class="stat-label">Total listings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statAvgPrice">€0</div>
+        <div class="stat-label">Average price</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statModels">0</div>
+        <div class="stat-label">Models found</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statDeals">0</div>
+        <div class="stat-label">Hot deals (&lt;€18k)</div>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button onclick="loadSampleData()">?? Load sample data</button>
+      <button onclick="document.getElementById('csvImport').click()">?? Import CSV</button>
+      <input type="file" id="csvImport" accept=".csv" style="display:none;" onchange="importCSV(this)">
+      <button onclick="exportCSV()">?? Export CSV</button>
+      <button onclick="refreshStats()">?? Refresh</button>
+    </div>
+    
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Hours</th>
+            <th>Price</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="listingsTable">
+          <tr><td colspan="5" style="text-align:center;padding:3rem;">No data. Click "Load sample data" to test.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <footer>
+      <p><strong>Forklift Trader v0.1</strong> — Opportunity Scanner</p>
+      <p>Data from Mascus, TruckScout24, and manual sources</p>
+    </footer>
+  </div>
+  
+  <script>
+    let allListings = [];
+    
+    function loadSampleData() {
+      allListings = [
+        { id: 'S1', model: '8FBE15', year: 2020, hours: 2500, price: 18500, source: 'sample' },
+        { id: 'S2', model: '8FD25', year: 2019, hours: 4200, price: 22000, source: 'sample' },
+        { id: 'S3', model: '8FBE18', year: 2021, hours: 1800, price: 21000, source: 'sample' },
+        { id: 'S4', model: 'RRE140', year: 2018, hours: 3500, price: 15500, source: 'sample' },
+        { id: 'S5', model: '8FG30', year: 2017, hours: 5000, price: 25000, source: 'sample' },
+      ];
+      renderListings();
+      refreshStats();
+      alert('? Sample data loaded (5 items)');
+    }
+    
+    function renderListings() {
+      const tbody = document.getElementById('listingsTable');
+      if (allListings.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No data loaded.</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = allListings.map(item => 
+        <tr>
+          <td class="model"></td>
+          <td></td>
+          <td></td>
+          <td class="price">€</td>
+          <td></td>
+        </tr>
+      ).join('');
+    }
+    
+    function refreshStats() {
+      if (allListings.length === 0) {
+        document.getElementById('statTotal').textContent = '0';
+        document.getElementById('statAvgPrice').textContent = '€0';
+        document.getElementById('statModels').textContent = '0';
+        document.getElementById('statDeals').textContent = '0';
+        return;
+      }
+      
+      const prices = allListings.map(l => l.price);
+      const avgPrice = Math.round(prices.reduce((a,b) => a+b, 0) / prices.length);
+      const models = new Set(allListings.map(l => l.model)).size;
+      const deals = allListings.filter(l => l.price < 18000).length;
+      
+      document.getElementById('statTotal').textContent = allListings.length;
+      document.getElementById('statAvgPrice').textContent = '€' + avgPrice.toLocaleString('en-US');
+      document.getElementById('statModels').textContent = models;
+      document.getElementById('statDeals').textContent = deals;
+    }
+    
+    function importCSV(input) {
+      const file = input.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const lines = e.target.result.split('\n').filter(l => l.trim());
+        const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+        
+        allListings = [];
+        for (let i = 1; i < lines.length; i++) {
+          const values = lines[i].split(',');
+          if (values.length < 5) continue;
+          
+          allListings.push({
+            id: 'IMP-' + i,
+            model: values[headers.indexOf('model')]?.trim() || '',
+            year: parseInt(values[headers.indexOf('year')]) || 2020,
+            hours: parseInt(values[headers.indexOf('hours')]) || 0,
+            price: parseInt(values[headers.indexOf('price')]) || 0,
+            source: 'imported',
+          });
+        }
+        
+        renderListings();
+        refreshStats();
+        alert('? Imported ' + allListings.length + ' listings');
+      };
+      reader.readAsText(file);
+    }
+    
+    function exportCSV() {
+      if (allListings.length === 0) {
+        alert('No data to export');
+        return;
+      }
+      
+      const headers = ['id', 'model', 'year', 'hours', 'price', 'source'];
+      const rows = allListings.map(l => [l.id, l.model, l.year, l.hours, l.price, l.source].join(','));
+      const csv = [headers.join(','), ...rows].join('\n');
+      
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'forklift_listings.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>

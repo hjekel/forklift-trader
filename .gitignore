@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+venv/
+output/
+*.csv
+*.json.bak
+debug/
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

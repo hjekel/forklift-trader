@@ -1,0 +1,16 @@
+{
+  "metadata": {
+    "version": "0.1",
+    "last_updated": "2026-03-27"
+  },
+  "models": {
+    "8FBE15": {"type": "electric", "capacity": "1500kg", "year_from": 2010, "typical_price_range": [8000, 18000]},
+    "8FBE18": {"type": "electric", "capacity": "1800kg", "year_from": 2010, "typical_price_range": [10000, 20000]},
+    "8FBE20": {"type": "electric", "capacity": "2000kg", "year_from": 2010, "typical_price_range": [12000, 22000]},
+    "8FD25": {"type": "diesel", "capacity": "2500kg", "year_from": 2005, "typical_price_range": [15000, 28000]},
+    "8FG30": {"type": "lpg", "capacity": "3000kg", "year_from": 2005, "typical_price_range": [18000, 32000]},
+    "RRE140": {"type": "reach", "capacity": "1400kg", "year_from": 2010, "typical_price_range": [12000, 24000]},
+    "RRE160": {"type": "reach", "capacity": "1600kg", "year_from": 2010, "typical_price_range": [14000, 26000]},
+    "OSE100": {"type": "picker", "capacity": "1000kg", "year_from": 2012, "typical_price_range": [10000, 20000]}
+  }
+}
