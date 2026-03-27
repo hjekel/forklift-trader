@@ -16,7 +16,8 @@ logger = logging.getLogger(__name__)
 
 class MascusScraperToyota:
     BASE_URL = 'https://www.mascus.nl'
-    SEARCH_URL = 'https://www.mascus.nl/heftrucks/toyota'
+    SEARCH_URL = 'https://www.mascus.nl/laden-en-lossen/heftrucks'
+    SEARCH_PARAMS = {'brands': 'toyota'}
     
     def __init__(self):
         self.session = requests.Session()
@@ -45,20 +46,26 @@ class MascusScraperToyota:
         return None
     
     def _extract_model(self, text):
-        patterns = [
-            r'\b(8F[A-Z]{2}\d{2})\b',
-            r'\b(RRE\d{3})\b',
-            r'\b(OSE\d{3})\b',
-        ]
         text_upper = text.upper()
+        patterns = [
+            r'\b(8F[A-Z]{1,4}\d{2,3}[A-Z]?)\b',
+            r'\b(52-?8\s*F[A-Z]{2,4}\s*\d{2,3})\b',
+            r'\b(FB[A-Z]{1,3}\d{2,3})\b',
+            r'\b(FD\d{2,3}[A-Z]?)\b',
+            r'\b(FG\d{2,3}[A-Z]?)\b',
+            r'\b(RRE\d{2,3})\b',
+            r'\b(OSE\d{2,3})\b',
+            r'\b(BT\s*[A-Z]{2,4}\d{2,3})\b',
+        ]
         for pattern in patterns:
             match = re.search(pattern, text_upper)
             if match:
-                return match.group(1)
+                return match.group(1).replace(' ', '')
         return None
     
     def _extract_price(self, text):
         patterns = [
+            r'([\d.]+)\s*EUR',
             r'€\s*([\d.,]+)',
             r'([\d.,]+)\s*€',
             r'EUR\s*([\d.,]+)',
@@ -101,43 +108,42 @@ class MascusScraperToyota:
         
         page = 1
         while page <= max_pages:
-            url = f'{self.SEARCH_URL}?page={page}'
+            params = {**self.SEARCH_PARAMS, 'page': page}
+            url = f'{self.SEARCH_URL}/toyota?page={page}'
             logger.info(f'Scraping page {page}...')
-            
+
             soup = self._fetch(url)
             if not soup:
                 break
-            
-            items = soup.find_all('div', class_='listing-item')
+
+            items = soup.find_all('div', class_=lambda c: c and 'searchResultItemWrapper' in c)
             if not items:
                 logger.info('No more items')
                 break
-            
+
             for item in items:
                 try:
                     title_elem = item.find('h2') or item.find('h3')
                     if not title_elem:
                         continue
-                    
+
                     title = title_elem.get_text().strip()
-                    if not any(x in title.lower() for x in ['toyota', 'bt', 'forklift']):
-                        continue
-                    
+
                     link_elem = item.find('a', href=True)
                     url_item = link_elem['href'] if link_elem else ''
                     if url_item in self.known_urls:
                         continue
                     self.known_urls.add(url_item)
-                    
+
                     item_text = item.get_text()
                     model = self._extract_model(title)
                     if not model:
                         continue
-                    
+
                     price = self._extract_price(item_text)
                     if price == 0:
                         continue
-                    
+
                     listing = {
                         'id': f'MASCUS-{len(self.listings)+1}',
                         'model': model,
@@ -147,14 +153,14 @@ class MascusScraperToyota:
                         'source': 'mascus',
                         'region': 'NL',
                     }
-                    
+
                     self.listings.append(listing)
                     logger.info(f'  + {model} {listing["year"]} - EUR{listing["price"]:,}')
-                
+
                 except Exception as e:
                     logger.debug(f'Parse error: {e}')
                     continue
-            
+
             page += 1
             if quick:
                 break
