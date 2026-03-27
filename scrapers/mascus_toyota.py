@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 class MascusScraperToyota:
     BASE_URL = 'https://www.mascus.nl'
-    SEARCH_URL = 'https://www.mascus.nl/heftrucks/toyota'
+    SEARCH_URL = 'https://www.mascus.nl/laden-en-lossen/heftrucks/toyota'
     
     def __init__(self):
         self.session = requests.Session()
@@ -40,7 +40,7 @@ class MascusScraperToyota:
                 else:
                     logger.warning(f'HTTP {response.status_code}: {url}')
             except Exception as e:
-                logger.debug(f'Error: {e}')
+                logger.warning(f'Fetch error (attempt {attempt+1}/3): {e}')
                 time.sleep(5 * (attempt + 1))
         return None
     
@@ -101,16 +101,41 @@ class MascusScraperToyota:
         
         page = 1
         while page <= max_pages:
-            url = f'{self.SEARCH_URL}?page={page}'
+            if page == 1:
+                url = self.SEARCH_URL
+            else:
+                url = f'{self.SEARCH_URL},{page},relevance,search.html'
             logger.info(f'Scraping page {page}...')
             
             soup = self._fetch(url)
             if not soup:
+                logger.error(f'Failed to fetch page {page} — check network/proxy settings')
                 break
             
-            items = soup.find_all('div', class_='listing-item')
+            # Try multiple selectors — Mascus may change their HTML structure
+            items = []
+            selectors = [
+                ('div', {'class_': 'listing-item'}),
+                ('div', {'class_': 'product-item'}),
+                ('li', {'class_': 'listing-item'}),
+                ('div', {'class_': 'sr-item'}),
+                ('div', {'class_': 'single-result'}),
+            ]
+            for tag, attrs in selectors:
+                items = soup.find_all(tag, **attrs)
+                if items:
+                    logger.info(f'  Found {len(items)} items with <{tag} class="{attrs.get("class_", "")}">')
+                    break
+
             if not items:
-                logger.info('No more items')
+                # Diagnostic: show what elements exist on the page
+                all_divs = soup.find_all('div', class_=True)
+                class_counts = {}
+                for div in all_divs:
+                    for cls in div.get('class', []):
+                        class_counts[cls] = class_counts.get(cls, 0) + 1
+                top_classes = sorted(class_counts.items(), key=lambda x: -x[1])[:15]
+                logger.warning(f'No items matched any known selector. Top CSS classes on page: {top_classes}')
                 break
             
             for item in items:
@@ -120,7 +145,7 @@ class MascusScraperToyota:
                         continue
                     
                     title = title_elem.get_text().strip()
-                    if not any(x in title.lower() for x in ['toyota', 'bt', 'forklift']):
+                    if not any(x in title.lower() for x in ['toyota', 'bt', 'forklift', 'heftruck', '8f']):
                         continue
                     
                     link_elem = item.find('a', href=True)
