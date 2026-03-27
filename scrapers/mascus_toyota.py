@@ -59,8 +59,8 @@ class MascusScraperToyota:
     
     def _extract_price(self, text):
         patterns = [
-            r'€\s*([\d.,]+)',
-            r'([\d.,]+)\s*€',
+            r'â‚¬\s*([\d.,]+)',
+            r'([\d.,]+)\s*â‚¬',
             r'EUR\s*([\d.,]+)',
         ]
         for pattern in patterns:
@@ -149,7 +149,7 @@ class MascusScraperToyota:
                     }
                     
                     self.listings.append(listing)
-                    logger.info(f'  + {model} {listing["year"]} - €{listing["price"]:,}')
+                    logger.info(f'  + {model} {listing["year"]} - â‚¬{listing["price"]:,}')
                 
                 except Exception as e:
                     logger.debug(f'Parse error: {e}')
