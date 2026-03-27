@@ -169,7 +169,7 @@ class MascusScraperToyota:
         return self.listings
     
     def save_csv(self, filename='mascus_listings.csv'):
-        output_dir = Path('../output')
+        output_dir = Path(__file__).parent.parent / 'output'
         output_dir.mkdir(exist_ok=True)
         filepath = output_dir / filename
         
