@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+ï»¿#!/usr/bin/env python3
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -59,8 +59,8 @@ class MascusScraperToyota:
     
     def _extract_price(self, text):
         patterns = [
-            r'€\s*([\d.,]+)',
-            r'([\d.,]+)\s*€',
+            r'â‚¬\s*([\d.,]+)',
+            r'([\d.,]+)\s*â‚¬',
             r'EUR\s*([\d.,]+)',
         ]
         for pattern in patterns:
@@ -149,7 +149,7 @@ class MascusScraperToyota:
                     }
                     
                     self.listings.append(listing)
-                    logger.info(f'  + {model} {listing["year"]} - €{listing["price"]:,}')
+                    logger.info(f'  + {model} {listing["year"]} - EUR{listing["price"]:,}')
                 
                 except Exception as e:
                     logger.debug(f'Parse error: {e}')
@@ -186,7 +186,7 @@ def main():
     args = parser.parse_args()
     
     print('\n' + '='*60)
-    print('?? MASCUS TOYOTA SCRAPER v0.1')
+    print('MASCUS TOYOTA SCRAPER v0.1')
     print('='*60 + '\n')
     
     scraper = MascusScraperToyota()
