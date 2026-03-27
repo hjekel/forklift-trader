@@ -1,13 +1,13 @@
-# ?? Forklift Trader — Toyota Heftruck Opportunity Scanner
+# Forklift Trader â€” Toyota Heftruck Opportunity Scanner
 
 Market intelligence tool for independent Toyota forklift traders. Spot opportunities, match supply with demand, close deals faster.
 
 ## What it does
 
-**Opportunity Scanner** — Scan marketplaces (Mascus, TruckScout24, etc.) for undervalued Toyota forklifts
-**Demand Matcher** — Find 'wanted' ads + match with available inventory
-**Price Intelligence** — Real market data per model, year, hours, region
-**Deal Dashboard** — Track opportunities, margins, and active deals
+**Opportunity Scanner** â€” Scan marketplaces (Mascus, TruckScout24, etc.) for undervalued Toyota forklifts
+**Demand Matcher** â€” Find 'wanted' ads + match with available inventory
+**Price Intelligence** â€” Real market data per model, year, hours, region
+**Deal Dashboard** â€” Track opportunities, margins, and active deals
 
 ## Quick Start
 
@@ -43,11 +43,11 @@ forklift-trader/
 +-- index.html                   # Dashboard (open in browser)
 +-- .gitignore                   # Git ignore rules
 +-- data/
-¦   +-- toyota_models.json       # Model reference database
+Â¦   +-- toyota_models.json       # Model reference database
 +-- scrapers/
-¦   +-- mascus_toyota.py         # Main Mascus scraper
-¦   +-- config.py                # Shared config (headers, models, constants)
-¦   +-- requirements.txt         # Python dependencies
+Â¦   +-- mascus_toyota.py         # Main Mascus scraper
+Â¦   +-- config.py                # Shared config (headers, models, constants)
+Â¦   +-- requirements.txt         # Python dependencies
 +-- output/                      # Created on first scrape
     +-- mascus_listings.json
     +-- mascus_listings.csv
@@ -86,7 +86,7 @@ BT Optio OSE100, OSE120, OSE250
 
 ## User
 
-**Marcel** — Independent Toyota forklift trader
+**Marcel** â€” Independent Toyota forklift trader
 **Goal**: Spot deals faster than competitors
 **Profit model**: Information asymmetry + speed
 
@@ -134,11 +134,11 @@ pip install -r scrapers/requirements.txt
 Make sure you're in scrapers/ folder or add it to Python path.
 
 **Q: Mascus returns 403 Forbidden?**
-Increase delays in config.py — site detected the scraper.
+Increase delays in config.py â€” site detected the scraper.
 
 **Q: CSV import doesn't work?**
 - Check CSV headers: \model,year,hours,price,source\
-- Prices must be numeric (no € symbol)
+- Prices must be numeric (no â‚¬ symbol)
 - Open browser console (F12) for errors
 
 ## License
@@ -147,9 +147,9 @@ MIT
 
 ## Contact
 
-Henk Jekel — hjekel@gmail.com
+Henk Jekel â€” hjekel@gmail.com
 
 ---
 
-**Status**: v0.1 — Alpha (Mascus scraper + basic dashboard)
+**Status**: v0.1 â€” Alpha (Mascus scraper + basic dashboard)
 **Last updated**: March 27, 2026
