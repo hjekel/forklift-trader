@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231a3d7c'/%3E%3Ctext x='3' y='23' font-family='Arial,sans-serif' font-weight='bold' font-size='17' fill='white'%3E%E2%82%AC%3C/text%3E%3Cpath d='M20 7 L20 16' stroke='%2348bb78' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M17 10 L20 7 L23 10' stroke='%2348bb78' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M26 25 L26 16' stroke='%23fc8181' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M23 22 L26 25 L29 22' stroke='%23fc8181' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
-  <title>ForkFlip â€” Trader Toolkit</title>
+  <title>ForkFlip v0.5 ÔÇö Trader Toolkit</title>
   <style>
     :root {
       --primary: #1a3d7c;
@@ -34,7 +33,7 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    /* â”€â”€ DARK MODE â”€â”€ */
+    /* ÔöÇÔöÇ DARK MODE ÔöÇÔöÇ */
     body.dark {
       --bg: #121218;
       --card: #1e1e2a;
@@ -48,7 +47,7 @@
       --red-bg: #2e1a1a;
     }
 
-    /* â”€â”€ TOP HEADER â”€â”€ */
+    /* ÔöÇÔöÇ TOP HEADER ÔöÇÔöÇ */
     .top-bar {
       background: linear-gradient(135deg, var(--primary), #002a75);
       color: white;
@@ -59,10 +58,12 @@
     }
     .top-bar .brand { display: flex; align-items: center; gap: 0.75rem; }
     .top-bar .brand-logo {
-      width: 38px; height: 38px;
-      flex-shrink: 0;
+      width: 36px; height: 36px;
+      background: white;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 0.6rem; color: var(--accent);
     }
-    .top-bar .brand-logo svg { width: 100%; height: 100%; }
     .top-bar h1 { font-size: 1.4rem; letter-spacing: -0.5px; }
     .top-bar .tagline { font-size: 0.8rem; opacity: 0.85; }
     .top-bar-actions { display: flex; gap: 0.5rem; align-items: center; }
@@ -82,7 +83,7 @@
     .btn-load:hover { background: white !important; }
     .dark-toggle { font-size: 1rem; width: 36px; text-align: center; padding: 0.35rem !important; }
 
-    /* â”€â”€ INSIGHT CARDS â”€â”€ */
+    /* ÔöÇÔöÇ INSIGHT CARDS ÔöÇÔöÇ */
     .insights-bar {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -107,10 +108,10 @@
     .insight-card.rare .ic-value { color: var(--red); }
     .insight-card .ic-sub { font-size: 0.72rem; color: var(--muted); }
 
-    /* â”€â”€ APP LAYOUT â”€â”€ */
+    /* ÔöÇÔöÇ APP LAYOUT ÔöÇÔöÇ */
     .app { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 140px); }
 
-    /* â”€â”€ SIDEBAR â”€â”€ */
+    /* ÔöÇÔöÇ SIDEBAR ÔöÇÔöÇ */
     .side {
       background: var(--card);
       border-right: 1px solid var(--border);
@@ -148,7 +149,7 @@
     .wanted-chip button { background: none; border: none; cursor: pointer; color: var(--red); font-size: 0.85rem; padding: 0; }
     .side-btns { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.75rem; }
 
-    /* â”€â”€ MAIN CONTENT â”€â”€ */
+    /* ÔöÇÔöÇ MAIN CONTENT ÔöÇÔöÇ */
     .main { display: flex; flex-direction: column; overflow: hidden; }
 
     /* Toolbar */
@@ -217,7 +218,7 @@
     .empty-s { text-align: center; padding: 3rem 1rem; color: var(--muted); }
     .empty-s .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
 
-    /* â”€â”€ MODAL â”€â”€ */
+    /* ÔöÇÔöÇ MODAL ÔöÇÔöÇ */
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 0.75rem; }
     .overlay.hide { display: none; }
     .mbox {
@@ -304,7 +305,7 @@
     .btn-a-s:hover { background: var(--border); }
     .btn-a-d { background: var(--red-bg); color: var(--red); }
 
-    /* â”€â”€ TOAST â”€â”€ */
+    /* ÔöÇÔöÇ TOAST ÔöÇÔöÇ */
     .toast {
       position: fixed; bottom: 1.25rem; right: 1.25rem;
       padding: 0.7rem 1.25rem; border-radius: 8px; color: white;
@@ -319,12 +320,12 @@
     @keyframes tIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     @keyframes tOut { from { opacity: 1; } to { opacity: 0; transform: translateY(20px); } }
 
-    /* â”€â”€ FOOTER â”€â”€ */
+    /* ÔöÇÔöÇ FOOTER ÔöÇÔöÇ */
     footer { text-align: center; padding: 0.75rem; color: var(--muted); font-size: 0.75rem; background: var(--card); border-top: 1px solid var(--border); }
 
     .hidden { display: none; }
 
-    /* â”€â”€ RESPONSIVE â”€â”€ */
+    /* ÔöÇÔöÇ RESPONSIVE ÔöÇÔöÇ */
     @media (max-width: 900px) {
       .app { grid-template-columns: 1fr; }
       .side { position: static; max-height: none; border-right: none; border-bottom: 1px solid var(--border); }
@@ -338,19 +339,10 @@
 </head>
 <body>
 
-<!-- â•â•â• HEADER â•â•â• -->
+<!-- ÔòÉÔòÉÔòÉ HEADER ÔòÉÔòÉÔòÉ -->
 <div class="top-bar">
   <div class="brand">
-    <div class="brand-logo" id="brandLogo">
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <rect width="40" height="40" rx="8" fill="white"/>
-        <text x="4" y="29" font-family="Arial,sans-serif" font-weight="bold" font-size="22" fill="#1a3d7c">&euro;</text>
-        <path d="M25 9 C25 9 25 20 25 20" stroke="#2e7d32" stroke-width="3" stroke-linecap="round"/>
-        <path d="M21 13 L25 9 L29 13" stroke="#2e7d32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <path d="M33 31 C33 31 33 20 33 20" stroke="#c62828" stroke-width="3" stroke-linecap="round"/>
-        <path d="M29 27 L33 31 L37 27" stroke="#c62828" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </div>
+    <div class="brand-logo" id="brandLogo">TOYOTA</div>
     <div>
       <h1>ForkFlip</h1>
       <div class="tagline">Spot opportunities. Close deals faster.</div>
@@ -373,7 +365,7 @@
   </div>
 </div>
 
-<!-- â•â•â• INSIGHT CARDS â•â•â• -->
+<!-- ÔòÉÔòÉÔòÉ INSIGHT CARDS ÔòÉÔòÉÔòÉ -->
 <div class="insights-bar">
   <div class="insight-card">
     <div class="ic-label">Total / Filtered</div>
@@ -407,7 +399,7 @@
   </div>
 </div>
 
-<!-- â•â•â• APP â•â•â• -->
+<!-- ÔòÉÔòÉÔòÉ APP ÔòÉÔòÉÔòÉ -->
 <div class="app">
   <!-- SIDEBAR -->
   <aside class="side">
@@ -502,7 +494,7 @@
   </div>
 </div>
 
-<!-- â•â•â• MODAL â•â•â• -->
+<!-- ÔòÉÔòÉÔòÉ MODAL ÔòÉÔòÉÔòÉ -->
 <div class="overlay hide" id="modal">
   <div class="mbox">
     <button class="m-close" onclick="closeModal()">&times;</button>
@@ -580,15 +572,15 @@
 <footer><strong>ForkFlip v0.5</strong> &mdash; Phase 4.5+5 Trader Toolkit &bull; Mascus, TruckScout24</footer>
 
 <script>
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // STATE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 let all = [], filtered = [], watchlist = new Set(), wanted = [], selected = new Set();
 let activeTab = 'all', mItem = null, currentBrand = 'toyota';
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // PERSISTENCE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function loadLS() {
   try {
     const w = localStorage.getItem('ff_w'); if (w) watchlist = new Set(JSON.parse(w));
@@ -604,9 +596,9 @@ function saveLS() {
   localStorage.setItem('ff_o', document.getElementById('defOffer').value);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // DATA LOADING
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 async function loadMergedData() {
   try {
     const r = await fetch('output/all_listings.csv');
@@ -614,7 +606,7 @@ async function loadMergedData() {
     parseCSV(await r.text());
     toast('Loaded ' + all.length + ' listings', 'ok');
   } catch(e) {
-    toast('Could not load CSV â€” run merge script first', 'err');
+    toast('Could not load CSV ÔÇö run merge script first', 'err');
   }
 }
 
@@ -670,9 +662,9 @@ function afterLoad() {
   updateWantedUI();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // BRAND SWITCHING
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 const BRANDS = {
   all:    { name:'All Brands', color:'#1a3d7c', short:'ALL' },
   toyota: { name:'Toyota', color:'#eb0a1e', short:'TYT' },
@@ -685,7 +677,7 @@ const BRANDS = {
 function switchBrand() {
   currentBrand = document.getElementById('brandSel').value;
   const b = BRANDS[currentBrand];
-  // logo stays as SVG icon — no text override
+  document.getElementById('brandLogo').textContent = b.short;
   if (currentBrand !== 'all') {
     document.documentElement.style.setProperty('--accent', b.color);
   }
@@ -693,9 +685,9 @@ function switchBrand() {
   updateURL();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // DARK MODE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function toggleDark() {
   document.body.classList.toggle('dark');
   localStorage.setItem('ff_dark', document.body.classList.contains('dark') ? '1' : '0');
@@ -705,9 +697,9 @@ function updateDarkBtn() {
   document.getElementById('darkBtn').innerHTML = document.body.classList.contains('dark') ? '&#9788;' : '&#9789;';
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // FILTERS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function populateModels() {
   const models = [...new Set(all.map(l => l.model))].sort();
   document.getElementById('fModel').innerHTML = models.map(m => '<option value="'+m+'">'+m+'</option>').join('');
@@ -765,9 +757,9 @@ function updateLabels() {
 $('fModel').addEventListener('change', applyFilters);
 $('defOffer').addEventListener('input', ()=>{ saveLS(); renderTable(); });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // CONDITION + RESALE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function condScore(y, h) {
   const age = new Date().getFullYear() - y;
   let s = 5;
@@ -788,9 +780,9 @@ function estResale(model, year, hours) {
   return Math.round(avgP * (1 - ageDep - hrDep));
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // TABLE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function renderTable() {
   const tb = $('tbody');
   if (!filtered.length) {
@@ -829,9 +821,9 @@ function renderTable() {
   }).join('');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // INSIGHTS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function updateInsights() {
   $('iTotal').textContent = all.length;
   $('iFiltered').textContent = filtered.length;
@@ -863,9 +855,9 @@ function updateInsights() {
   }
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // TABS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function setTab(t) {
   activeTab = t;
   $('tAll').classList.toggle('on', t==='all');
@@ -873,17 +865,17 @@ function setTab(t) {
   applyFilters();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // WATCHLIST
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function toggleW(id) {
   watchlist.has(id) ? watchlist.delete(id) : watchlist.add(id);
   saveLS(); updateInsights(); renderTable();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // BULK SELECTION
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function toggleSel(id) {
   selected.has(id) ? selected.delete(id) : selected.add(id);
   $('bulkN').textContent = selected.size;
@@ -913,9 +905,9 @@ function bulkClear() {
   renderTable();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // WANTED DEALS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function addWanted() {
   const model = $('wModel').value.trim(), budget = parseInt($('wBudget').value);
   if (!model || !budget) { toast('Enter model + budget', 'warn'); return; }
@@ -934,9 +926,9 @@ function updateWantedUI() {
   el.innerHTML = wanted.map(w => `<div class="wanted-chip"><span>${w.model} \u2264 \u20AC${w.budget.toLocaleString()}</span><button onclick="removeWanted(${w.id})">\u2715</button></div>`).join('');
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // MODAL
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function openModal(idx) {
   mItem = filtered[idx]; if (!mItem) return;
   const same = all.filter(l=>l.model===mItem.model);
@@ -1064,9 +1056,9 @@ function updateModalWBtn() {
   else { b.textContent='\uD83E\uDD0D Watchlist'; b.className='btn-a btn-a-s'; }
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // MODAL ACTIONS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function openSrc() {
   if (!mItem) return;
   if (mItem.url) window.open(mItem.url, '_blank');
@@ -1083,9 +1075,9 @@ function copyWA() {
   navigator.clipboard.writeText(`Hoi, ik ben geinteresseerd in je ${mItem.model} (${mItem.year}). Hoe is de staat? Bereid je voor onderhandeling?`).then(()=>toast('WhatsApp template copied','ok'));
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // URL PARAMS (shareable filters)
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function updateURL() {
   const p = new URLSearchParams();
   if (currentBrand!=='toyota') p.set('brand', currentBrand);
@@ -1114,9 +1106,9 @@ function loadFromURL() {
   updateLabels();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // EXPORTS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function exportFiltered() {
   if (!filtered.length) { toast('Nothing to export','warn'); return; }
   dlCSV(filtered, 'forkflip_filtered.csv');
@@ -1135,9 +1127,9 @@ function dlCSV(data, fn) {
   const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fn; a.click(); URL.revokeObjectURL(a.href);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // TOAST
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function toast(msg, type='ok') {
   const t = document.createElement('div');
   t.className = 'toast '+type;
@@ -1146,14 +1138,14 @@ function toast(msg, type='ok') {
   setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(),300); }, 2500);
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // UTILS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function $(id) { return document.getElementById(id); }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // INIT
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 document.addEventListener('DOMContentLoaded', ()=>{
   loadLS();
   updateWantedUI();
