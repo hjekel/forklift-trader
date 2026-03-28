@@ -675,13 +675,14 @@ function saveLS() {
 // DATA LOADING
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 async function loadMergedData() {
+  if (all.length > 0) { afterLoad(); toast(all.length + ' listings geladen', 'ok'); return; }
   try {
     const r = await fetch('output/all_listings.csv');
-    if (!r.ok) throw new Error('Not found');
+    if (!r.ok) throw new Error('x');
     parseCSV(await r.text());
-    toast('Loaded ' + all.length + ' listings', 'ok');
+    toast(all.length + ' listings geladen vanuit CSV', 'ok');
   } catch(e) {
-    toast('Could not load CSV ÔÇö run merge script first', 'err');
+    toast('Geen data beschikbaar', 'err');
   }
 }
 
