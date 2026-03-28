@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ForkFlip v0.4 — Trader Toolkit</title>
+  <title>ForkFlip v0.5 — Trader Toolkit</title>
   <style>
     :root {
       --primary: #1a3d7c;
       --primary-light: #2a5298;
+      --primary-bg: #e8edf5;
       --dark: #1a2a3a;
       --bg: #eef2f7;
       --card: #ffffff;
@@ -15,8 +16,12 @@
       --muted: #7f8c8d;
       --border: #e0e4e8;
       --green: #2e7d32;
+      --green-bg: #e8f5e9;
       --yellow: #f57c00;
+      --yellow-bg: #fff3e0;
       --red: #c62828;
+      --red-bg: #ffebee;
+      --accent: #eb0a1e;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,549 +30,460 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
+      transition: background 0.3s, color 0.3s;
     }
 
-    /* ── HEADER ── */
-    .top-header {
+    /* ── DARK MODE ── */
+    body.dark {
+      --bg: #121218;
+      --card: #1e1e2a;
+      --text: #e0e0e8;
+      --muted: #9e9eae;
+      --border: #2e2e3e;
+      --dark: #0e0e18;
+      --primary-bg: #1a2040;
+      --green-bg: #1a2e1a;
+      --yellow-bg: #2e2a1a;
+      --red-bg: #2e1a1a;
+    }
+
+    /* ── TOP HEADER ── */
+    .top-bar {
       background: linear-gradient(135deg, var(--primary), #002a75);
       color: white;
-      padding: 1.25rem 2rem;
+      padding: 0.75rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .top-header h1 { font-size: 1.5rem; }
-    .top-header p { opacity: 0.9; font-size: 0.9rem; }
-    .header-actions { display: flex; gap: 0.75rem; align-items: center; }
-    .header-actions button {
-      padding: 0.5rem 1rem;
-      border: 1px solid rgba(255,255,255,0.3);
+    .top-bar .brand { display: flex; align-items: center; gap: 0.75rem; }
+    .top-bar .brand-logo {
+      width: 36px; height: 36px;
+      background: white;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 0.6rem; color: var(--accent);
+    }
+    .top-bar h1 { font-size: 1.4rem; letter-spacing: -0.5px; }
+    .top-bar .tagline { font-size: 0.8rem; opacity: 0.85; }
+    .top-bar-actions { display: flex; gap: 0.5rem; align-items: center; }
+    .top-bar-actions select,
+    .top-bar-actions button {
+      padding: 0.4rem 0.75rem;
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 6px;
       background: rgba(255,255,255,0.1);
       color: white;
+      font-size: 0.8rem;
       cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 500;
     }
-    .header-actions button:hover { background: rgba(255,255,255,0.2); }
-    .header-actions .btn-load {
-      background: rgba(255,255,255,0.95);
-      color: var(--primary);
-      font-weight: 700;
-      border: none;
-    }
-    .header-actions .btn-load:hover { background: white; }
+    .top-bar-actions select option { color: #333; background: white; }
+    .top-bar-actions button:hover { background: rgba(255,255,255,0.2); }
+    .btn-load { background: rgba(255,255,255,0.92) !important; color: var(--primary) !important; font-weight: 700; border: none !important; }
+    .btn-load:hover { background: white !important; }
+    .dark-toggle { font-size: 1rem; width: 36px; text-align: center; padding: 0.35rem !important; }
 
-    /* ── STATS BAR ── */
-    .stats-bar {
-      display: flex;
-      gap: 1rem;
-      padding: 1rem 1.5rem;
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      overflow-x: auto;
-    }
-    .stat-chip {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 120px;
-      padding: 0.5rem 1rem;
-      background: var(--bg);
-      border-radius: 8px;
-    }
-    .stat-chip .num { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
-    .stat-chip .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
-
-    /* ── LAYOUT ── */
-    .app-layout {
+    /* ── INSIGHT CARDS ── */
+    .insights-bar {
       display: grid;
-      grid-template-columns: 260px 1fr;
-      gap: 0;
-      min-height: calc(100vh - 120px);
-    }
-
-    /* ── SIDEBAR FILTERS ── */
-    .sidebar {
-      background: var(--card);
-      border-right: 1px solid var(--border);
-      padding: 1rem;
-      overflow-y: auto;
-      max-height: calc(100vh - 120px);
-      position: sticky;
-      top: 0;
-    }
-    .sidebar h3 {
-      font-size: 0.9rem;
-      color: var(--primary);
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid var(--primary);
-    }
-    .filter-group {
-      margin-bottom: 1.25rem;
-    }
-    .filter-group label {
-      display: block;
-      font-weight: 600;
-      font-size: 0.8rem;
-      margin-bottom: 0.4rem;
-      color: var(--text);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .filter-group select {
-      width: 100%;
-      padding: 0.4rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 0.85rem;
-      background: white;
-    }
-    .filter-group input[type="range"] {
-      width: 100%;
-      margin: 0.25rem 0;
-      accent-color: var(--primary);
-    }
-    .range-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.85rem;
-      margin: 0.25rem 0;
-    }
-    .checkbox-row input[type="checkbox"] { accent-color: var(--primary); }
-    .sidebar-section {
-      border-top: 1px solid var(--border);
-      padding-top: 1rem;
-      margin-top: 1rem;
-    }
-    .sidebar input[type="text"],
-    .sidebar input[type="number"] {
-      width: 100%;
-      padding: 0.4rem 0.5rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-size: 0.85rem;
-      margin-bottom: 0.4rem;
-    }
-    .btn-sm {
-      padding: 0.35rem 0.75rem;
-      border: none;
-      border-radius: 5px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    .btn-sm-primary { background: var(--primary); color: white; }
-    .btn-sm-primary:hover { background: var(--primary-light); }
-    .btn-sm-secondary { background: #f0f0f0; color: var(--text); border: 1px solid var(--border); }
-    .btn-sm-secondary:hover { background: #e0e0e0; }
-    .wanted-item {
-      background: #fff8e1;
-      padding: 0.4rem 0.5rem;
-      border-radius: 5px;
-      margin: 0.3rem 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8rem;
-      border-left: 3px solid #ffb300;
-    }
-    .wanted-item button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 0.9rem;
-      padding: 0;
-      color: var(--red);
-    }
-    .sidebar-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      margin-top: 1rem;
-    }
-
-    /* ── MAIN CONTENT ── */
-    .main-content {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .table-toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
       padding: 0.75rem 1rem;
       background: var(--card);
       border-bottom: 1px solid var(--border);
-      flex-wrap: wrap;
-      gap: 0.5rem;
     }
-    .table-toolbar .info {
-      font-size: 0.85rem;
-      color: var(--muted);
+    .insight-card {
+      padding: 0.6rem 0.75rem;
+      border-radius: 8px;
+      background: var(--bg);
+      border-left: 3px solid var(--primary);
     }
-    .table-toolbar .info strong { color: var(--text); }
-    .tab-group { display: flex; gap: 0.25rem; }
-    .tab-btn {
-      padding: 0.4rem 0.9rem;
-      border: 1px solid var(--border);
-      background: transparent;
-      cursor: pointer;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text);
-    }
-    .tab-btn:hover { background: var(--bg); }
-    .tab-btn.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
+    .insight-card.deal { border-left-color: var(--green); }
+    .insight-card.hot { border-left-color: var(--yellow); }
+    .insight-card.rare { border-left-color: var(--red); }
+    .insight-card .ic-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+    .insight-card .ic-value { font-size: 1.3rem; font-weight: 700; color: var(--primary); margin: 2px 0; }
+    .insight-card.deal .ic-value { color: var(--green); }
+    .insight-card.hot .ic-value { color: var(--yellow); }
+    .insight-card.rare .ic-value { color: var(--red); }
+    .insight-card .ic-sub { font-size: 0.72rem; color: var(--muted); }
 
-    .table-scroll {
-      overflow: auto;
-      flex: 1;
+    /* ── APP LAYOUT ── */
+    .app { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 140px); }
+
+    /* ── SIDEBAR ── */
+    .side {
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      padding: 0.75rem;
+      overflow-y: auto;
+      max-height: calc(100vh - 140px);
+      position: sticky; top: 0;
+      font-size: 0.85rem;
     }
+    .side h3 { font-size: 0.8rem; color: var(--primary); margin-bottom: 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--primary); }
+    .fg { margin-bottom: 1rem; }
+    .fg label {
+      display: block; font-weight: 600; font-size: 0.72rem;
+      margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted);
+    }
+    .fg select { width: 100%; padding: 0.35rem; border: 1px solid var(--border); border-radius: 5px; font-size: 0.82rem; background: var(--card); color: var(--text); }
+    .fg input[type="range"] { width: 100%; margin: 0.2rem 0; accent-color: var(--primary); }
+    .range-info { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); }
+    .cb-row { display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; margin: 0.2rem 0; }
+    .cb-row input { accent-color: var(--primary); }
+    .side input[type="text"], .side input[type="number"] {
+      width: 100%; padding: 0.35rem 0.5rem; border: 1px solid var(--border); border-radius: 5px; font-size: 0.82rem; margin-bottom: 0.3rem; background: var(--card); color: var(--text);
+    }
+    .side-sep { border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.75rem; }
+    .btn-s { padding: 0.3rem 0.6rem; border: none; border-radius: 5px; font-size: 0.78rem; cursor: pointer; font-weight: 500; }
+    .btn-s-p { background: var(--primary); color: white; }
+    .btn-s-p:hover { background: var(--primary-light); }
+    .btn-s-g { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+    .btn-s-g:hover { background: var(--border); }
+    .wanted-chip {
+      background: var(--yellow-bg); padding: 0.3rem 0.5rem; border-radius: 4px;
+      margin: 0.25rem 0; display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem; border-left: 3px solid var(--yellow);
+    }
+    .wanted-chip button { background: none; border: none; cursor: pointer; color: var(--red); font-size: 0.85rem; padding: 0; }
+    .side-btns { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.75rem; }
+
+    /* ── MAIN CONTENT ── */
+    .main { display: flex; flex-direction: column; overflow: hidden; }
+
+    /* Toolbar */
+    .toolbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.5rem 0.75rem; background: var(--card); border-bottom: 1px solid var(--border);
+      flex-wrap: wrap; gap: 0.4rem; font-size: 0.85rem;
+    }
+    .toolbar .info { color: var(--muted); }
+    .toolbar .info strong { color: var(--text); }
+    .tabs { display: flex; gap: 0.2rem; }
+    .tab {
+      padding: 0.35rem 0.8rem; border: 1px solid var(--border); background: transparent;
+      cursor: pointer; border-radius: 5px; font-size: 0.82rem; font-weight: 500; color: var(--text);
+    }
+    .tab:hover { background: var(--bg); }
+    .tab.on { background: var(--primary); color: white; border-color: var(--primary); }
+
+    /* Bulk bar */
+    .bulk-bar {
+      display: none; padding: 0.4rem 0.75rem; background: var(--primary-bg);
+      border-bottom: 1px solid var(--border); gap: 0.5rem; align-items: center; font-size: 0.82rem;
+    }
+    .bulk-bar.show { display: flex; }
+    .bulk-bar button { padding: 0.3rem 0.7rem; border: none; border-radius: 5px; cursor: pointer; font-size: 0.78rem; background: var(--primary); color: white; }
+    .bulk-bar button.cancel { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+
+    /* Search bar */
+    .search-row {
+      padding: 0.4rem 0.75rem; background: var(--card); border-bottom: 1px solid var(--border);
+    }
+    .search-row input {
+      width: 100%; padding: 0.4rem 0.6rem; border: 1px solid var(--border); border-radius: 6px;
+      font-size: 0.85rem; background: var(--bg); color: var(--text);
+    }
+    .search-row input:focus { outline: none; border-color: var(--primary); background: var(--card); }
+
+    /* Table */
+    .tscroll { overflow: auto; flex: 1; }
     table { width: 100%; border-collapse: collapse; }
-    th {
-      background: var(--dark);
-      color: white;
-      padding: 0.75rem 0.75rem;
-      text-align: left;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+    thead th {
+      background: var(--dark); color: white;
+      padding: 0.6rem 0.6rem; text-align: left;
+      font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+      position: sticky; top: 0; z-index: 10;
     }
-    td {
-      padding: 0.7rem 0.75rem;
-      border-bottom: 1px solid #f0f0f0;
-      font-size: 0.9rem;
+    td { padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+    tbody tr { cursor: pointer; transition: background 0.12s; }
+    tbody tr:hover { background: var(--primary-bg); }
+    tr.watch-row { background: var(--yellow-bg) !important; }
+    tr.match-row { border-left: 4px solid var(--green); }
+    .heart { background: none; border: none; cursor: pointer; font-size: 1rem; padding: 0; line-height: 1; }
+    .chk-cell { width: 28px; }
+    .chk-cell input { accent-color: var(--primary); }
+    .src-badge {
+      display: inline-block; padding: 0.1rem 0.4rem; border-radius: 3px;
+      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
     }
-    tbody tr { cursor: pointer; transition: background 0.15s; }
-    tbody tr:hover { background: #f0f4fa; }
-    tr.watching { background: #fff9e6 !important; }
-    tr.match-wanted { border-left: 4px solid var(--green); }
-    .heart-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.1rem;
-      padding: 0;
-      line-height: 1;
-    }
-    .source-badge {
-      display: inline-block;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-    .source-mascus { background: #e3f2fd; color: #1565c0; }
-    .source-truckscout24 { background: #fce4ec; color: #c62828; }
-    .source-sample { background: #f3e5f5; color: #7b1fa2; }
-    .condition-badge {
-      font-size: 0.75rem;
-      white-space: nowrap;
-    }
-    .margin-positive { color: var(--green); font-weight: 700; }
-    .margin-neutral { color: var(--yellow); font-weight: 700; }
-    .margin-negative { color: var(--red); font-weight: 700; }
-    .empty-state {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--muted);
-    }
-    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
-    .empty-state p { margin-bottom: 0.5rem; }
+    .src-mascus { background: #e3f2fd; color: #1565c0; }
+    .src-truckscout24 { background: #fce4ec; color: #c62828; }
+    .src-sample { background: #f3e5f5; color: #7b1fa2; }
+    .cond { font-size: 0.75rem; white-space: nowrap; }
+    .m-pos { color: var(--green); font-weight: 700; }
+    .m-mid { color: var(--yellow); font-weight: 700; }
+    .m-neg { color: var(--red); font-weight: 700; }
+    .empty-s { text-align: center; padding: 3rem 1rem; color: var(--muted); }
+    .empty-s .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
 
     /* ── MODAL ── */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 1rem;
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 0.75rem; }
+    .overlay.hide { display: none; }
+    .mbox {
+      background: var(--card); border-radius: 12px; width: 100%; max-width: 920px;
+      max-height: 92vh; overflow-y: auto; position: relative;
     }
-    .modal-overlay.hidden { display: none; }
-    .modal-box {
-      background: white;
-      border-radius: 12px;
-      width: 100%;
-      max-width: 860px;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
+    .m-close {
+      position: absolute; top: 0.6rem; right: 0.6rem; background: var(--bg); border: none;
+      font-size: 1.1rem; cursor: pointer; width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; color: var(--text); z-index: 10;
     }
-    .modal-close {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      background: var(--bg);
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text);
-      z-index: 10;
-    }
-    .modal-close:hover { background: #ddd; }
-    .modal-header {
-      padding: 1.5rem 1.5rem 0;
-    }
-    .modal-header h2 { font-size: 1.5rem; color: var(--primary); }
-    .modal-header .subtitle { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
-    .modal-body {
-      padding: 1rem 1.5rem 1.5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-    .detail-grid {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.4rem 1rem;
-      font-size: 0.9rem;
-    }
-    .detail-grid dt { font-weight: 600; color: var(--muted); }
-    .detail-grid dd { font-weight: 500; }
-    .detail-grid .big { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+    .m-close:hover { background: var(--border); }
 
-    .margin-calc-box {
-      background: var(--bg);
-      padding: 1rem;
-      border-radius: 8px;
+    /* Modal header */
+    .m-head { padding: 1.25rem 1.25rem 0; display: flex; gap: 1.25rem; align-items: flex-start; }
+    .m-photo {
+      width: 200px; height: 150px; border-radius: 8px; overflow: hidden; flex-shrink: 0;
+      background: var(--bg); display: flex; align-items: center; justify-content: center;
     }
-    .margin-calc-box h4 { font-size: 0.9rem; margin-bottom: 0.75rem; }
-    .margin-calc-box input {
-      width: 100%;
-      padding: 0.6rem;
-      border: 2px solid var(--border);
-      border-radius: 6px;
-      font-size: 1rem;
+    .m-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .m-photo .placeholder { font-size: 0.8rem; color: var(--muted); text-align: center; padding: 1rem; }
+    .m-title h2 { font-size: 1.4rem; color: var(--primary); }
+    .m-title .sub { color: var(--muted); font-size: 0.85rem; margin-top: 0.15rem; }
+    .m-title .resale-est {
+      margin-top: 0.5rem; padding: 0.4rem 0.6rem; border-radius: 6px;
+      background: var(--green-bg); font-size: 0.82rem; display: inline-block;
     }
-    .margin-calc-box input:focus { outline: none; border-color: var(--primary); }
-    .margin-result {
-      margin-top: 0.75rem;
-      padding: 0.75rem;
-      border-radius: 6px;
-      font-weight: 700;
-      text-align: center;
-      font-size: 1.1rem;
-    }
-    .margin-result.positive { background: #e8f5e9; color: var(--green); }
-    .margin-result.neutral { background: #fff3e0; color: var(--yellow); }
-    .margin-result.negative { background: #ffebee; color: var(--red); }
-    .margin-detail { font-size: 0.8rem; font-weight: 400; margin-top: 0.25rem; }
 
-    .modal-actions {
-      padding: 0 1.5rem 1.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+    /* Modal body grid */
+    .m-body { padding: 1rem 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .m-body-full { grid-column: 1 / -1; }
+
+    /* Detail list */
+    .dl { display: grid; grid-template-columns: auto 1fr; gap: 0.3rem 0.75rem; font-size: 0.85rem; }
+    .dl dt { font-weight: 600; color: var(--muted); }
+    .dl dd { font-weight: 500; }
+    .dl .big { font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+
+    /* Margin calc */
+    .mcalc { background: var(--bg); padding: 0.75rem; border-radius: 8px; }
+    .mcalc h4 { font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .mcalc input {
+      width: 100%; padding: 0.5rem; border: 2px solid var(--border); border-radius: 6px;
+      font-size: 0.95rem; background: var(--card); color: var(--text);
+    }
+    .mcalc input:focus { outline: none; border-color: var(--primary); }
+    .mres {
+      margin-top: 0.5rem; padding: 0.5rem; border-radius: 6px;
+      font-weight: 700; text-align: center; font-size: 1rem;
+    }
+    .mres.pos { background: var(--green-bg); color: var(--green); }
+    .mres.mid { background: var(--yellow-bg); color: var(--yellow); }
+    .mres.neg { background: var(--red-bg); color: var(--red); }
+    .mres .sm { font-size: 0.75rem; font-weight: 400; margin-top: 0.15rem; }
+
+    /* Comparison table */
+    .comp { border-collapse: collapse; width: 100%; font-size: 0.82rem; }
+    .comp th, .comp td { padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--border); text-align: center; }
+    .comp th { background: var(--bg); font-weight: 600; text-align: left; }
+    .comp th:first-child { width: 80px; }
+    .comp .verdict { font-weight: 700; }
+    .comp .verdict.good { color: var(--green); }
+    .comp .verdict.bad { color: var(--red); }
+
+    /* Similar listings */
+    .sim-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--border); font-size: 0.82rem;
+      cursor: pointer; border-radius: 4px;
+    }
+    .sim-item:hover { background: var(--bg); }
+    .sim-diff-pos { color: var(--green); font-weight: 600; }
+    .sim-diff-neg { color: var(--red); font-weight: 600; }
+
+    /* Modal actions */
+    .m-acts {
+      padding: 0.75rem 1.25rem 1.25rem; display: flex; flex-wrap: wrap; gap: 0.4rem;
       border-top: 1px solid var(--border);
-      padding-top: 1rem;
     }
-    .btn-action {
-      padding: 0.6rem 1rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
+    .btn-a { padding: 0.5rem 0.85rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+    .btn-a-p { background: var(--primary); color: white; }
+    .btn-a-p:hover { background: var(--primary-light); }
+    .btn-a-s { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+    .btn-a-s:hover { background: var(--border); }
+    .btn-a-d { background: var(--red-bg); color: var(--red); }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 1.25rem; right: 1.25rem;
+      padding: 0.7rem 1.25rem; border-radius: 8px; color: white;
+      font-size: 0.88rem; font-weight: 500; z-index: 2000;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      animation: tIn 0.3s ease-out;
     }
-    .btn-action-primary { background: var(--primary); color: white; }
-    .btn-action-primary:hover { background: var(--primary-light); }
-    .btn-action-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
-    .btn-action-secondary:hover { background: #e0e4e8; }
-    .btn-action-danger { background: #ffebee; color: var(--red); }
+    .toast.ok { background: var(--green); }
+    .toast.err { background: var(--red); }
+    .toast.warn { background: var(--yellow); }
+    .toast.out { animation: tOut 0.3s ease-in forwards; }
+    @keyframes tIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes tOut { from { opacity: 1; } to { opacity: 0; transform: translateY(20px); } }
 
     /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: 1rem;
-      color: var(--muted);
-      font-size: 0.8rem;
-      background: var(--card);
-      border-top: 1px solid var(--border);
-    }
+    footer { text-align: center; padding: 0.75rem; color: var(--muted); font-size: 0.75rem; background: var(--card); border-top: 1px solid var(--border); }
 
-    /* ── HIDDEN FILE INPUT ── */
     .hidden { display: none; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .app-layout { grid-template-columns: 1fr; }
-      .sidebar {
-        position: static;
-        max-height: none;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-      .modal-body { grid-template-columns: 1fr; }
-      .top-header { flex-direction: column; gap: 0.75rem; text-align: center; }
-      .stats-bar { flex-wrap: wrap; justify-content: center; }
+      .app { grid-template-columns: 1fr; }
+      .side { position: static; max-height: none; border-right: none; border-bottom: 1px solid var(--border); }
+      .m-body { grid-template-columns: 1fr; }
+      .m-head { flex-direction: column; }
+      .m-photo { width: 100%; height: 180px; }
+      .top-bar { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .insights-bar { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 <body>
 
-<!-- ═══════════════ HEADER ═══════════════ -->
-<div class="top-header">
-  <div>
-    <h1>ForkFlip</h1>
-    <p>Spot opportunities. Match demand. Close deals faster.</p>
+<!-- ═══ HEADER ═══ -->
+<div class="top-bar">
+  <div class="brand">
+    <div class="brand-logo" id="brandLogo">TOYOTA</div>
+    <div>
+      <h1>ForkFlip</h1>
+      <div class="tagline">Spot opportunities. Close deals faster.</div>
+    </div>
   </div>
-  <div class="header-actions">
-    <button class="btn-load" onclick="loadMergedData()">Load Merged Data</button>
-    <button onclick="loadSampleData()">Sample Data</button>
-    <button onclick="document.getElementById('csvFile').click()">Import CSV</button>
-    <input type="file" id="csvFile" accept=".csv" class="hidden" onchange="importCSV(this)">
-  </div>
-</div>
-
-<!-- ═══════════════ STATS BAR ═══════════════ -->
-<div class="stats-bar">
-  <div class="stat-chip">
-    <span class="num" id="statTotal">0</span>
-    <span class="lbl">Total</span>
-  </div>
-  <div class="stat-chip">
-    <span class="num" id="statFiltered">0</span>
-    <span class="lbl">Filtered</span>
-  </div>
-  <div class="stat-chip">
-    <span class="num" id="statAvgPrice">-</span>
-    <span class="lbl">Avg Price</span>
-  </div>
-  <div class="stat-chip">
-    <span class="num" id="statModels">0</span>
-    <span class="lbl">Models</span>
-  </div>
-  <div class="stat-chip">
-    <span class="num" id="statDeals">0</span>
-    <span class="lbl">Hot Deals &lt;18k</span>
-  </div>
-  <div class="stat-chip">
-    <span class="num" id="statWatchlist">0</span>
-    <span class="lbl">Watchlist</span>
+  <div class="top-bar-actions">
+    <select id="brandSel" onchange="switchBrand()">
+      <option value="all">All Brands</option>
+      <option value="toyota" selected>Toyota</option>
+      <option value="nissan">Nissan</option>
+      <option value="linde">Linde</option>
+      <option value="still">Still</option>
+      <option value="jungheinrich">Jungheinrich</option>
+    </select>
+    <button class="btn-load" onclick="loadMergedData()">Load Data</button>
+    <button onclick="loadSampleData()">Sample</button>
+    <button onclick="document.getElementById('csvIn').click()">Import</button>
+    <input type="file" id="csvIn" accept=".csv" class="hidden" onchange="importCSV(this)">
+    <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode" id="darkBtn">&#9789;</button>
   </div>
 </div>
 
-<!-- ═══════════════ APP LAYOUT ═══════════════ -->
-<div class="app-layout">
+<!-- ═══ INSIGHT CARDS ═══ -->
+<div class="insights-bar">
+  <div class="insight-card">
+    <div class="ic-label">Total / Filtered</div>
+    <div class="ic-value"><span id="iTotal">0</span> / <span id="iFiltered">0</span></div>
+    <div class="ic-sub" id="iModels">0 models</div>
+  </div>
+  <div class="insight-card">
+    <div class="ic-label">Market Average</div>
+    <div class="ic-value" id="iAvg">&mdash;</div>
+    <div class="ic-sub" id="iAvgSub">Load data</div>
+  </div>
+  <div class="insight-card deal">
+    <div class="ic-label">Best Deal</div>
+    <div class="ic-value" id="iBest">&mdash;</div>
+    <div class="ic-sub" id="iBestSub">&nbsp;</div>
+  </div>
+  <div class="insight-card hot">
+    <div class="ic-label">Hot Models</div>
+    <div class="ic-value" id="iHot">0</div>
+    <div class="ic-sub">5+ listings = negotiate</div>
+  </div>
+  <div class="insight-card rare">
+    <div class="ic-label">Rare Finds</div>
+    <div class="ic-value" id="iRare">0</div>
+    <div class="ic-sub">&le;2 listings = act fast</div>
+  </div>
+  <div class="insight-card">
+    <div class="ic-label">Watchlist</div>
+    <div class="ic-value" id="iWatch">0</div>
+    <div class="ic-sub">Hot deals &lt;18k: <span id="iDeals">0</span></div>
+  </div>
+</div>
 
-  <!-- ── SIDEBAR ── -->
-  <aside class="sidebar">
+<!-- ═══ APP ═══ -->
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="side">
     <h3>Filters</h3>
-
-    <!-- Model -->
-    <div class="filter-group">
+    <div class="fg">
+      <label>Search</label>
+      <input type="text" id="fSearch" placeholder="Search model, region..." oninput="applyFilters()">
+    </div>
+    <div class="fg">
       <label>Model</label>
-      <select id="filterModel" multiple size="5"></select>
+      <select id="fModel" multiple size="5"></select>
     </div>
-
-    <!-- Year -->
-    <div class="filter-group">
-      <label>Year <span id="yearLabel" style="font-weight:400;text-transform:none;">1990 - 2026</span></label>
-      <input type="range" id="yearMin" min="1990" max="2026" value="1990">
-      <input type="range" id="yearMax" min="1990" max="2026" value="2026">
-      <div class="range-row"><span>1990</span><span>2026</span></div>
+    <div class="fg">
+      <label>Year <span id="lYear" style="font-weight:400;text-transform:none;">1990-2026</span></label>
+      <input type="range" id="fYearMin" min="1990" max="2026" value="1990">
+      <input type="range" id="fYearMax" min="1990" max="2026" value="2026">
+      <div class="range-info"><span>1990</span><span>2026</span></div>
     </div>
-
-    <!-- Price -->
-    <div class="filter-group">
-      <label>Price <span id="priceLabel" style="font-weight:400;text-transform:none;">0 - 50k</span></label>
-      <input type="range" id="priceMin" min="0" max="50000" step="500" value="0">
-      <input type="range" id="priceMax" min="0" max="50000" step="500" value="50000">
-      <div class="range-row"><span>0</span><span>50k</span></div>
+    <div class="fg">
+      <label>Price <span id="lPrice" style="font-weight:400;text-transform:none;">0-50k</span></label>
+      <input type="range" id="fPriceMin" min="0" max="50000" step="500" value="0">
+      <input type="range" id="fPriceMax" min="0" max="50000" step="500" value="50000">
+      <div class="range-info"><span>0</span><span>50k</span></div>
     </div>
-
-    <!-- Hours -->
-    <div class="filter-group">
-      <label>Hours <span id="hoursLabel" style="font-weight:400;text-transform:none;">0 - 15000</span></label>
-      <input type="range" id="hoursMin" min="0" max="15000" step="250" value="0">
-      <input type="range" id="hoursMax" min="0" max="15000" step="250" value="15000">
-      <div class="range-row"><span>0</span><span>15000</span></div>
+    <div class="fg">
+      <label>Hours <span id="lHours" style="font-weight:400;text-transform:none;">0-15000</span></label>
+      <input type="range" id="fHoursMin" min="0" max="15000" step="250" value="0">
+      <input type="range" id="fHoursMax" min="0" max="15000" step="250" value="15000">
+      <div class="range-info"><span>0</span><span>15000</span></div>
     </div>
-
-    <!-- Source -->
-    <div class="filter-group">
+    <div class="fg">
       <label>Source</label>
-      <div class="checkbox-row"><input type="checkbox" id="srcMascus" checked> Mascus</div>
-      <div class="checkbox-row"><input type="checkbox" id="srcTruck" checked> TruckScout24</div>
-      <div class="checkbox-row"><input type="checkbox" id="srcSample" checked> Sample</div>
+      <div class="cb-row"><input type="checkbox" id="sMascus" checked> Mascus</div>
+      <div class="cb-row"><input type="checkbox" id="sTruck" checked> TruckScout24</div>
+      <div class="cb-row"><input type="checkbox" id="sSample" checked> Sample</div>
     </div>
-
-    <!-- Margin offer -->
-    <div class="filter-group">
-      <label>Default offer (margin calc)</label>
-      <input type="number" id="defaultOffer" placeholder="e.g. 12000" value="12000">
+    <div class="fg">
+      <label>Default offer (margin)</label>
+      <input type="number" id="defOffer" value="12000">
     </div>
+    <button class="btn-s btn-s-g" style="width:100%;" onclick="clearFilters()">Clear All</button>
 
-    <button class="btn-sm btn-sm-secondary" style="width:100%;" onclick="clearFilters()">Clear All Filters</button>
-
-    <!-- Wanted Deals -->
-    <div class="sidebar-section">
+    <div class="side-sep">
       <h3>Wanted Deals</h3>
-      <input type="text" id="wantedModel" placeholder="Model e.g. 8FBE15T">
-      <input type="number" id="wantedBudget" placeholder="Max budget">
-      <button class="btn-sm btn-sm-primary" onclick="addWanted()">+ Add</button>
-      <div id="wantedList"></div>
+      <input type="text" id="wModel" placeholder="Model e.g. 8FBE15T">
+      <input type="number" id="wBudget" placeholder="Max budget">
+      <button class="btn-s btn-s-p" onclick="addWanted()">+ Add</button>
+      <div id="wList"></div>
     </div>
 
-    <!-- Export -->
-    <div class="sidebar-buttons">
-      <button class="btn-sm btn-sm-secondary" onclick="exportFiltered()">Export filtered CSV</button>
-      <button class="btn-sm btn-sm-secondary" onclick="exportWatchlist()">Export watchlist CSV</button>
+    <div class="side-btns">
+      <button class="btn-s btn-s-g" onclick="exportFiltered()">Export filtered CSV</button>
+      <button class="btn-s btn-s-g" onclick="exportWatch()">Export watchlist CSV</button>
     </div>
   </aside>
 
-  <!-- ── MAIN TABLE ── -->
-  <div class="main-content">
-    <div class="table-toolbar">
-      <div class="info">
-        Showing <strong id="showCount">0</strong> of <strong id="totalCount">0</strong> listings
-      </div>
-      <div class="tab-group">
-        <button class="tab-btn active" id="tabAll" onclick="switchTab('all')">All Listings</button>
-        <button class="tab-btn" id="tabWatch" onclick="switchTab('watchlist')">Watchlist (<span id="watchBadge">0</span>)</button>
+  <!-- MAIN -->
+  <div class="main">
+    <div class="toolbar">
+      <div class="info">Showing <strong id="showN">0</strong> of <strong id="totalN">0</strong></div>
+      <div class="tabs">
+        <button class="tab on" id="tAll" onclick="setTab('all')">All Listings</button>
+        <button class="tab" id="tWatch" onclick="setTab('watchlist')">Watchlist (<span id="wBadge">0</span>)</button>
       </div>
     </div>
-
-    <div class="table-scroll">
+    <div class="bulk-bar" id="bulkBar">
+      <span><strong id="bulkN">0</strong> selected</span>
+      <button onclick="bulkWatch()">Add to watchlist</button>
+      <button onclick="bulkExport()">Export</button>
+      <button class="cancel" onclick="bulkClear()">Clear</button>
+    </div>
+    <div class="tscroll">
       <table>
         <thead>
           <tr>
-            <th style="width:36px"></th>
+            <th class="chk-cell"><input type="checkbox" id="chkAll" onchange="toggleAll(this.checked)"></th>
+            <th style="width:32px"></th>
             <th>Model</th>
             <th>Year</th>
             <th>Hours</th>
             <th>Price</th>
+            <th>Est. Resale</th>
             <th>Margin</th>
-            <th>Condition</th>
+            <th>Cond.</th>
             <th>Region</th>
             <th>Source</th>
           </tr>
@@ -578,574 +494,664 @@
   </div>
 </div>
 
-<!-- ═══════════════ DETAIL MODAL ═══════════════ -->
-<div class="modal-overlay hidden" id="modal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">&times;</button>
+<!-- ═══ MODAL ═══ -->
+<div class="overlay hide" id="modal">
+  <div class="mbox">
+    <button class="m-close" onclick="closeModal()">&times;</button>
 
-    <div class="modal-header">
-      <h2 id="mModel">—</h2>
-      <div class="subtitle" id="mSubtitle">—</div>
+    <div class="m-head">
+      <div class="m-photo">
+        <img id="mImg" src="" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <div class="placeholder" style="display:none;">No photo available</div>
+      </div>
+      <div class="m-title">
+        <h2 id="mModel">&mdash;</h2>
+        <div class="sub" id="mSub">&mdash;</div>
+        <div class="resale-est" id="mResale">&mdash;</div>
+      </div>
     </div>
 
-    <div class="modal-body">
-      <!-- Left: details -->
+    <div class="m-body">
+      <!-- Left col -->
       <div>
-        <dl class="detail-grid">
-          <dt>Price</dt>       <dd class="big" id="mPrice">—</dd>
-          <dt>Year</dt>        <dd id="mYear">—</dd>
-          <dt>Hours</dt>       <dd id="mHours">—</dd>
-          <dt>Condition</dt>   <dd id="mCondition">—</dd>
-          <dt>Region</dt>      <dd id="mRegion">—</dd>
-          <dt>Source</dt>      <dd id="mSource">—</dd>
-          <dt>Avg (model)</dt> <dd id="mAvgPrice">—</dd>
-          <dt>Supply</dt>      <dd id="mSupply">—</dd>
+        <dl class="dl">
+          <dt>Price</dt>     <dd class="big" id="mPrice">&mdash;</dd>
+          <dt>Year</dt>      <dd id="mYear">&mdash;</dd>
+          <dt>Hours</dt>     <dd id="mHours">&mdash;</dd>
+          <dt>Condition</dt> <dd id="mCond">&mdash;</dd>
+          <dt>Region</dt>    <dd id="mRegion">&mdash;</dd>
+          <dt>Source</dt>    <dd id="mSrc">&mdash;</dd>
+          <dt>Avg (model)</dt> <dd id="mAvg">&mdash;</dd>
+          <dt>Supply</dt>    <dd id="mSupply">&mdash;</dd>
         </dl>
       </div>
 
-      <!-- Right: margin calculator -->
+      <!-- Right col: margin calc -->
       <div>
-        <div class="margin-calc-box">
+        <div class="mcalc">
           <h4>Margin Calculator</h4>
-          <label style="font-size:0.85rem; display:block; margin-bottom:0.4rem;">What would you pay?</label>
-          <input type="number" id="mOffer" placeholder="e.g. 10000" oninput="calcModalMargin()">
-          <div class="margin-result" id="mMarginResult" style="display:none;"></div>
+          <label style="font-size:0.82rem; display:block; margin-bottom:0.35rem;">What would you pay?</label>
+          <input type="number" id="mOffer" placeholder="e.g. 10000" oninput="calcMargin()">
+          <div class="mres" id="mMargin" style="display:none;"></div>
         </div>
-
-        <div class="margin-calc-box" style="margin-top:1rem;">
+        <div class="mcalc" style="margin-top:0.75rem;">
           <h4>Model Insights</h4>
-          <div id="mInsights" style="font-size:0.85rem; color: var(--muted);">Load data to see insights.</div>
+          <div id="mInsights" style="font-size:0.82rem; color:var(--muted);">Load data first.</div>
         </div>
+      </div>
+
+      <!-- Comparison table (full width) -->
+      <div class="m-body-full">
+        <h4 style="font-size:0.85rem; margin-bottom:0.4rem;">How It Compares</h4>
+        <table class="comp">
+          <tr><th></th><th>This Deal</th><th>Market Avg</th><th>Best Available</th></tr>
+          <tr><td><strong>Price</strong></td><td id="cP1"></td><td id="cP2"></td><td id="cP3"></td></tr>
+          <tr><td><strong>Year</strong></td><td id="cY1"></td><td id="cY2"></td><td id="cY3"></td></tr>
+          <tr><td><strong>Hours</strong></td><td id="cH1"></td><td id="cH2"></td><td id="cH3"></td></tr>
+          <tr><td><strong>Condition</strong></td><td id="cC1"></td><td id="cC2"></td><td id="cC3"></td></tr>
+          <tr><td><strong>Verdict</strong></td><td colspan="3" id="cVerdict"></td></tr>
+        </table>
+      </div>
+
+      <!-- Similar listings (full width) -->
+      <div class="m-body-full">
+        <h4 style="font-size:0.85rem; margin-bottom:0.4rem;" id="simTitle">Similar Listings</h4>
+        <div id="simList"></div>
       </div>
     </div>
 
-    <div class="modal-actions">
-      <button class="btn-action btn-action-primary" id="mSourceBtn" onclick="openSourceUrl()">View on Source</button>
-      <button class="btn-action btn-action-secondary" onclick="copyListingUrl()">Copy URL</button>
-      <button class="btn-action btn-action-secondary" onclick="copyWhatsApp()">WhatsApp Template</button>
-      <button class="btn-action btn-action-secondary" id="mWatchBtn" onclick="toggleModalWatch()">Add to Watchlist</button>
+    <div class="m-acts">
+      <button class="btn-a btn-a-p" id="mSrcBtn" onclick="openSrc()">View on Source</button>
+      <button class="btn-a btn-a-s" onclick="copyUrl()">Copy URL</button>
+      <button class="btn-a btn-a-s" onclick="copyWA()">WhatsApp</button>
+      <button class="btn-a btn-a-s" id="mWatchBtn" onclick="toggleModalW()">Add to Watchlist</button>
     </div>
   </div>
 </div>
 
-<footer>
-  <strong>ForkFlip v0.4</strong> &mdash; Phase 4 Trader Toolkit &bull; Data: Mascus, TruckScout24
-</footer>
+<footer><strong>ForkFlip v0.5</strong> &mdash; Phase 4.5+5 Trader Toolkit &bull; Mascus, TruckScout24</footer>
 
 <script>
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // STATE
-// ══════════════════════════════════════════
-let allListings = [];
-let filtered = [];
-let watchlist = new Set();
-let wanted = [];
-let activeTab = 'all';
-let modalItem = null;
+// ═══════════════════════════════════════
+let all = [], filtered = [], watchlist = new Set(), wanted = [], selected = new Set();
+let activeTab = 'all', mItem = null, currentBrand = 'toyota';
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // PERSISTENCE
-// ══════════════════════════════════════════
-function loadStorage() {
+// ═══════════════════════════════════════
+function loadLS() {
   try {
-    const w = localStorage.getItem('ff_watch');
-    if (w) watchlist = new Set(JSON.parse(w));
-    const d = localStorage.getItem('ff_wanted');
-    if (d) wanted = JSON.parse(d);
-    const o = localStorage.getItem('ff_offer');
-    if (o) document.getElementById('defaultOffer').value = o;
+    const w = localStorage.getItem('ff_w'); if (w) watchlist = new Set(JSON.parse(w));
+    const d = localStorage.getItem('ff_d'); if (d) wanted = JSON.parse(d);
+    const o = localStorage.getItem('ff_o'); if (o) document.getElementById('defOffer').value = o;
+    if (localStorage.getItem('ff_dark') === '1') document.body.classList.add('dark');
+    updateDarkBtn();
   } catch(e) {}
 }
-
-function saveStorage() {
-  localStorage.setItem('ff_watch', JSON.stringify([...watchlist]));
-  localStorage.setItem('ff_wanted', JSON.stringify(wanted));
-  localStorage.setItem('ff_offer', document.getElementById('defaultOffer').value);
+function saveLS() {
+  localStorage.setItem('ff_w', JSON.stringify([...watchlist]));
+  localStorage.setItem('ff_d', JSON.stringify(wanted));
+  localStorage.setItem('ff_o', document.getElementById('defOffer').value);
 }
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // DATA LOADING
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 async function loadMergedData() {
   try {
-    const res = await fetch('output/all_listings.csv');
-    if (!res.ok) throw new Error('Not found');
-    parseCSV(await res.text());
+    const r = await fetch('output/all_listings.csv');
+    if (!r.ok) throw new Error('Not found');
+    parseCSV(await r.text());
+    toast('Loaded ' + all.length + ' listings', 'ok');
   } catch(e) {
-    alert('Could not load output/all_listings.csv — run merge script first.');
+    toast('Could not load CSV — run merge script first', 'err');
   }
 }
 
 function loadSampleData() {
-  allListings = [
-    { id:'S1', model:'8FBE15T', year:2020, hours:2500, price:18500, source:'sample', region:'NL', url:'' },
-    { id:'S2', model:'8FD25',   year:2019, hours:4200, price:22000, source:'sample', region:'NL', url:'' },
-    { id:'S3', model:'8FBE18T', year:2021, hours:1800, price:21000, source:'sample', region:'NL', url:'' },
-    { id:'S4', model:'RRE140',  year:2018, hours:3500, price:15500, source:'sample', region:'DE', url:'' },
-    { id:'S5', model:'8FG30',   year:2017, hours:5000, price:25000, source:'sample', region:'DE', url:'' },
+  all = [
+    {id:'S1',model:'8FBE15T',year:2020,hours:2500,price:18500,source:'sample',region:'NL',url:'',photo:''},
+    {id:'S2',model:'8FD25',year:2019,hours:4200,price:22000,source:'sample',region:'NL',url:'',photo:''},
+    {id:'S3',model:'8FBE18T',year:2021,hours:1800,price:21000,source:'sample',region:'NL',url:'',photo:''},
+    {id:'S4',model:'RRE140',year:2018,hours:3500,price:15500,source:'sample',region:'DE',url:'',photo:''},
+    {id:'S5',model:'8FG30',year:2017,hours:5000,price:25000,source:'sample',region:'DE',url:'',photo:''},
   ];
   afterLoad();
+  toast('Sample data loaded (5 items)', 'ok');
 }
 
 function importCSV(input) {
-  const file = input.files[0];
-  if (!file) return;
+  const file = input.files[0]; if (!file) return;
   const reader = new FileReader();
-  reader.onload = e => { parseCSV(e.target.result); };
+  reader.onload = e => { parseCSV(e.target.result); toast('Imported ' + all.length + ' listings', 'ok'); };
   reader.readAsText(file);
   input.value = '';
 }
 
 function parseCSV(text) {
   const lines = text.split('\n').filter(l => l.trim());
-  if (lines.length < 2) { alert('Empty CSV'); return; }
-  const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-  const col = name => headers.indexOf(name);
-
-  allListings = [];
+  if (lines.length < 2) { toast('Empty CSV', 'err'); return; }
+  const hdr = lines[0].split(',').map(h => h.trim().toLowerCase());
+  const c = n => hdr.indexOf(n);
+  all = [];
   for (let i = 1; i < lines.length; i++) {
     const v = lines[i].split(',');
     if (v.length < 5) continue;
     const item = {
-      id:     v[col('id')]?.trim()     || 'R' + i,
-      model:  v[col('model')]?.trim()  || '',
-      year:   parseInt(v[col('year')]) || 0,
-      hours:  parseInt(v[col('hours')])|| 0,
-      price:  parseInt(v[col('price')])|| 0,
-      source: v[col('source')]?.trim() || 'unknown',
-      region: v[col('region')]?.trim() || '',
-      url:    v[col('url')]?.trim()    || '',
+      id: v[c('id')]?.trim() || 'R'+i,
+      model: v[c('model')]?.trim() || '',
+      year: parseInt(v[c('year')]) || 0,
+      hours: parseInt(v[c('hours')]) || 0,
+      price: parseInt(v[c('price')]) || 0,
+      source: v[c('source')]?.trim() || 'unknown',
+      region: v[c('region')]?.trim() || '',
+      url: v[c('url')]?.trim() || '',
+      photo: v[c('photo_url')]?.trim() || v[c('photo')]?.trim() || '',
     };
-    if (item.model && item.price > 0) allListings.push(item);
+    if (item.model && item.price > 0) all.push(item);
   }
   afterLoad();
 }
 
 function afterLoad() {
-  populateModelFilter();
+  populateModels();
+  loadFromURL();
   applyFilters();
   updateWantedUI();
 }
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
+// BRAND SWITCHING
+// ═══════════════════════════════════════
+const BRANDS = {
+  all:    { name:'All Brands', color:'#1a3d7c', short:'ALL' },
+  toyota: { name:'Toyota', color:'#eb0a1e', short:'TYT' },
+  nissan: { name:'Nissan', color:'#c3002f', short:'NIS' },
+  linde:  { name:'Linde', color:'#005da3', short:'LND' },
+  still:  { name:'Still', color:'#e5001a', short:'STL' },
+  jungheinrich: { name:'Jungheinrich', color:'#003a70', short:'JH' },
+};
+
+function switchBrand() {
+  currentBrand = document.getElementById('brandSel').value;
+  const b = BRANDS[currentBrand];
+  document.getElementById('brandLogo').textContent = b.short;
+  if (currentBrand !== 'all') {
+    document.documentElement.style.setProperty('--accent', b.color);
+  }
+  applyFilters();
+  updateURL();
+}
+
+// ═══════════════════════════════════════
+// DARK MODE
+// ═══════════════════════════════════════
+function toggleDark() {
+  document.body.classList.toggle('dark');
+  localStorage.setItem('ff_dark', document.body.classList.contains('dark') ? '1' : '0');
+  updateDarkBtn();
+}
+function updateDarkBtn() {
+  document.getElementById('darkBtn').innerHTML = document.body.classList.contains('dark') ? '&#9788;' : '&#9789;';
+}
+
+// ═══════════════════════════════════════
 // FILTERS
-// ══════════════════════════════════════════
-function populateModelFilter() {
-  const models = [...new Set(allListings.map(l => l.model))].sort();
-  const sel = document.getElementById('filterModel');
-  sel.innerHTML = models.map(m => `<option value="${m}">${m}</option>`).join('');
+// ═══════════════════════════════════════
+function populateModels() {
+  const models = [...new Set(all.map(l => l.model))].sort();
+  document.getElementById('fModel').innerHTML = models.map(m => '<option value="'+m+'">'+m+'</option>').join('');
 }
 
 function applyFilters() {
-  const yMin = +document.getElementById('yearMin').value;
-  const yMax = +document.getElementById('yearMax').value;
-  const pMin = +document.getElementById('priceMin').value;
-  const pMax = +document.getElementById('priceMax').value;
-  const hMin = +document.getElementById('hoursMin').value;
-  const hMax = +document.getElementById('hoursMax').value;
+  const yMin=+$('fYearMin').value, yMax=+$('fYearMax').value;
+  const pMin=+$('fPriceMin').value, pMax=+$('fPriceMax').value;
+  const hMin=+$('fHoursMin').value, hMax=+$('fHoursMax').value;
+  const selM = [...$('fModel').selectedOptions].map(o=>o.value);
+  const sM=$('sMascus').checked, sT=$('sTruck').checked, sS=$('sSample').checked;
+  const q = $('fSearch').value.trim().toLowerCase();
 
-  const selModels = [...document.getElementById('filterModel').selectedOptions].map(o => o.value);
-  const srcM = document.getElementById('srcMascus').checked;
-  const srcT = document.getElementById('srcTruck').checked;
-  const srcS = document.getElementById('srcSample').checked;
-
-  let base = activeTab === 'watchlist'
-    ? allListings.filter(l => watchlist.has(l.id))
-    : allListings;
+  let base = activeTab === 'watchlist' ? all.filter(l=>watchlist.has(l.id)) : all;
 
   filtered = base.filter(l => {
-    if (selModels.length > 0 && !selModels.includes(l.model)) return false;
-    if (l.year < yMin || l.year > yMax) return false;
-    if (l.price < pMin || l.price > pMax) return false;
-    if (l.hours < hMin || l.hours > hMax) return false;
-    if (l.source === 'mascus' && !srcM) return false;
-    if (l.source === 'truckscout24' && !srcT) return false;
-    if (l.source === 'sample' && !srcS) return false;
+    if (selM.length && !selM.includes(l.model)) return false;
+    if (l.year<yMin || l.year>yMax) return false;
+    if (l.price<pMin || l.price>pMax) return false;
+    if (l.hours<hMin || l.hours>hMax) return false;
+    if (l.source==='mascus' && !sM) return false;
+    if (l.source==='truckscout24' && !sT) return false;
+    if (l.source==='sample' && !sS) return false;
+    if (q && !(l.model.toLowerCase().includes(q) || l.region.toLowerCase().includes(q) || l.source.toLowerCase().includes(q) || l.id.toLowerCase().includes(q))) return false;
     return true;
   });
 
   renderTable();
-  updateStats();
+  updateInsights();
+  updateURL();
 }
 
 function clearFilters() {
-  document.getElementById('yearMin').value = 1990;
-  document.getElementById('yearMax').value = 2026;
-  document.getElementById('priceMin').value = 0;
-  document.getElementById('priceMax').value = 50000;
-  document.getElementById('hoursMin').value = 0;
-  document.getElementById('hoursMax').value = 15000;
-  document.getElementById('srcMascus').checked = true;
-  document.getElementById('srcTruck').checked = true;
-  document.getElementById('srcSample').checked = true;
-  // clear model selection
-  [...document.getElementById('filterModel').options].forEach(o => o.selected = false);
-  updateLabels();
-  applyFilters();
+  $('fYearMin').value=1990; $('fYearMax').value=2026;
+  $('fPriceMin').value=0; $('fPriceMax').value=50000;
+  $('fHoursMin').value=0; $('fHoursMax').value=15000;
+  $('sMascus').checked=true; $('sTruck').checked=true; $('sSample').checked=true;
+  $('fSearch').value='';
+  [...$('fModel').options].forEach(o=>o.selected=false);
+  updateLabels(); applyFilters();
 }
 
 function updateLabels() {
-  document.getElementById('yearLabel').textContent =
-    document.getElementById('yearMin').value + ' - ' + document.getElementById('yearMax').value;
-  const pMin = +document.getElementById('priceMin').value;
-  const pMax = +document.getElementById('priceMax').value;
-  document.getElementById('priceLabel').textContent =
-    (pMin/1000).toFixed(pMin%1000?1:0) + 'k - ' + (pMax/1000).toFixed(pMax%1000?1:0) + 'k';
-  document.getElementById('hoursLabel').textContent =
-    document.getElementById('hoursMin').value + ' - ' + document.getElementById('hoursMax').value;
+  $('lYear').textContent = $('fYearMin').value+'-'+$('fYearMax').value;
+  const p1=+$('fPriceMin').value, p2=+$('fPriceMax').value;
+  $('lPrice').textContent = (p1/1000|0)+'k-'+(p2/1000|0)+'k';
+  $('lHours').textContent = $('fHoursMin').value+'-'+$('fHoursMax').value;
 }
 
-// Wire up filter inputs
-['yearMin','yearMax','priceMin','priceMax','hoursMin','hoursMax'].forEach(id => {
-  document.getElementById(id).addEventListener('input', () => { updateLabels(); applyFilters(); });
+// Wire filter inputs
+['fYearMin','fYearMax','fPriceMin','fPriceMax','fHoursMin','fHoursMax'].forEach(id => {
+  $(id).addEventListener('input', ()=>{ updateLabels(); applyFilters(); });
 });
-['srcMascus','srcTruck','srcSample'].forEach(id => {
-  document.getElementById(id).addEventListener('change', applyFilters);
-});
-document.getElementById('filterModel').addEventListener('change', applyFilters);
-document.getElementById('defaultOffer').addEventListener('input', () => { saveStorage(); renderTable(); });
+['sMascus','sTruck','sSample'].forEach(id => $(id).addEventListener('change', applyFilters));
+$('fModel').addEventListener('change', applyFilters);
+$('defOffer').addEventListener('input', ()=>{ saveLS(); renderTable(); });
 
-// ══════════════════════════════════════════
-// CONDITION SCORING
-// ══════════════════════════════════════════
-function conditionScore(year, hours) {
-  const age = new Date().getFullYear() - year;
+// ═══════════════════════════════════════
+// CONDITION + RESALE
+// ═══════════════════════════════════════
+function condScore(y, h) {
+  const age = new Date().getFullYear() - y;
   let s = 5;
-  if (age > 12) s -= 2; else if (age > 7) s -= 1;
-  if (hours > 6000) s -= 2; else if (hours > 4000) s -= 1;
+  if (age>12) s-=2; else if (age>7) s-=1;
+  if (h>6000) s-=2; else if (h>4000) s-=1;
   return Math.max(1, Math.min(5, s));
 }
+function stars(n) { return '\u2B50'.repeat(n); }
+function condText(n) { return n>=5?'Excellent':n>=4?'Good':n>=3?'Fair':n>=2?'Aging':'Needs work'; }
 
-function conditionStars(score) {
-  return '\u2B50'.repeat(score);
+function estResale(model, year, hours) {
+  const same = all.filter(l => l.model === model);
+  if (same.length < 2) return null;
+  const avgP = same.reduce((s,l)=>s+l.price,0) / same.length;
+  const age = new Date().getFullYear() - year;
+  const ageDep = Math.min(age * 0.05, 0.25);
+  const hrDep = Math.min((hours/1000) * 0.02, 0.15);
+  return Math.round(avgP * (1 - ageDep - hrDep));
 }
 
-function conditionLabel(score) {
-  if (score >= 5) return 'Excellent';
-  if (score >= 4) return 'Good';
-  if (score >= 3) return 'Fair';
-  if (score >= 2) return 'Aging';
-  return 'Needs work';
-}
-
-// ══════════════════════════════════════════
-// TABLE RENDERING
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
+// TABLE
+// ═══════════════════════════════════════
 function renderTable() {
-  const tbody = document.getElementById('tbody');
-  if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state">
-      <div class="icon">&#128270;</div>
-      <p><strong>No listings found</strong></p>
-      <p>Try adjusting filters or load data first.</p>
-    </div></td></tr>`;
+  const tb = $('tbody');
+  if (!filtered.length) {
+    tb.innerHTML = '<tr><td colspan="11"><div class="empty-s"><div class="icon">&#128270;</div><p><strong>No listings found</strong></p><p>Adjust filters or load data.</p></div></td></tr>';
     return;
   }
+  const offer = parseInt($('defOffer').value) || 0;
+  const wMap = {}; wanted.forEach(w => { wMap[w.model] = w.budget; });
 
-  const offer = parseInt(document.getElementById('defaultOffer').value) || 0;
+  tb.innerHTML = filtered.map((it, i) => {
+    const isW = watchlist.has(it.id);
+    const isSel = selected.has(it.id);
+    const heart = isW ? '\u2764\uFE0F' : '\uD83E\uDD0D';
+    const margin = it.price - offer;
+    const mc = margin>3000?'m-pos':margin>1000?'m-mid':'m-neg';
+    const mTxt = offer>0 ? '\u20AC'+margin.toLocaleString() : '-';
+    const cs = condScore(it.year, it.hours);
+    const resale = estResale(it.model, it.year, it.hours);
+    const resaleTxt = resale ? '\u20AC'+resale.toLocaleString() : '-';
+    const matchW = wMap[it.model]!==undefined && it.price<=wMap[it.model];
+    const sc = it.source==='mascus'?'src-mascus':it.source==='truckscout24'?'src-truckscout24':'src-sample';
 
-  // Which models match wanted deals
-  const wantedMap = {};
-  wanted.forEach(w => { wantedMap[w.model] = w.budget; });
-
-  tbody.innerHTML = filtered.map((item, idx) => {
-    const isWatch = watchlist.has(item.id);
-    const heart = isWatch ? '\u2764\uFE0F' : '\uD83E\uDD0D';
-
-    const margin = item.price - offer;
-    let marginClass = 'margin-positive';
-    if (margin < 1000) marginClass = 'margin-negative';
-    else if (margin < 3000) marginClass = 'margin-neutral';
-    const marginText = offer > 0 ? '\u20AC' + margin.toLocaleString() : '-';
-
-    const cs = conditionScore(item.year, item.hours);
-
-    const matchWanted = wantedMap[item.model] !== undefined && item.price <= wantedMap[item.model];
-
-    const srcClass = item.source === 'mascus' ? 'source-mascus'
-      : item.source === 'truckscout24' ? 'source-truckscout24' : 'source-sample';
-
-    return `<tr class="${isWatch ? 'watching' : ''} ${matchWanted ? 'match-wanted' : ''}"
-                onclick="openModal(${idx})">
-      <td><button class="heart-btn" onclick="event.stopPropagation(); toggleWatch('${item.id}')">${heart}</button></td>
-      <td><strong>${item.model}</strong></td>
-      <td>${item.year}</td>
-      <td>${item.hours.toLocaleString()}</td>
-      <td style="font-weight:700;">\u20AC${item.price.toLocaleString()}</td>
-      <td class="${marginClass}">${marginText}</td>
-      <td class="condition-badge">${conditionStars(cs)} <small>${conditionLabel(cs)}</small></td>
-      <td>${item.region}</td>
-      <td><span class="source-badge ${srcClass}">${item.source}</span></td>
+    return `<tr class="${isW?'watch-row':''} ${matchW?'match-row':''}" onclick="openModal(${i})">
+      <td class="chk-cell" onclick="event.stopPropagation()"><input type="checkbox" ${isSel?'checked':''} onchange="toggleSel('${it.id}')"></td>
+      <td><button class="heart" onclick="event.stopPropagation();toggleW('${it.id}')">${heart}</button></td>
+      <td><strong>${it.model}</strong></td>
+      <td>${it.year}</td>
+      <td>${it.hours.toLocaleString()}</td>
+      <td style="font-weight:700">\u20AC${it.price.toLocaleString()}</td>
+      <td style="color:var(--muted)">${resaleTxt}</td>
+      <td class="${mc}">${mTxt}</td>
+      <td class="cond">${stars(cs)} <small>${condText(cs)}</small></td>
+      <td>${it.region}</td>
+      <td><span class="src-badge ${sc}">${it.source}</span></td>
     </tr>`;
   }).join('');
 }
 
-// ══════════════════════════════════════════
-// STATS
-// ══════════════════════════════════════════
-function updateStats() {
-  document.getElementById('statTotal').textContent = allListings.length;
-  document.getElementById('statFiltered').textContent = filtered.length;
-  document.getElementById('showCount').textContent = filtered.length;
-  document.getElementById('totalCount').textContent = allListings.length;
+// ═══════════════════════════════════════
+// INSIGHTS
+// ═══════════════════════════════════════
+function updateInsights() {
+  $('iTotal').textContent = all.length;
+  $('iFiltered').textContent = filtered.length;
+  $('showN').textContent = filtered.length;
+  $('totalN').textContent = all.length;
+  $('iModels').textContent = new Set(filtered.map(l=>l.model)).size + ' models';
+  $('iWatch').textContent = watchlist.size;
+  $('wBadge').textContent = watchlist.size;
+  $('iDeals').textContent = filtered.filter(l=>l.price<18000).length;
 
-  if (filtered.length > 0) {
-    const avg = Math.round(filtered.reduce((s,l) => s + l.price, 0) / filtered.length);
-    document.getElementById('statAvgPrice').textContent = '\u20AC' + avg.toLocaleString();
+  if (filtered.length) {
+    const avg = Math.round(filtered.reduce((s,l)=>s+l.price,0)/filtered.length);
+    $('iAvg').textContent = '\u20AC'+avg.toLocaleString();
+
+    const sorted = [...filtered].sort((a,b)=>a.price-b.price);
+    const best = sorted[0];
+    $('iBest').textContent = '\u20AC'+best.price.toLocaleString();
+    $('iBestSub').textContent = best.model+' ('+best.year+') \u2212\u20AC'+(avg-best.price).toLocaleString()+' vs avg';
+
+    const mc = {};
+    all.forEach(l => { mc[l.model]=(mc[l.model]||0)+1; });
+    $('iHot').textContent = Object.values(mc).filter(c=>c>=5).length;
+    $('iRare').textContent = Object.values(mc).filter(c=>c<=2).length;
+    $('iAvgSub').textContent = 'from '+filtered.length+' listings';
   } else {
-    document.getElementById('statAvgPrice').textContent = '-';
+    $('iAvg').innerHTML = '&mdash;'; $('iBest').innerHTML = '&mdash;';
+    $('iBestSub').innerHTML = '&nbsp;'; $('iAvgSub').textContent = 'No data';
+    $('iHot').textContent = '0'; $('iRare').textContent = '0';
   }
-
-  document.getElementById('statModels').textContent = new Set(filtered.map(l => l.model)).size;
-  document.getElementById('statDeals').textContent = filtered.filter(l => l.price < 18000).length;
-  document.getElementById('statWatchlist').textContent = watchlist.size;
-  document.getElementById('watchBadge').textContent = watchlist.size;
 }
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // TABS
-// ══════════════════════════════════════════
-function switchTab(tab) {
-  activeTab = tab;
-  document.getElementById('tabAll').classList.toggle('active', tab === 'all');
-  document.getElementById('tabWatch').classList.toggle('active', tab === 'watchlist');
+// ═══════════════════════════════════════
+function setTab(t) {
+  activeTab = t;
+  $('tAll').classList.toggle('on', t==='all');
+  $('tWatch').classList.toggle('on', t==='watchlist');
   applyFilters();
 }
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // WATCHLIST
-// ══════════════════════════════════════════
-function toggleWatch(id) {
-  if (watchlist.has(id)) watchlist.delete(id);
-  else watchlist.add(id);
-  saveStorage();
-  updateStats();
+// ═══════════════════════════════════════
+function toggleW(id) {
+  watchlist.has(id) ? watchlist.delete(id) : watchlist.add(id);
+  saveLS(); updateInsights(); renderTable();
+}
+
+// ═══════════════════════════════════════
+// BULK SELECTION
+// ═══════════════════════════════════════
+function toggleSel(id) {
+  selected.has(id) ? selected.delete(id) : selected.add(id);
+  $('bulkN').textContent = selected.size;
+  $('bulkBar').classList.toggle('show', selected.size > 0);
+  $('chkAll').checked = selected.size === filtered.length && filtered.length > 0;
+}
+function toggleAll(checked) {
+  filtered.forEach(l => { checked ? selected.add(l.id) : selected.delete(l.id); });
+  $('bulkN').textContent = selected.size;
+  $('bulkBar').classList.toggle('show', selected.size > 0);
+  renderTable();
+}
+function bulkWatch() {
+  selected.forEach(id => watchlist.add(id));
+  saveLS(); toast('Added '+selected.size+' to watchlist', 'ok');
+  bulkClear();
+}
+function bulkExport() {
+  const items = all.filter(l => selected.has(l.id));
+  if (!items.length) return;
+  dlCSV(items, 'forkflip_selection.csv');
+  toast('Exported '+items.length+' listings', 'ok');
+}
+function bulkClear() {
+  selected.clear(); $('chkAll').checked = false;
+  $('bulkBar').classList.remove('show');
   renderTable();
 }
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // WANTED DEALS
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 function addWanted() {
-  const model = document.getElementById('wantedModel').value.trim();
-  const budget = parseInt(document.getElementById('wantedBudget').value);
-  if (!model || !budget) { alert('Enter model and budget'); return; }
-  wanted.push({ model, budget, id: Date.now() });
-  document.getElementById('wantedModel').value = '';
-  document.getElementById('wantedBudget').value = '';
-  saveStorage();
-  updateWantedUI();
-  renderTable();
+  const model = $('wModel').value.trim(), budget = parseInt($('wBudget').value);
+  if (!model || !budget) { toast('Enter model + budget', 'warn'); return; }
+  wanted.push({model, budget, id: Date.now()});
+  $('wModel').value=''; $('wBudget').value='';
+  saveLS(); updateWantedUI(); renderTable();
+  toast('Added wanted: '+model+' \u2264 \u20AC'+budget.toLocaleString(), 'ok');
 }
-
 function removeWanted(id) {
-  wanted = wanted.filter(w => w.id !== id);
-  saveStorage();
-  updateWantedUI();
-  renderTable();
+  wanted = wanted.filter(w=>w.id!==id);
+  saveLS(); updateWantedUI(); renderTable();
 }
-
 function updateWantedUI() {
-  const el = document.getElementById('wantedList');
-  if (wanted.length === 0) {
-    el.innerHTML = '<p style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem;">No wanted deals yet.</p>';
-    return;
-  }
-  el.innerHTML = wanted.map(w => `
-    <div class="wanted-item">
-      <span>${w.model} &le; \u20AC${w.budget.toLocaleString()}</span>
-      <button onclick="removeWanted(${w.id})">&#10005;</button>
-    </div>
-  `).join('');
+  const el = $('wList');
+  if (!wanted.length) { el.innerHTML='<p style="font-size:0.78rem;color:var(--muted);margin-top:0.4rem;">No wanted deals yet.</p>'; return; }
+  el.innerHTML = wanted.map(w => `<div class="wanted-chip"><span>${w.model} \u2264 \u20AC${w.budget.toLocaleString()}</span><button onclick="removeWanted(${w.id})">\u2715</button></div>`).join('');
 }
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // MODAL
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 function openModal(idx) {
-  modalItem = filtered[idx];
-  if (!modalItem) return;
+  mItem = filtered[idx]; if (!mItem) return;
+  const same = all.filter(l=>l.model===mItem.model);
+  const avgP = same.length>1 ? Math.round(same.reduce((s,l)=>s+l.price,0)/same.length) : mItem.price;
+  const avgY = same.length>1 ? Math.round(same.reduce((s,l)=>s+l.year,0)/same.length) : mItem.year;
+  const avgH = same.length>1 ? Math.round(same.reduce((s,l)=>s+l.hours,0)/same.length) : mItem.hours;
+  const best = same.length>1 ? [...same].sort((a,b)=>a.price-b.price)[0] : mItem;
+  const cs = condScore(mItem.year, mItem.hours);
+  const resale = estResale(mItem.model, mItem.year, mItem.hours);
 
-  document.getElementById('mModel').textContent = modalItem.model;
-  document.getElementById('mSubtitle').textContent = `${modalItem.year} \u2022 ${modalItem.source} \u2022 ${modalItem.region}`;
-  document.getElementById('mPrice').textContent = '\u20AC' + modalItem.price.toLocaleString();
-  document.getElementById('mYear').textContent = modalItem.year;
-  document.getElementById('mHours').textContent = modalItem.hours.toLocaleString() + 'h';
-  document.getElementById('mRegion').textContent = modalItem.region || '-';
-  document.getElementById('mSource').textContent = modalItem.source;
+  // Photo
+  const img = $('mImg'); const ph = img.nextElementSibling;
+  if (mItem.photo) { img.src = mItem.photo; img.style.display='block'; ph.style.display='none'; }
+  else { img.src='https://placehold.co/400x300/e8edf5/1a3d7c?text='+encodeURIComponent(mItem.model); img.style.display='block'; ph.style.display='none'; }
 
-  const cs = conditionScore(modalItem.year, modalItem.hours);
-  document.getElementById('mCondition').textContent = conditionStars(cs) + ' ' + conditionLabel(cs);
+  $('mModel').textContent = mItem.model;
+  $('mSub').textContent = mItem.year+' \u2022 '+mItem.source+' \u2022 '+mItem.region;
+  $('mPrice').textContent = '\u20AC'+mItem.price.toLocaleString();
+  $('mYear').textContent = mItem.year;
+  $('mHours').textContent = mItem.hours.toLocaleString()+'h';
+  $('mCond').textContent = stars(cs)+' '+condText(cs);
+  $('mRegion').textContent = mItem.region || '-';
+  $('mSrc').textContent = mItem.source;
 
-  // Avg price for same model
-  const same = allListings.filter(l => l.model === modalItem.model);
-  if (same.length > 1) {
-    const avg = Math.round(same.reduce((s,l) => s + l.price, 0) / same.length);
-    document.getElementById('mAvgPrice').textContent = '\u20AC' + avg.toLocaleString() + ` (${same.length} listings)`;
+  // Resale estimate
+  if (resale) {
+    const diff = resale - mItem.price;
+    $('mResale').innerHTML = 'Est. resale: <strong>\u20AC'+resale.toLocaleString()+'</strong> '+(diff>=0 ? '<span style="color:var(--green);">(+\u20AC'+diff.toLocaleString()+')</span>' : '<span style="color:var(--red);">(\u20AC'+diff.toLocaleString()+')</span>');
   } else {
-    document.getElementById('mAvgPrice').textContent = 'Only listing';
+    $('mResale').textContent = 'Est. resale: not enough data';
   }
 
-  // Supply indicator
+  // Avg + supply
+  if (same.length > 1) {
+    $('mAvg').textContent = '\u20AC'+avgP.toLocaleString()+' ('+same.length+' listings)';
+  } else { $('mAvg').textContent = 'Only listing'; }
   if (same.length >= 5) {
-    document.getElementById('mSupply').innerHTML = '<span style="color:var(--green);">High supply (' + same.length + ') \u2014 negotiate harder</span>';
+    $('mSupply').innerHTML = '<span style="color:var(--green)">High supply ('+same.length+') \u2014 negotiate</span>';
   } else if (same.length <= 2) {
-    document.getElementById('mSupply').innerHTML = '<span style="color:var(--red);">Scarce (' + same.length + ') \u2014 act fast</span>';
-  } else {
-    document.getElementById('mSupply').textContent = same.length + ' listings';
-  }
+    $('mSupply').innerHTML = '<span style="color:var(--red)">Scarce ('+same.length+') \u2014 act fast</span>';
+  } else { $('mSupply').textContent = same.length+' listings'; }
 
-  // Model insights
-  const insightsEl = document.getElementById('mInsights');
+  // Insights
   if (same.length > 1) {
-    const prices = same.map(l => l.price).sort((a,b) => a-b);
-    const lowest = prices[0];
-    const highest = prices[prices.length-1];
-    const avgH = Math.round(same.reduce((s,l) => s + l.hours, 0) / same.length);
-    const diff = modalItem.price - Math.round(same.reduce((s,l) => s + l.price, 0) / same.length);
-    const diffLabel = diff > 0 ? `\u20AC${diff.toLocaleString()} above avg` : diff < 0 ? `\u20AC${Math.abs(diff).toLocaleString()} below avg` : 'At average';
-    insightsEl.innerHTML = `
-      <div style="margin-bottom:0.3rem;"><strong>Price range:</strong> \u20AC${lowest.toLocaleString()} - \u20AC${highest.toLocaleString()}</div>
-      <div style="margin-bottom:0.3rem;"><strong>This listing:</strong> ${diffLabel}</div>
-      <div><strong>Avg hours:</strong> ${avgH.toLocaleString()}h</div>
-    `;
-  } else {
-    insightsEl.textContent = 'Not enough data for model insights.';
-  }
+    const prices = same.map(l=>l.price).sort((a,b)=>a-b);
+    const diff = mItem.price - avgP;
+    const dl = diff>0 ? '\u20AC'+diff.toLocaleString()+' above avg' : diff<0 ? '\u20AC'+Math.abs(diff).toLocaleString()+' below avg' : 'At average';
+    $('mInsights').innerHTML =
+      '<div style="margin-bottom:0.25rem"><strong>Range:</strong> \u20AC'+prices[0].toLocaleString()+' \u2013 \u20AC'+prices[prices.length-1].toLocaleString()+'</div>'+
+      '<div style="margin-bottom:0.25rem"><strong>This:</strong> '+dl+'</div>'+
+      '<div><strong>Avg hours:</strong> '+avgH.toLocaleString()+'h</div>';
+  } else { $('mInsights').textContent = 'Not enough data.'; }
 
-  // Source button label
-  document.getElementById('mSourceBtn').textContent = 'View on ' + (modalItem.source === 'mascus' ? 'Mascus' : modalItem.source === 'truckscout24' ? 'TruckScout24' : 'Source');
+  // Comparison table
+  $('cP1').textContent = '\u20AC'+mItem.price.toLocaleString();
+  $('cP2').textContent = '\u20AC'+avgP.toLocaleString();
+  $('cP3').textContent = '\u20AC'+best.price.toLocaleString();
+  $('cY1').textContent = mItem.year;
+  $('cY2').textContent = avgY;
+  $('cY3').textContent = best.year;
+  $('cH1').textContent = mItem.hours.toLocaleString();
+  $('cH2').textContent = avgH.toLocaleString();
+  $('cH3').textContent = best.hours.toLocaleString();
+  $('cC1').textContent = stars(cs);
+  $('cC2').textContent = stars(condScore(avgY, avgH));
+  $('cC3').textContent = stars(condScore(best.year, best.hours));
 
-  // Watchlist button
-  updateModalWatchBtn();
+  const pDiff = mItem.price - avgP;
+  const pPct = avgP ? ((pDiff/avgP)*100).toFixed(1) : 0;
+  const v = $('cVerdict');
+  if (pDiff <= 0) { v.innerHTML = '<span class="verdict good">\uD83D\uDC4D Good deal \u2014 '+Math.abs(pPct)+'% below avg</span>'; }
+  else { v.innerHTML = '<span class="verdict bad">\u26A0\uFE0F Above average \u2014 '+pPct+'% markup</span>'; }
 
-  // Pre-fill margin with default offer
-  const defaultOffer = document.getElementById('defaultOffer').value;
-  document.getElementById('mOffer').value = defaultOffer || '';
-  calcModalMargin();
+  // Similar listings
+  $('simTitle').textContent = 'Other '+mItem.model+'s';
+  const sims = same.filter(l=>l.id!==mItem.id).sort((a,b)=>a.price-b.price).slice(0,5);
+  if (sims.length) {
+    $('simList').innerHTML = sims.map((l,si) => {
+      const d = l.price - mItem.price;
+      const dc = d>0?'sim-diff-neg':'sim-diff-pos';
+      return `<div class="sim-item" onclick="event.stopPropagation(); openModalById('${l.id}')">
+        <span><strong>${l.model}</strong> ${l.year} \u2022 ${l.hours.toLocaleString()}h</span>
+        <span>\u20AC${l.price.toLocaleString()} <span class="${dc}">(${d>=0?'+':''}${d.toLocaleString()})</span></span>
+      </div>`;
+    }).join('');
+  } else { $('simList').innerHTML = '<p style="font-size:0.82rem;color:var(--muted);">No other listings for this model.</p>'; }
 
-  document.getElementById('modal').classList.remove('hidden');
+  // Source button
+  $('mSrcBtn').textContent = 'View on '+(mItem.source==='mascus'?'Mascus':mItem.source==='truckscout24'?'TruckScout24':'Source');
+  updateModalWBtn();
+
+  // Prefill margin
+  $('mOffer').value = $('defOffer').value || '';
+  calcMargin();
+
+  $('modal').classList.remove('hide');
 }
 
-function closeModal() {
-  document.getElementById('modal').classList.add('hidden');
-  modalItem = null;
+function openModalById(id) {
+  const idx = filtered.findIndex(l=>l.id===id);
+  if (idx>=0) openModal(idx);
+  else { const ai = all.findIndex(l=>l.id===id); if(ai>=0){ filtered=[all[ai]]; openModal(0); } }
 }
 
-// Close modal on backdrop click
-document.getElementById('modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('modal')) closeModal();
-});
+function closeModal() { $('modal').classList.add('hide'); mItem = null; }
+$('modal').addEventListener('click', e => { if(e.target===$('modal')) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
-// Close on Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
-});
-
-function calcModalMargin() {
-  const offer = parseInt(document.getElementById('mOffer').value);
-  const el = document.getElementById('mMarginResult');
-  if (!offer || !modalItem) { el.style.display = 'none'; return; }
-
-  const margin = modalItem.price - offer;
-  const pct = Math.round((margin / modalItem.price) * 100);
-  let cls = 'positive';
-  if (margin < 1000) cls = 'negative';
-  else if (margin < 3000) cls = 'neutral';
-
-  el.className = 'margin-result ' + cls;
+function calcMargin() {
+  const offer = parseInt($('mOffer').value);
+  const el = $('mMargin');
+  if (!offer || !mItem) { el.style.display='none'; return; }
+  const margin = mItem.price - offer;
+  const pct = Math.round((margin/mItem.price)*100);
+  let cls = margin>3000?'pos':margin>1000?'mid':'neg';
+  el.className = 'mres '+cls;
   el.style.display = 'block';
-  el.innerHTML = `\u20AC${margin.toLocaleString()} margin (${pct}%)
-    <div class="margin-detail">Buy at \u20AC${offer.toLocaleString()}, sell at \u20AC${modalItem.price.toLocaleString()}</div>`;
+  el.innerHTML = '\u20AC'+margin.toLocaleString()+' margin ('+pct+'%)<div class="sm">Buy \u20AC'+offer.toLocaleString()+', sell \u20AC'+mItem.price.toLocaleString()+'</div>';
 }
 
-function toggleModalWatch() {
-  if (!modalItem) return;
-  toggleWatch(modalItem.id);
-  updateModalWatchBtn();
+function toggleModalW() { if(!mItem) return; toggleW(mItem.id); updateModalWBtn(); }
+function updateModalWBtn() {
+  const b = $('mWatchBtn');
+  if (watchlist.has(mItem.id)) { b.textContent='\u2764\uFE0F Remove'; b.className='btn-a btn-a-d'; }
+  else { b.textContent='\uD83E\uDD0D Watchlist'; b.className='btn-a btn-a-s'; }
 }
 
-function updateModalWatchBtn() {
-  const btn = document.getElementById('mWatchBtn');
-  if (watchlist.has(modalItem.id)) {
-    btn.textContent = '\u2764\uFE0F Remove from Watchlist';
-    btn.className = 'btn-action btn-action-danger';
-  } else {
-    btn.textContent = '\uD83E\uDD0D Add to Watchlist';
-    btn.className = 'btn-action btn-action-secondary';
-  }
-}
-
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // MODAL ACTIONS
-// ══════════════════════════════════════════
-function openSourceUrl() {
-  if (!modalItem) return;
-  if (modalItem.url) {
-    window.open(modalItem.url, '_blank');
-  } else if (modalItem.source === 'mascus') {
-    window.open('https://www.mascus.nl', '_blank');
-  } else if (modalItem.source === 'truckscout24') {
-    window.open('https://www.truckscout24.de', '_blank');
-  }
+// ═══════════════════════════════════════
+function openSrc() {
+  if (!mItem) return;
+  if (mItem.url) window.open(mItem.url, '_blank');
+  else if (mItem.source==='mascus') window.open('https://www.mascus.nl', '_blank');
+  else if (mItem.source==='truckscout24') window.open('https://www.truckscout24.de', '_blank');
+}
+function copyUrl() {
+  if (!mItem) return;
+  const u = mItem.url || (mItem.source==='mascus'?'https://www.mascus.nl':'https://www.truckscout24.de');
+  navigator.clipboard.writeText(u).then(()=>toast('URL copied','ok'));
+}
+function copyWA() {
+  if (!mItem) return;
+  navigator.clipboard.writeText(`Hoi, ik ben geinteresseerd in je ${mItem.model} (${mItem.year}). Hoe is de staat? Bereid je voor onderhandeling?`).then(()=>toast('WhatsApp template copied','ok'));
 }
 
-function copyListingUrl() {
-  if (!modalItem) return;
-  const url = modalItem.url || (modalItem.source === 'mascus' ? 'https://www.mascus.nl' : 'https://www.truckscout24.de');
-  navigator.clipboard.writeText(url).then(() => showToast('URL copied!'));
+// ═══════════════════════════════════════
+// URL PARAMS (shareable filters)
+// ═══════════════════════════════════════
+function updateURL() {
+  const p = new URLSearchParams();
+  if (currentBrand!=='toyota') p.set('brand', currentBrand);
+  if (+$('fYearMin').value!==1990) p.set('yMin', $('fYearMin').value);
+  if (+$('fYearMax').value!==2026) p.set('yMax', $('fYearMax').value);
+  if (+$('fPriceMin').value!==0) p.set('pMin', $('fPriceMin').value);
+  if (+$('fPriceMax').value!==50000) p.set('pMax', $('fPriceMax').value);
+  if (+$('fHoursMin').value!==0) p.set('hMin', $('fHoursMin').value);
+  if (+$('fHoursMax').value!==15000) p.set('hMax', $('fHoursMax').value);
+  const q = $('fSearch').value.trim();
+  if (q) p.set('q', q);
+  const s = p.toString();
+  history.replaceState({}, '', s ? '?'+s : location.pathname);
 }
 
-function copyWhatsApp() {
-  if (!modalItem) return;
-  const msg = `Hoi, ik ben geinteresseerd in je ${modalItem.model} (${modalItem.year}). Hoe is de staat? Bereid je voor onderhandeling?`;
-  navigator.clipboard.writeText(msg).then(() => showToast('WhatsApp template copied!'));
+function loadFromURL() {
+  const p = new URLSearchParams(location.search);
+  if (p.has('brand')) { $('brandSel').value=p.get('brand'); switchBrand(); }
+  if (p.has('yMin')) $('fYearMin').value=p.get('yMin');
+  if (p.has('yMax')) $('fYearMax').value=p.get('yMax');
+  if (p.has('pMin')) $('fPriceMin').value=p.get('pMin');
+  if (p.has('pMax')) $('fPriceMax').value=p.get('pMax');
+  if (p.has('hMin')) $('fHoursMin').value=p.get('hMin');
+  if (p.has('hMax')) $('fHoursMax').value=p.get('hMax');
+  if (p.has('q')) $('fSearch').value=p.get('q');
+  updateLabels();
 }
 
-function showToast(msg) {
-  const toast = document.createElement('div');
-  toast.textContent = msg;
-  toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--dark);color:white;padding:0.75rem 1.5rem;border-radius:8px;z-index:9999;font-size:0.9rem;';
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 2000);
-}
-
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // EXPORTS
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 function exportFiltered() {
-  if (filtered.length === 0) { alert('Nothing to export'); return; }
-  const hdr = ['id','model','year','hours','price','source','region'];
-  const rows = filtered.map(l => [l.id, l.model, l.year, l.hours, l.price, l.source, l.region].join(','));
-  downloadCSV([hdr.join(','), ...rows].join('\n'), 'forkflip_filtered.csv');
+  if (!filtered.length) { toast('Nothing to export','warn'); return; }
+  dlCSV(filtered, 'forkflip_filtered.csv');
+  toast('Exported '+filtered.length+' listings','ok');
+}
+function exportWatch() {
+  const items = all.filter(l=>watchlist.has(l.id));
+  if (!items.length) { toast('Watchlist empty','warn'); return; }
+  dlCSV(items, 'forkflip_watchlist.csv');
+  toast('Exported '+items.length+' watchlist items','ok');
+}
+function dlCSV(data, fn) {
+  const h='id,model,year,hours,price,source,region';
+  const rows = data.map(l=>[l.id,l.model,l.year,l.hours,l.price,l.source,l.region].join(','));
+  const blob = new Blob([h+'\n'+rows.join('\n')], {type:'text/csv'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fn; a.click(); URL.revokeObjectURL(a.href);
 }
 
-function exportWatchlist() {
-  const items = allListings.filter(l => watchlist.has(l.id));
-  if (items.length === 0) { alert('Watchlist empty'); return; }
-  const hdr = ['id','model','year','hours','price','source','region'];
-  const rows = items.map(l => [l.id, l.model, l.year, l.hours, l.price, l.source, l.region].join(','));
-  downloadCSV([hdr.join(','), ...rows].join('\n'), 'forkflip_watchlist.csv');
+// ═══════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════
+function toast(msg, type='ok') {
+  const t = document.createElement('div');
+  t.className = 'toast '+type;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(),300); }, 2500);
 }
 
-function downloadCSV(csv, filename) {
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function $(id) { return document.getElementById(id); }
 
-// ══════════════════════════════════════════
+// ═══════════════════════════════════════
 // INIT
-// ══════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  loadStorage();
+// ═══════════════════════════════════════
+document.addEventListener('DOMContentLoaded', ()=>{
+  loadLS();
   updateWantedUI();
   updateLabels();
-  updateStats();
+  updateInsights();
+  updateDarkBtn();
 });
 </script>
 </body>
