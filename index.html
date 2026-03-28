@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Forklift Trader — Opportunity Scout v0.2</title>
+  <title>ForkFlip v0.4 — Trader Toolkit</title>
   <style>
     :root {
       --primary: #1a3d7c;
@@ -13,6 +13,10 @@
       --card: #ffffff;
       --text: #1a2a3a;
       --muted: #7f8c8d;
+      --border: #e0e4e8;
+      --green: #2e7d32;
+      --yellow: #f57c00;
+      --red: #c62828;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,300 +25,1128 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding: 1rem;
     }
 
-    .container { max-width: 1400px; margin: 0 auto; }
-
-    header {
+    /* ── HEADER ── */
+    .top-header {
       background: linear-gradient(135deg, var(--primary), #002a75);
       color: white;
-      padding: 2.5rem 2rem;
-      border-radius: 12px;
-      margin-bottom: 2rem;
-      text-align: center;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-
-    header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-    header p { opacity: 0.95; font-size: 1.1rem; }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+    .top-header h1 { font-size: 1.5rem; }
+    .top-header p { opacity: 0.9; font-size: 0.9rem; }
+    .header-actions { display: flex; gap: 0.75rem; align-items: center; }
+    .header-actions button {
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
     }
-
-    .stat-card {
-      background: var(--card);
-      padding: 1.75rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      border-left: 4px solid var(--primary);
+    .header-actions button:hover { background: rgba(255,255,255,0.2); }
+    .header-actions .btn-load {
+      background: rgba(255,255,255,0.95);
+      color: var(--primary);
+      font-weight: 700;
+      border: none;
     }
+    .header-actions .btn-load:hover { background: white; }
 
-    .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--primary); }
-    .stat-label { font-size: 0.95rem; color: var(--muted); margin-top: 0.75rem; }
-
-    .controls {
+    /* ── STATS BAR ── */
+    .stats-bar {
       display: flex;
       gap: 1rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
+      padding: 1rem 1.5rem;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    .stat-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 120px;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border-radius: 8px;
+    }
+    .stat-chip .num { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
+    .stat-chip .lbl { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── LAYOUT ── */
+    .app-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      min-height: calc(100vh - 120px);
     }
 
-    button {
-      padding: 0.85rem 1.75rem;
+    /* ── SIDEBAR FILTERS ── */
+    .sidebar {
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      padding: 1rem;
+      overflow-y: auto;
+      max-height: calc(100vh - 120px);
+      position: sticky;
+      top: 0;
+    }
+    .sidebar h3 {
+      font-size: 0.9rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+    }
+    .filter-group {
+      margin-bottom: 1.25rem;
+    }
+    .filter-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .filter-group select {
+      width: 100%;
+      padding: 0.4rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      background: white;
+    }
+    .filter-group input[type="range"] {
+      width: 100%;
+      margin: 0.25rem 0;
+      accent-color: var(--primary);
+    }
+    .range-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
+    }
+    .checkbox-row input[type="checkbox"] { accent-color: var(--primary); }
+    .sidebar-section {
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+    .sidebar input[type="text"],
+    .sidebar input[type="number"] {
+      width: 100%;
+      padding: 0.4rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+    }
+    .btn-sm {
+      padding: 0.35rem 0.75rem;
       border: none;
-      border-radius: 8px;
-      background: var(--primary);
-      color: white;
+      border-radius: 5px;
+      font-size: 0.8rem;
       cursor: pointer;
       font-weight: 500;
     }
-
-    button:hover { background: var(--primary-light); }
-
-    .table-container {
-      background: var(--card);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    .btn-sm-primary { background: var(--primary); color: white; }
+    .btn-sm-primary:hover { background: var(--primary-light); }
+    .btn-sm-secondary { background: #f0f0f0; color: var(--text); border: 1px solid var(--border); }
+    .btn-sm-secondary:hover { background: #e0e0e0; }
+    .wanted-item {
+      background: #fff8e1;
+      padding: 0.4rem 0.5rem;
+      border-radius: 5px;
+      margin: 0.3rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      border-left: 3px solid #ffb300;
+    }
+    .wanted-item button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 0;
+      color: var(--red);
+    }
+    .sidebar-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-top: 1rem;
     }
 
+    /* ── MAIN CONTENT ── */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .table-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .table-toolbar .info {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .table-toolbar .info strong { color: var(--text); }
+    .tab-group { display: flex; gap: 0.25rem; }
+    .tab-btn {
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .tab-btn:hover { background: var(--bg); }
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .table-scroll {
+      overflow: auto;
+      flex: 1;
+    }
     table { width: 100%; border-collapse: collapse; }
     th {
       background: var(--dark);
       color: white;
-      padding: 1.25rem 1rem;
+      padding: 0.75rem 0.75rem;
       text-align: left;
+      font-size: 0.8rem;
       font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
     td {
-      padding: 1.25rem 1rem;
+      padding: 0.7rem 0.75rem;
       border-bottom: 1px solid #f0f0f0;
+      font-size: 0.9rem;
     }
+    tbody tr { cursor: pointer; transition: background 0.15s; }
+    tbody tr:hover { background: #f0f4fa; }
+    tr.watching { background: #fff9e6 !important; }
+    tr.match-wanted { border-left: 4px solid var(--green); }
+    .heart-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0;
+      line-height: 1;
+    }
+    .source-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .source-mascus { background: #e3f2fd; color: #1565c0; }
+    .source-truckscout24 { background: #fce4ec; color: #c62828; }
+    .source-sample { background: #f3e5f5; color: #7b1fa2; }
+    .condition-badge {
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+    .margin-positive { color: var(--green); font-weight: 700; }
+    .margin-neutral { color: var(--yellow); font-weight: 700; }
+    .margin-negative { color: var(--red); font-weight: 700; }
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+    }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-state p { margin-bottom: 0.5rem; }
 
-    tr:hover { background: #f0f4fa; }
-    .model { font-weight: 700; color: var(--primary); }
-    .price { font-weight: 700; color: var(--primary); }
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .modal-overlay.hidden { display: none; }
+    .modal-box {
+      background: white;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 860px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: var(--bg);
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      z-index: 10;
+    }
+    .modal-close:hover { background: #ddd; }
+    .modal-header {
+      padding: 1.5rem 1.5rem 0;
+    }
+    .modal-header h2 { font-size: 1.5rem; color: var(--primary); }
+    .modal-header .subtitle { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
+    .modal-body {
+      padding: 1rem 1.5rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.4rem 1rem;
+      font-size: 0.9rem;
+    }
+    .detail-grid dt { font-weight: 600; color: var(--muted); }
+    .detail-grid dd { font-weight: 500; }
+    .detail-grid .big { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
 
+    .margin-calc-box {
+      background: var(--bg);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .margin-calc-box h4 { font-size: 0.9rem; margin-bottom: 0.75rem; }
+    .margin-calc-box input {
+      width: 100%;
+      padding: 0.6rem;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .margin-calc-box input:focus { outline: none; border-color: var(--primary); }
+    .margin-result {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-weight: 700;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    .margin-result.positive { background: #e8f5e9; color: var(--green); }
+    .margin-result.neutral { background: #fff3e0; color: var(--yellow); }
+    .margin-result.negative { background: #ffebee; color: var(--red); }
+    .margin-detail { font-size: 0.8rem; font-weight: 400; margin-top: 0.25rem; }
+
+    .modal-actions {
+      padding: 0 1.5rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+    .btn-action {
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .btn-action-primary { background: var(--primary); color: white; }
+    .btn-action-primary:hover { background: var(--primary-light); }
+    .btn-action-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+    .btn-action-secondary:hover { background: #e0e4e8; }
+    .btn-action-danger { background: #ffebee; color: var(--red); }
+
+    /* ── FOOTER ── */
     footer {
       text-align: center;
-      padding: 2rem;
+      padding: 1rem;
       color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: 2rem;
+      font-size: 0.8rem;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── HIDDEN FILE INPUT ── */
+    .hidden { display: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .app-layout { grid-template-columns: 1fr; }
+      .sidebar {
+        position: static;
+        max-height: none;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .modal-body { grid-template-columns: 1fr; }
+      .top-header { flex-direction: column; gap: 0.75rem; text-align: center; }
+      .stats-bar { flex-wrap: wrap; justify-content: center; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Forklift Trader</h1>
-      <p>Spot opportunities. Match demand. Close deals faster.</p>
-    </header>
 
-    <div class="stats">
-      <div class="stat-card">
-        <div class="stat-number" id="statTotal">0</div>
-        <div class="stat-label">Total listings</div>
+<!-- ═══════════════ HEADER ═══════════════ -->
+<div class="top-header">
+  <div>
+    <h1>ForkFlip</h1>
+    <p>Spot opportunities. Match demand. Close deals faster.</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn-load" onclick="loadMergedData()">Load Merged Data</button>
+    <button onclick="loadSampleData()">Sample Data</button>
+    <button onclick="document.getElementById('csvFile').click()">Import CSV</button>
+    <input type="file" id="csvFile" accept=".csv" class="hidden" onchange="importCSV(this)">
+  </div>
+</div>
+
+<!-- ═══════════════ STATS BAR ═══════════════ -->
+<div class="stats-bar">
+  <div class="stat-chip">
+    <span class="num" id="statTotal">0</span>
+    <span class="lbl">Total</span>
+  </div>
+  <div class="stat-chip">
+    <span class="num" id="statFiltered">0</span>
+    <span class="lbl">Filtered</span>
+  </div>
+  <div class="stat-chip">
+    <span class="num" id="statAvgPrice">-</span>
+    <span class="lbl">Avg Price</span>
+  </div>
+  <div class="stat-chip">
+    <span class="num" id="statModels">0</span>
+    <span class="lbl">Models</span>
+  </div>
+  <div class="stat-chip">
+    <span class="num" id="statDeals">0</span>
+    <span class="lbl">Hot Deals &lt;18k</span>
+  </div>
+  <div class="stat-chip">
+    <span class="num" id="statWatchlist">0</span>
+    <span class="lbl">Watchlist</span>
+  </div>
+</div>
+
+<!-- ═══════════════ APP LAYOUT ═══════════════ -->
+<div class="app-layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <h3>Filters</h3>
+
+    <!-- Model -->
+    <div class="filter-group">
+      <label>Model</label>
+      <select id="filterModel" multiple size="5"></select>
+    </div>
+
+    <!-- Year -->
+    <div class="filter-group">
+      <label>Year <span id="yearLabel" style="font-weight:400;text-transform:none;">1990 - 2026</span></label>
+      <input type="range" id="yearMin" min="1990" max="2026" value="1990">
+      <input type="range" id="yearMax" min="1990" max="2026" value="2026">
+      <div class="range-row"><span>1990</span><span>2026</span></div>
+    </div>
+
+    <!-- Price -->
+    <div class="filter-group">
+      <label>Price <span id="priceLabel" style="font-weight:400;text-transform:none;">0 - 50k</span></label>
+      <input type="range" id="priceMin" min="0" max="50000" step="500" value="0">
+      <input type="range" id="priceMax" min="0" max="50000" step="500" value="50000">
+      <div class="range-row"><span>0</span><span>50k</span></div>
+    </div>
+
+    <!-- Hours -->
+    <div class="filter-group">
+      <label>Hours <span id="hoursLabel" style="font-weight:400;text-transform:none;">0 - 15000</span></label>
+      <input type="range" id="hoursMin" min="0" max="15000" step="250" value="0">
+      <input type="range" id="hoursMax" min="0" max="15000" step="250" value="15000">
+      <div class="range-row"><span>0</span><span>15000</span></div>
+    </div>
+
+    <!-- Source -->
+    <div class="filter-group">
+      <label>Source</label>
+      <div class="checkbox-row"><input type="checkbox" id="srcMascus" checked> Mascus</div>
+      <div class="checkbox-row"><input type="checkbox" id="srcTruck" checked> TruckScout24</div>
+      <div class="checkbox-row"><input type="checkbox" id="srcSample" checked> Sample</div>
+    </div>
+
+    <!-- Margin offer -->
+    <div class="filter-group">
+      <label>Default offer (margin calc)</label>
+      <input type="number" id="defaultOffer" placeholder="e.g. 12000" value="12000">
+    </div>
+
+    <button class="btn-sm btn-sm-secondary" style="width:100%;" onclick="clearFilters()">Clear All Filters</button>
+
+    <!-- Wanted Deals -->
+    <div class="sidebar-section">
+      <h3>Wanted Deals</h3>
+      <input type="text" id="wantedModel" placeholder="Model e.g. 8FBE15T">
+      <input type="number" id="wantedBudget" placeholder="Max budget">
+      <button class="btn-sm btn-sm-primary" onclick="addWanted()">+ Add</button>
+      <div id="wantedList"></div>
+    </div>
+
+    <!-- Export -->
+    <div class="sidebar-buttons">
+      <button class="btn-sm btn-sm-secondary" onclick="exportFiltered()">Export filtered CSV</button>
+      <button class="btn-sm btn-sm-secondary" onclick="exportWatchlist()">Export watchlist CSV</button>
+    </div>
+  </aside>
+
+  <!-- ── MAIN TABLE ── -->
+  <div class="main-content">
+    <div class="table-toolbar">
+      <div class="info">
+        Showing <strong id="showCount">0</strong> of <strong id="totalCount">0</strong> listings
       </div>
-      <div class="stat-card">
-        <div class="stat-number" id="statAvgPrice">&euro;0</div>
-        <div class="stat-label">Average price</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" id="statModels">0</div>
-        <div class="stat-label">Models found</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number" id="statDeals">0</div>
-        <div class="stat-label">Hot deals (&lt;&euro;18k)</div>
+      <div class="tab-group">
+        <button class="tab-btn active" id="tabAll" onclick="switchTab('all')">All Listings</button>
+        <button class="tab-btn" id="tabWatch" onclick="switchTab('watchlist')">Watchlist (<span id="watchBadge">0</span>)</button>
       </div>
     </div>
 
-    <div class="controls">
-      <button onclick="loadMergedData()">Load merged data</button>
-      <button onclick="loadSampleData()">Load sample data</button>
-      <button onclick="document.getElementById('csvImport').click()">Import CSV</button>
-      <input type="file" id="csvImport" accept=".csv" style="display:none;" onchange="importCSV(this)">
-      <button onclick="exportCSV()">Export CSV</button>
-      <button onclick="refreshStats()">Refresh</button>
-    </div>
-
-    <div class="table-container">
+    <div class="table-scroll">
       <table>
         <thead>
           <tr>
+            <th style="width:36px"></th>
             <th>Model</th>
             <th>Year</th>
             <th>Hours</th>
             <th>Price</th>
+            <th>Margin</th>
+            <th>Condition</th>
+            <th>Region</th>
             <th>Source</th>
           </tr>
         </thead>
-        <tbody id="listingsTable">
-          <tr><td colspan="5" style="text-align:center;padding:3rem;">No data loaded yet.</td></tr>
-        </tbody>
+        <tbody id="tbody"></tbody>
       </table>
     </div>
-
-    <footer>
-      <p><strong>Forklift Trader v0.2</strong> — Opportunity Scanner</p>
-      <p>Data from Mascus, TruckScout24, and manual sources</p>
-    </footer>
   </div>
+</div>
 
-  <script>
-    let allListings = [];
+<!-- ═══════════════ DETAIL MODAL ═══════════════ -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
 
-    // Load merged data from CSV
-    async function loadMergedData() {
-      try {
-        const response = await fetch('output/all_listings.csv');
-        if (!response.ok) throw new Error('Failed to load CSV');
-        
-        const text = await response.text();
-        const lines = text.split('\n').filter(l => l.trim());
-        
-        if (lines.length === 0) {
-          alert('CSV file is empty');
-          return;
-        }
-        
-        const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-        
-        allListings = [];
-        for (let i = 1; i < lines.length; i++) {
-          const values = lines[i].split(',');
-          if (values.length < 5) continue;
-          
-          const item = {
-            id: values[headers.indexOf('id')]?.trim() || 'unknown',
-            model: values[headers.indexOf('model')]?.trim() || '',
-            year: parseInt(values[headers.indexOf('year')]) || 2020,
-            hours: parseInt(values[headers.indexOf('hours')]) || 0,
-            price: parseInt(values[headers.indexOf('price')]) || 0,
-            source: values[headers.indexOf('source')]?.trim() || 'unknown',
-          };
-          
-          if (item.model && item.price > 0) {
-            allListings.push(item);
-          }
-        }
-        
-        renderListings();
-        refreshStats();
-        console.log(`✅ Loaded ${allListings.length} listings from merged data`);
-        
-      } catch (error) {
-        console.error('Error loading merged data:', error);
-        alert('Could not load merged data. Make sure output/all_listings.csv exists.');
-      }
-    }
+    <div class="modal-header">
+      <h2 id="mModel">—</h2>
+      <div class="subtitle" id="mSubtitle">—</div>
+    </div>
 
-    function loadSampleData() {
-      allListings = [
-        { id: 'S1', model: '8FBE15', year: 2020, hours: 2500, price: 18500, source: 'sample' },
-        { id: 'S2', model: '8FD25', year: 2019, hours: 4200, price: 22000, source: 'sample' },
-        { id: 'S3', model: '8FBE18', year: 2021, hours: 1800, price: 21000, source: 'sample' },
-        { id: 'S4', model: 'RRE140', year: 2018, hours: 3500, price: 15500, source: 'sample' },
-        { id: 'S5', model: '8FG30', year: 2017, hours: 5000, price: 25000, source: 'sample' },
-      ];
-      renderListings();
-      refreshStats();
-      alert('Sample data loaded (5 items)');
-    }
+    <div class="modal-body">
+      <!-- Left: details -->
+      <div>
+        <dl class="detail-grid">
+          <dt>Price</dt>       <dd class="big" id="mPrice">—</dd>
+          <dt>Year</dt>        <dd id="mYear">—</dd>
+          <dt>Hours</dt>       <dd id="mHours">—</dd>
+          <dt>Condition</dt>   <dd id="mCondition">—</dd>
+          <dt>Region</dt>      <dd id="mRegion">—</dd>
+          <dt>Source</dt>      <dd id="mSource">—</dd>
+          <dt>Avg (model)</dt> <dd id="mAvgPrice">—</dd>
+          <dt>Supply</dt>      <dd id="mSupply">—</dd>
+        </dl>
+      </div>
 
-    function renderListings() {
-      const tbody = document.getElementById('listingsTable');
-      if (allListings.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No data loaded.</td></tr>';
-        return;
-      }
+      <!-- Right: margin calculator -->
+      <div>
+        <div class="margin-calc-box">
+          <h4>Margin Calculator</h4>
+          <label style="font-size:0.85rem; display:block; margin-bottom:0.4rem;">What would you pay?</label>
+          <input type="number" id="mOffer" placeholder="e.g. 10000" oninput="calcModalMargin()">
+          <div class="margin-result" id="mMarginResult" style="display:none;"></div>
+        </div>
 
-      tbody.innerHTML = allListings.map(item =>
-        `<tr>
-          <td class="model">${item.model}</td>
-          <td>${item.year}</td>
-          <td>${item.hours.toLocaleString()}</td>
-          <td class="price">&euro;${item.price.toLocaleString()}</td>
-          <td>${item.source}</td>
-        </tr>`
-      ).join('');
-    }
+        <div class="margin-calc-box" style="margin-top:1rem;">
+          <h4>Model Insights</h4>
+          <div id="mInsights" style="font-size:0.85rem; color: var(--muted);">Load data to see insights.</div>
+        </div>
+      </div>
+    </div>
 
-    function refreshStats() {
-      if (allListings.length === 0) {
-        document.getElementById('statTotal').textContent = '0';
-        document.getElementById('statAvgPrice').innerHTML = '&euro;0';
-        document.getElementById('statModels').textContent = '0';
-        document.getElementById('statDeals').textContent = '0';
-        return;
-      }
+    <div class="modal-actions">
+      <button class="btn-action btn-action-primary" id="mSourceBtn" onclick="openSourceUrl()">View on Source</button>
+      <button class="btn-action btn-action-secondary" onclick="copyListingUrl()">Copy URL</button>
+      <button class="btn-action btn-action-secondary" onclick="copyWhatsApp()">WhatsApp Template</button>
+      <button class="btn-action btn-action-secondary" id="mWatchBtn" onclick="toggleModalWatch()">Add to Watchlist</button>
+    </div>
+  </div>
+</div>
 
-      const prices = allListings.map(l => l.price);
-      const avgPrice = Math.round(prices.reduce((a,b) => a+b, 0) / prices.length);
-      const models = new Set(allListings.map(l => l.model)).size;
-      const deals = allListings.filter(l => l.price < 18000).length;
+<footer>
+  <strong>ForkFlip v0.4</strong> &mdash; Phase 4 Trader Toolkit &bull; Data: Mascus, TruckScout24
+</footer>
 
-      document.getElementById('statTotal').textContent = allListings.length;
-      document.getElementById('statAvgPrice').innerHTML = '&euro;' + avgPrice.toLocaleString();
-      document.getElementById('statModels').textContent = models;
-      document.getElementById('statDeals').textContent = deals;
-    }
+<script>
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let allListings = [];
+let filtered = [];
+let watchlist = new Set();
+let wanted = [];
+let activeTab = 'all';
+let modalItem = null;
 
-    function importCSV(input) {
-      const file = input.files[0];
-      if (!file) return;
+// ══════════════════════════════════════════
+// PERSISTENCE
+// ══════════════════════════════════════════
+function loadStorage() {
+  try {
+    const w = localStorage.getItem('ff_watch');
+    if (w) watchlist = new Set(JSON.parse(w));
+    const d = localStorage.getItem('ff_wanted');
+    if (d) wanted = JSON.parse(d);
+    const o = localStorage.getItem('ff_offer');
+    if (o) document.getElementById('defaultOffer').value = o;
+  } catch(e) {}
+}
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const lines = e.target.result.split('\n').filter(l => l.trim());
-        const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+function saveStorage() {
+  localStorage.setItem('ff_watch', JSON.stringify([...watchlist]));
+  localStorage.setItem('ff_wanted', JSON.stringify(wanted));
+  localStorage.setItem('ff_offer', document.getElementById('defaultOffer').value);
+}
 
-        allListings = [];
-        for (let i = 1; i < lines.length; i++) {
-          const values = lines[i].split(',');
-          if (values.length < 5) continue;
+// ══════════════════════════════════════════
+// DATA LOADING
+// ══════════════════════════════════════════
+async function loadMergedData() {
+  try {
+    const res = await fetch('output/all_listings.csv');
+    if (!res.ok) throw new Error('Not found');
+    parseCSV(await res.text());
+  } catch(e) {
+    alert('Could not load output/all_listings.csv — run merge script first.');
+  }
+}
 
-          allListings.push({
-            id: 'IMP-' + i,
-            model: values[headers.indexOf('model')]?.trim() || '',
-            year: parseInt(values[headers.indexOf('year')]) || 2020,
-            hours: parseInt(values[headers.indexOf('hours')]) || 0,
-            price: parseInt(values[headers.indexOf('price')]) || 0,
-            source: values[headers.indexOf('source')]?.trim() || 'imported',
-          });
-        }
+function loadSampleData() {
+  allListings = [
+    { id:'S1', model:'8FBE15T', year:2020, hours:2500, price:18500, source:'sample', region:'NL', url:'' },
+    { id:'S2', model:'8FD25',   year:2019, hours:4200, price:22000, source:'sample', region:'NL', url:'' },
+    { id:'S3', model:'8FBE18T', year:2021, hours:1800, price:21000, source:'sample', region:'NL', url:'' },
+    { id:'S4', model:'RRE140',  year:2018, hours:3500, price:15500, source:'sample', region:'DE', url:'' },
+    { id:'S5', model:'8FG30',   year:2017, hours:5000, price:25000, source:'sample', region:'DE', url:'' },
+  ];
+  afterLoad();
+}
 
-        renderListings();
-        refreshStats();
-        alert('Imported ' + allListings.length + ' listings');
-      };
-      reader.readAsText(file);
-      input.value = '';
-    }
+function importCSV(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => { parseCSV(e.target.result); };
+  reader.readAsText(file);
+  input.value = '';
+}
 
-    function exportCSV() {
-      if (allListings.length === 0) {
-        alert('No data to export');
-        return;
-      }
+function parseCSV(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  if (lines.length < 2) { alert('Empty CSV'); return; }
+  const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+  const col = name => headers.indexOf(name);
 
-      const headers = ['id', 'model', 'year', 'hours', 'price', 'source'];
-      const rows = allListings.map(l => [l.id, l.model, l.year, l.hours, l.price, l.source].join(','));
-      const csv = [headers.join(','), ...rows].join('\n');
+  allListings = [];
+  for (let i = 1; i < lines.length; i++) {
+    const v = lines[i].split(',');
+    if (v.length < 5) continue;
+    const item = {
+      id:     v[col('id')]?.trim()     || 'R' + i,
+      model:  v[col('model')]?.trim()  || '',
+      year:   parseInt(v[col('year')]) || 0,
+      hours:  parseInt(v[col('hours')])|| 0,
+      price:  parseInt(v[col('price')])|| 0,
+      source: v[col('source')]?.trim() || 'unknown',
+      region: v[col('region')]?.trim() || '',
+      url:    v[col('url')]?.trim()    || '',
+    };
+    if (item.model && item.price > 0) allListings.push(item);
+  }
+  afterLoad();
+}
 
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'forklift_listings.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-  </script>
+function afterLoad() {
+  populateModelFilter();
+  applyFilters();
+  updateWantedUI();
+}
+
+// ══════════════════════════════════════════
+// FILTERS
+// ══════════════════════════════════════════
+function populateModelFilter() {
+  const models = [...new Set(allListings.map(l => l.model))].sort();
+  const sel = document.getElementById('filterModel');
+  sel.innerHTML = models.map(m => `<option value="${m}">${m}</option>`).join('');
+}
+
+function applyFilters() {
+  const yMin = +document.getElementById('yearMin').value;
+  const yMax = +document.getElementById('yearMax').value;
+  const pMin = +document.getElementById('priceMin').value;
+  const pMax = +document.getElementById('priceMax').value;
+  const hMin = +document.getElementById('hoursMin').value;
+  const hMax = +document.getElementById('hoursMax').value;
+
+  const selModels = [...document.getElementById('filterModel').selectedOptions].map(o => o.value);
+  const srcM = document.getElementById('srcMascus').checked;
+  const srcT = document.getElementById('srcTruck').checked;
+  const srcS = document.getElementById('srcSample').checked;
+
+  let base = activeTab === 'watchlist'
+    ? allListings.filter(l => watchlist.has(l.id))
+    : allListings;
+
+  filtered = base.filter(l => {
+    if (selModels.length > 0 && !selModels.includes(l.model)) return false;
+    if (l.year < yMin || l.year > yMax) return false;
+    if (l.price < pMin || l.price > pMax) return false;
+    if (l.hours < hMin || l.hours > hMax) return false;
+    if (l.source === 'mascus' && !srcM) return false;
+    if (l.source === 'truckscout24' && !srcT) return false;
+    if (l.source === 'sample' && !srcS) return false;
+    return true;
+  });
+
+  renderTable();
+  updateStats();
+}
+
+function clearFilters() {
+  document.getElementById('yearMin').value = 1990;
+  document.getElementById('yearMax').value = 2026;
+  document.getElementById('priceMin').value = 0;
+  document.getElementById('priceMax').value = 50000;
+  document.getElementById('hoursMin').value = 0;
+  document.getElementById('hoursMax').value = 15000;
+  document.getElementById('srcMascus').checked = true;
+  document.getElementById('srcTruck').checked = true;
+  document.getElementById('srcSample').checked = true;
+  // clear model selection
+  [...document.getElementById('filterModel').options].forEach(o => o.selected = false);
+  updateLabels();
+  applyFilters();
+}
+
+function updateLabels() {
+  document.getElementById('yearLabel').textContent =
+    document.getElementById('yearMin').value + ' - ' + document.getElementById('yearMax').value;
+  const pMin = +document.getElementById('priceMin').value;
+  const pMax = +document.getElementById('priceMax').value;
+  document.getElementById('priceLabel').textContent =
+    (pMin/1000).toFixed(pMin%1000?1:0) + 'k - ' + (pMax/1000).toFixed(pMax%1000?1:0) + 'k';
+  document.getElementById('hoursLabel').textContent =
+    document.getElementById('hoursMin').value + ' - ' + document.getElementById('hoursMax').value;
+}
+
+// Wire up filter inputs
+['yearMin','yearMax','priceMin','priceMax','hoursMin','hoursMax'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => { updateLabels(); applyFilters(); });
+});
+['srcMascus','srcTruck','srcSample'].forEach(id => {
+  document.getElementById(id).addEventListener('change', applyFilters);
+});
+document.getElementById('filterModel').addEventListener('change', applyFilters);
+document.getElementById('defaultOffer').addEventListener('input', () => { saveStorage(); renderTable(); });
+
+// ══════════════════════════════════════════
+// CONDITION SCORING
+// ══════════════════════════════════════════
+function conditionScore(year, hours) {
+  const age = new Date().getFullYear() - year;
+  let s = 5;
+  if (age > 12) s -= 2; else if (age > 7) s -= 1;
+  if (hours > 6000) s -= 2; else if (hours > 4000) s -= 1;
+  return Math.max(1, Math.min(5, s));
+}
+
+function conditionStars(score) {
+  return '\u2B50'.repeat(score);
+}
+
+function conditionLabel(score) {
+  if (score >= 5) return 'Excellent';
+  if (score >= 4) return 'Good';
+  if (score >= 3) return 'Fair';
+  if (score >= 2) return 'Aging';
+  return 'Needs work';
+}
+
+// ══════════════════════════════════════════
+// TABLE RENDERING
+// ══════════════════════════════════════════
+function renderTable() {
+  const tbody = document.getElementById('tbody');
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9"><div class="empty-state">
+      <div class="icon">&#128270;</div>
+      <p><strong>No listings found</strong></p>
+      <p>Try adjusting filters or load data first.</p>
+    </div></td></tr>`;
+    return;
+  }
+
+  const offer = parseInt(document.getElementById('defaultOffer').value) || 0;
+
+  // Which models match wanted deals
+  const wantedMap = {};
+  wanted.forEach(w => { wantedMap[w.model] = w.budget; });
+
+  tbody.innerHTML = filtered.map((item, idx) => {
+    const isWatch = watchlist.has(item.id);
+    const heart = isWatch ? '\u2764\uFE0F' : '\uD83E\uDD0D';
+
+    const margin = item.price - offer;
+    let marginClass = 'margin-positive';
+    if (margin < 1000) marginClass = 'margin-negative';
+    else if (margin < 3000) marginClass = 'margin-neutral';
+    const marginText = offer > 0 ? '\u20AC' + margin.toLocaleString() : '-';
+
+    const cs = conditionScore(item.year, item.hours);
+
+    const matchWanted = wantedMap[item.model] !== undefined && item.price <= wantedMap[item.model];
+
+    const srcClass = item.source === 'mascus' ? 'source-mascus'
+      : item.source === 'truckscout24' ? 'source-truckscout24' : 'source-sample';
+
+    return `<tr class="${isWatch ? 'watching' : ''} ${matchWanted ? 'match-wanted' : ''}"
+                onclick="openModal(${idx})">
+      <td><button class="heart-btn" onclick="event.stopPropagation(); toggleWatch('${item.id}')">${heart}</button></td>
+      <td><strong>${item.model}</strong></td>
+      <td>${item.year}</td>
+      <td>${item.hours.toLocaleString()}</td>
+      <td style="font-weight:700;">\u20AC${item.price.toLocaleString()}</td>
+      <td class="${marginClass}">${marginText}</td>
+      <td class="condition-badge">${conditionStars(cs)} <small>${conditionLabel(cs)}</small></td>
+      <td>${item.region}</td>
+      <td><span class="source-badge ${srcClass}">${item.source}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// STATS
+// ══════════════════════════════════════════
+function updateStats() {
+  document.getElementById('statTotal').textContent = allListings.length;
+  document.getElementById('statFiltered').textContent = filtered.length;
+  document.getElementById('showCount').textContent = filtered.length;
+  document.getElementById('totalCount').textContent = allListings.length;
+
+  if (filtered.length > 0) {
+    const avg = Math.round(filtered.reduce((s,l) => s + l.price, 0) / filtered.length);
+    document.getElementById('statAvgPrice').textContent = '\u20AC' + avg.toLocaleString();
+  } else {
+    document.getElementById('statAvgPrice').textContent = '-';
+  }
+
+  document.getElementById('statModels').textContent = new Set(filtered.map(l => l.model)).size;
+  document.getElementById('statDeals').textContent = filtered.filter(l => l.price < 18000).length;
+  document.getElementById('statWatchlist').textContent = watchlist.size;
+  document.getElementById('watchBadge').textContent = watchlist.size;
+}
+
+// ══════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════
+function switchTab(tab) {
+  activeTab = tab;
+  document.getElementById('tabAll').classList.toggle('active', tab === 'all');
+  document.getElementById('tabWatch').classList.toggle('active', tab === 'watchlist');
+  applyFilters();
+}
+
+// ══════════════════════════════════════════
+// WATCHLIST
+// ══════════════════════════════════════════
+function toggleWatch(id) {
+  if (watchlist.has(id)) watchlist.delete(id);
+  else watchlist.add(id);
+  saveStorage();
+  updateStats();
+  renderTable();
+}
+
+// ══════════════════════════════════════════
+// WANTED DEALS
+// ══════════════════════════════════════════
+function addWanted() {
+  const model = document.getElementById('wantedModel').value.trim();
+  const budget = parseInt(document.getElementById('wantedBudget').value);
+  if (!model || !budget) { alert('Enter model and budget'); return; }
+  wanted.push({ model, budget, id: Date.now() });
+  document.getElementById('wantedModel').value = '';
+  document.getElementById('wantedBudget').value = '';
+  saveStorage();
+  updateWantedUI();
+  renderTable();
+}
+
+function removeWanted(id) {
+  wanted = wanted.filter(w => w.id !== id);
+  saveStorage();
+  updateWantedUI();
+  renderTable();
+}
+
+function updateWantedUI() {
+  const el = document.getElementById('wantedList');
+  if (wanted.length === 0) {
+    el.innerHTML = '<p style="font-size:0.8rem; color:var(--muted); margin-top:0.5rem;">No wanted deals yet.</p>';
+    return;
+  }
+  el.innerHTML = wanted.map(w => `
+    <div class="wanted-item">
+      <span>${w.model} &le; \u20AC${w.budget.toLocaleString()}</span>
+      <button onclick="removeWanted(${w.id})">&#10005;</button>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════
+function openModal(idx) {
+  modalItem = filtered[idx];
+  if (!modalItem) return;
+
+  document.getElementById('mModel').textContent = modalItem.model;
+  document.getElementById('mSubtitle').textContent = `${modalItem.year} \u2022 ${modalItem.source} \u2022 ${modalItem.region}`;
+  document.getElementById('mPrice').textContent = '\u20AC' + modalItem.price.toLocaleString();
+  document.getElementById('mYear').textContent = modalItem.year;
+  document.getElementById('mHours').textContent = modalItem.hours.toLocaleString() + 'h';
+  document.getElementById('mRegion').textContent = modalItem.region || '-';
+  document.getElementById('mSource').textContent = modalItem.source;
+
+  const cs = conditionScore(modalItem.year, modalItem.hours);
+  document.getElementById('mCondition').textContent = conditionStars(cs) + ' ' + conditionLabel(cs);
+
+  // Avg price for same model
+  const same = allListings.filter(l => l.model === modalItem.model);
+  if (same.length > 1) {
+    const avg = Math.round(same.reduce((s,l) => s + l.price, 0) / same.length);
+    document.getElementById('mAvgPrice').textContent = '\u20AC' + avg.toLocaleString() + ` (${same.length} listings)`;
+  } else {
+    document.getElementById('mAvgPrice').textContent = 'Only listing';
+  }
+
+  // Supply indicator
+  if (same.length >= 5) {
+    document.getElementById('mSupply').innerHTML = '<span style="color:var(--green);">High supply (' + same.length + ') \u2014 negotiate harder</span>';
+  } else if (same.length <= 2) {
+    document.getElementById('mSupply').innerHTML = '<span style="color:var(--red);">Scarce (' + same.length + ') \u2014 act fast</span>';
+  } else {
+    document.getElementById('mSupply').textContent = same.length + ' listings';
+  }
+
+  // Model insights
+  const insightsEl = document.getElementById('mInsights');
+  if (same.length > 1) {
+    const prices = same.map(l => l.price).sort((a,b) => a-b);
+    const lowest = prices[0];
+    const highest = prices[prices.length-1];
+    const avgH = Math.round(same.reduce((s,l) => s + l.hours, 0) / same.length);
+    const diff = modalItem.price - Math.round(same.reduce((s,l) => s + l.price, 0) / same.length);
+    const diffLabel = diff > 0 ? `\u20AC${diff.toLocaleString()} above avg` : diff < 0 ? `\u20AC${Math.abs(diff).toLocaleString()} below avg` : 'At average';
+    insightsEl.innerHTML = `
+      <div style="margin-bottom:0.3rem;"><strong>Price range:</strong> \u20AC${lowest.toLocaleString()} - \u20AC${highest.toLocaleString()}</div>
+      <div style="margin-bottom:0.3rem;"><strong>This listing:</strong> ${diffLabel}</div>
+      <div><strong>Avg hours:</strong> ${avgH.toLocaleString()}h</div>
+    `;
+  } else {
+    insightsEl.textContent = 'Not enough data for model insights.';
+  }
+
+  // Source button label
+  document.getElementById('mSourceBtn').textContent = 'View on ' + (modalItem.source === 'mascus' ? 'Mascus' : modalItem.source === 'truckscout24' ? 'TruckScout24' : 'Source');
+
+  // Watchlist button
+  updateModalWatchBtn();
+
+  // Pre-fill margin with default offer
+  const defaultOffer = document.getElementById('defaultOffer').value;
+  document.getElementById('mOffer').value = defaultOffer || '';
+  calcModalMargin();
+
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.add('hidden');
+  modalItem = null;
+}
+
+// Close modal on backdrop click
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+function calcModalMargin() {
+  const offer = parseInt(document.getElementById('mOffer').value);
+  const el = document.getElementById('mMarginResult');
+  if (!offer || !modalItem) { el.style.display = 'none'; return; }
+
+  const margin = modalItem.price - offer;
+  const pct = Math.round((margin / modalItem.price) * 100);
+  let cls = 'positive';
+  if (margin < 1000) cls = 'negative';
+  else if (margin < 3000) cls = 'neutral';
+
+  el.className = 'margin-result ' + cls;
+  el.style.display = 'block';
+  el.innerHTML = `\u20AC${margin.toLocaleString()} margin (${pct}%)
+    <div class="margin-detail">Buy at \u20AC${offer.toLocaleString()}, sell at \u20AC${modalItem.price.toLocaleString()}</div>`;
+}
+
+function toggleModalWatch() {
+  if (!modalItem) return;
+  toggleWatch(modalItem.id);
+  updateModalWatchBtn();
+}
+
+function updateModalWatchBtn() {
+  const btn = document.getElementById('mWatchBtn');
+  if (watchlist.has(modalItem.id)) {
+    btn.textContent = '\u2764\uFE0F Remove from Watchlist';
+    btn.className = 'btn-action btn-action-danger';
+  } else {
+    btn.textContent = '\uD83E\uDD0D Add to Watchlist';
+    btn.className = 'btn-action btn-action-secondary';
+  }
+}
+
+// ══════════════════════════════════════════
+// MODAL ACTIONS
+// ══════════════════════════════════════════
+function openSourceUrl() {
+  if (!modalItem) return;
+  if (modalItem.url) {
+    window.open(modalItem.url, '_blank');
+  } else if (modalItem.source === 'mascus') {
+    window.open('https://www.mascus.nl', '_blank');
+  } else if (modalItem.source === 'truckscout24') {
+    window.open('https://www.truckscout24.de', '_blank');
+  }
+}
+
+function copyListingUrl() {
+  if (!modalItem) return;
+  const url = modalItem.url || (modalItem.source === 'mascus' ? 'https://www.mascus.nl' : 'https://www.truckscout24.de');
+  navigator.clipboard.writeText(url).then(() => showToast('URL copied!'));
+}
+
+function copyWhatsApp() {
+  if (!modalItem) return;
+  const msg = `Hoi, ik ben geinteresseerd in je ${modalItem.model} (${modalItem.year}). Hoe is de staat? Bereid je voor onderhandeling?`;
+  navigator.clipboard.writeText(msg).then(() => showToast('WhatsApp template copied!'));
+}
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.textContent = msg;
+  toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--dark);color:white;padding:0.75rem 1.5rem;border-radius:8px;z-index:9999;font-size:0.9rem;';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2000);
+}
+
+// ══════════════════════════════════════════
+// EXPORTS
+// ══════════════════════════════════════════
+function exportFiltered() {
+  if (filtered.length === 0) { alert('Nothing to export'); return; }
+  const hdr = ['id','model','year','hours','price','source','region'];
+  const rows = filtered.map(l => [l.id, l.model, l.year, l.hours, l.price, l.source, l.region].join(','));
+  downloadCSV([hdr.join(','), ...rows].join('\n'), 'forkflip_filtered.csv');
+}
+
+function exportWatchlist() {
+  const items = allListings.filter(l => watchlist.has(l.id));
+  if (items.length === 0) { alert('Watchlist empty'); return; }
+  const hdr = ['id','model','year','hours','price','source','region'];
+  const rows = items.map(l => [l.id, l.model, l.year, l.hours, l.price, l.source, l.region].join(','));
+  downloadCSV([hdr.join(','), ...rows].join('\n'), 'forkflip_watchlist.csv');
+}
+
+function downloadCSV(csv, filename) {
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  loadStorage();
+  updateWantedUI();
+  updateLabels();
+  updateStats();
+});
+</script>
 </body>
 </html>
