@@ -80,7 +80,8 @@
     .top-bar-actions button:hover { background: rgba(255,255,255,0.2); }
     .btn-load { background: rgba(255,255,255,0.92) !important; color: var(--primary) !important; font-weight: 700; border: none !important; }
     .btn-load:hover { background: white !important; }
-    .dark-toggle { font-size: 1rem; width: 36px; text-align: center; padding: 0.35rem !important; }
+    .dark-toggle { font-size: 0.78rem; width: auto; text-align: center; padding: 0.4rem 0.7rem !important; background: rgba(255,255,255,0.15) !important; border: 1px solid rgba(255,255,255,0.3) !important; }
+    .dark-toggle:hover { background: rgba(255,255,255,0.25) !important; }
 
     /* ÔöÇÔöÇ INSIGHT CARDS ÔöÇÔöÇ */
     .insights-bar {
@@ -92,6 +93,7 @@
       border-bottom: 1px solid var(--border);
     }
     .insight-card {
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
       padding: 0.6rem 0.75rem;
       border-radius: 8px;
       background: var(--bg);
@@ -106,6 +108,7 @@
     .insight-card.hot .ic-value { color: var(--yellow); }
     .insight-card.rare .ic-value { color: var(--red); }
     .insight-card .ic-sub { font-size: 0.72rem; color: var(--muted); }
+    .insight-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
 
     /* ÔöÇÔöÇ APP LAYOUT ÔöÇÔöÇ */
     .app { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 140px); }
@@ -193,6 +196,7 @@
       background: var(--dark); color: white;
       padding: 0.6rem 0.6rem; text-align: left;
       font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+      cursor: pointer; user-select: none;
       position: sticky; top: 0; z-index: 10;
     }
     td { padding: 0.55rem 0.6rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
@@ -323,6 +327,10 @@
     footer { text-align: center; padding: 0.75rem; color: var(--muted); font-size: 0.75rem; background: var(--card); border-top: 1px solid var(--border); }
 
     .hidden { display: none; }
+    .sort-asc::after { content: ' \25B2'; font-size: 0.6rem; }
+    .sort-desc::after { content: ' \25BC'; font-size: 0.6rem; }
+    .lang-btn { font-size: 0.78rem; padding: 0.35rem 0.5rem !important; background: rgba(255,255,255,0.12) !important; border: 1px solid rgba(255,255,255,0.25) !important; cursor: pointer; color: white; border-radius: 6px; }
+    .lang-btn:hover { background: rgba(255,255,255,0.25) !important; }
 
     /* ÔöÇÔöÇ RESPONSIVE ÔöÇÔöÇ */
     @media (max-width: 900px) {
@@ -341,7 +349,7 @@
 <!-- ÔòÉÔòÉÔòÉ HEADER ÔòÉÔòÉÔòÉ -->
 <div class="top-bar">
   <div class="brand">
-    <div class="brand-logo" id="brandLogo"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="9" fill="white"/><path d="M10 16 A11 11 0 0 1 30 16" fill="none" stroke="#1a3d7c" stroke-width="3" stroke-linecap="round"/><path d="M27 12 L30 16 L26 18" fill="none" stroke="#1a3d7c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 26 A11 11 0 0 1 10 26" fill="none" stroke="#1a3d7c" stroke-width="3" stroke-linecap="round"/><path d="M13 30 L10 26 L14 24" fill="none" stroke="#1a3d7c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><text x="20" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="13" fill="#1a3d7c">&#8364;</text></svg></div>
+    <div class="brand-logo" id="brandLogo" onclick="showHelp()" style="cursor:pointer;" title="Help / Info"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="9" fill="white"/><path d="M10 16 A11 11 0 0 1 30 16" fill="none" stroke="#1a3d7c" stroke-width="3" stroke-linecap="round"/><path d="M27 12 L30 16 L26 18" fill="none" stroke="#1a3d7c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M30 26 A11 11 0 0 1 10 26" fill="none" stroke="#1a3d7c" stroke-width="3" stroke-linecap="round"/><path d="M13 30 L10 26 L14 24" fill="none" stroke="#1a3d7c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><text x="20" y="25" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="13" fill="#1a3d7c">&#8364;</text></svg></div>
     <div>
       <h1>ForkFlip</h1>
       <div class="tagline">Spot opportunities. Close deals faster.</div>
@@ -360,38 +368,40 @@
     <button onclick="loadSampleData()">Sample</button>
     <button onclick="document.getElementById('csvIn').click()">Import</button>
     <input type="file" id="csvIn" accept=".csv" class="hidden" onchange="importCSV(this)">
-    <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode" id="darkBtn">&#9789;</button>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn" title="Switch language">EN</button>
+    <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode" id="darkBtn">Dark</button>
+    <button class="lang-btn" onclick="showHelp()" title="Help">?</button>
   </div>
 </div>
 
 <!-- ÔòÉÔòÉÔòÉ INSIGHT CARDS ÔòÉÔòÉÔòÉ -->
 <div class="insights-bar">
-  <div class="insight-card">
+  <div class="insight-card" onclick="cardClick('total')">
     <div class="ic-label">Total / Filtered</div>
     <div class="ic-value"><span id="iTotal">0</span> / <span id="iFiltered">0</span></div>
     <div class="ic-sub" id="iModels">0 models</div>
   </div>
-  <div class="insight-card">
+  <div class="insight-card" onclick="cardClick('avg')">
     <div class="ic-label">Market Average</div>
     <div class="ic-value" id="iAvg">&mdash;</div>
     <div class="ic-sub" id="iAvgSub">Load data</div>
   </div>
-  <div class="insight-card deal">
+  <div class="insight-card deal" onclick="cardClick('deal')">
     <div class="ic-label">Best Deal</div>
     <div class="ic-value" id="iBest">&mdash;</div>
     <div class="ic-sub" id="iBestSub">&nbsp;</div>
   </div>
-  <div class="insight-card hot">
+  <div class="insight-card hot" onclick="cardClick('hot')">
     <div class="ic-label">Hot Models</div>
     <div class="ic-value" id="iHot">0</div>
     <div class="ic-sub">5+ listings = negotiate</div>
   </div>
-  <div class="insight-card rare">
+  <div class="insight-card rare" onclick="cardClick('rare')">
     <div class="ic-label">Rare Finds</div>
     <div class="ic-value" id="iRare">0</div>
     <div class="ic-sub">&le;2 listings = act fast</div>
   </div>
-  <div class="insight-card">
+  <div class="insight-card" onclick="setTab('watchlist')">
     <div class="ic-label">Watchlist</div>
     <div class="ic-value" id="iWatch">0</div>
     <div class="ic-sub">Hot deals &lt;18k: <span id="iDeals">0</span></div>
@@ -476,15 +486,15 @@
           <tr>
             <th class="chk-cell"><input type="checkbox" id="chkAll" onchange="toggleAll(this.checked)"></th>
             <th style="width:32px"></th>
-            <th>Model</th>
-            <th>Year</th>
-            <th>Hours</th>
-            <th>Price</th>
-            <th>Est. Resale</th>
-            <th>Margin</th>
-            <th>Cond.</th>
-            <th>Region</th>
-            <th>Source</th>
+            <th onclick="sortBy('model')">Model</th>
+            <th onclick="sortBy('year')">Year</th>
+            <th onclick="sortBy('hours')">Hours</th>
+            <th onclick="sortBy('price')">Price</th>
+            <th onclick="sortBy('resale')">Est. Resale</th>
+            <th onclick="sortBy('margin')">Margin</th>
+            <th onclick="sortBy('cond')">Cond.</th>
+            <th onclick="sortBy('region')">Region</th>
+            <th onclick="sortBy('source')">Source</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -561,6 +571,8 @@
 
     <div class="m-acts">
       <button class="btn-a btn-a-p" id="mSrcBtn" onclick="openSrc()">View on Source</button>
+      <button class="btn-a btn-a-p" onclick="searchMascus()" style="background:#e65100;">Search Mascus</button>
+      <button class="btn-a btn-a-s" onclick="searchGoogle()">Google it</button>
       <button class="btn-a btn-a-s" onclick="copyUrl()">Copy URL</button>
       <button class="btn-a btn-a-s" onclick="copyWA()">WhatsApp</button>
       <button class="btn-a btn-a-s" id="mWatchBtn" onclick="toggleModalW()">Add to Watchlist</button>
@@ -568,7 +580,71 @@
   </div>
 </div>
 
-<footer><strong>ForkFlip v0.5</strong> &mdash; Phase 4.5+5 Trader Toolkit &bull; Mascus, TruckScout24</footer>
+<!-- HELP MODAL -->
+<div class="overlay hide" id="helpModal">
+  <div class="mbox" style="max-width:700px;">
+    <button class="m-close" onclick="$('helpModal').classList.add('hide')">&times;</button>
+    <div style="padding:1.5rem;">
+      <h2 style="color:var(--primary); margin-bottom:1rem;">ForkFlip — Gebruikershandleiding</h2>
+
+      <div style="display:grid; gap:1rem; font-size:0.88rem;">
+        <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--primary);">
+          <strong>Data laden</strong><br>
+          Klik <b>Load Data</b> om listings te laden vanuit Mascus en TruckScout24. Of gebruik <b>Import</b> om een eigen CSV te uploaden.
+        </div>
+
+        <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--primary);">
+          <strong>Filteren</strong><br>
+          Gebruik de linkerzijbalk om te filteren op model, jaar, prijs, uren en bron. <b>Search</b> zoekt op tekst. Klik <b>Clear All</b> om te resetten.
+        </div>
+
+        <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--primary);">
+          <strong>Sorteren</strong><br>
+          Klik op een <b>kolomkop</b> (Model, Year, Price, etc.) om op die kolom te sorteren. Klik nogmaals om de richting om te draaien.
+        </div>
+
+        <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--green);">
+          <strong>Insight Cards (bovenin)</strong><br>
+          Klik op de kaarten bovenin voor snelle acties:<br>
+          &bull; <b>Total</b> = reset filters &bull; <b>Best Deal</b> = sorteer op laagste prijs<br>
+          &bull; <b>Hot Models</b> = toon modellen met 5+ listings<br>
+          &bull; <b>Rare Finds</b> = toon zeldzame modellen &bull; <b>Watchlist</b> = toon je volglijst
+        </div>
+
+        <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--yellow);">
+          <strong>Listing Detail (klik op rij)</strong><br>
+          Klik op een listing om het detailvenster te openen met:<br>
+          &bull; Vergelijkingstabel (dit vs marktgemiddelde vs beste)<br>
+          &bull; Marge calculator (vul je bod in, zie winst)<br>
+          &bull; <b>Search Mascus</b> = zoek dit model direct op Mascus<br>
+          &bull; <b>Google it</b> = zoek op Google naar prijs/info<br>
+          &bull; <b>WhatsApp</b> = kopieer contacttemplate<br>
+          &bull; Vergelijkbare listings onderaan
+        </div>
+
+        <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--red);">
+          <strong>Watchlist &amp; Wanted Deals</strong><br>
+          Klik het hartje om een listing toe te voegen aan je volglijst. Gebruik <b>Wanted Deals</b> in de zijbalk om gewenste modellen + budget in te stellen — matches worden groen gemarkeerd.
+        </div>
+
+        <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--primary);">
+          <strong>Overig</strong><br>
+          &bull; <b>NL/EN</b> = wissel taal &bull; <b>Dark/Light</b> = donker/licht thema<br>
+          &bull; <b>Bulk selectie</b> = vink checkboxes aan, dan verschijnt een actiebalk<br>
+          &bull; <b>Export</b> = download gefilterde listings of watchlist als CSV<br>
+          &bull; Filters worden opgeslagen in de URL — deel de link!
+        </div>
+      </div>
+
+      <div style="margin-top:1rem; text-align:center; color:var(--muted); font-size:0.8rem;">
+        ForkFlip v0.5 &mdash; Data: Mascus.nl + TruckScout24.de<br>
+        Klik het <b>logo</b> of de <b>?</b> knop om deze handleiding te openen.
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer><strong>ForkFlip v0.5</strong> &mdash; Trader Toolkit &bull; Mascus, TruckScout24</footer>
 
 <script>
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
@@ -693,7 +769,7 @@ function toggleDark() {
   updateDarkBtn();
 }
 function updateDarkBtn() {
-  document.getElementById('darkBtn').innerHTML = document.body.classList.contains('dark') ? '&#9788;' : '&#9789;';
+  document.getElementById('darkBtn').textContent = document.body.classList.contains('dark') ? 'Light' : 'Dark';
 }
 
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
@@ -1145,12 +1221,108 @@ function $(id) { return document.getElementById(id); }
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // INIT
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+
+// ===== COLUMN SORTING =====
+let sortCol = null, sortDir = 'asc';
+function sortBy(col) {
+  if (sortCol === col) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+  else { sortCol = col; sortDir = 'asc'; }
+  const offer = parseInt($('defOffer').value) || 0;
+  filtered.sort((a, b) => {
+    let va, vb;
+    if (col === 'model') { va = a.model; vb = b.model; }
+    else if (col === 'year') { va = a.year; vb = b.year; }
+    else if (col === 'hours') { va = a.hours; vb = b.hours; }
+    else if (col === 'price') { va = a.price; vb = b.price; }
+    else if (col === 'resale') { va = estResale(a.model,a.year,a.hours)||0; vb = estResale(b.model,b.year,b.hours)||0; }
+    else if (col === 'margin') { va = a.price - offer; vb = b.price - offer; }
+    else if (col === 'cond') { va = condScore(a.year,a.hours); vb = condScore(b.year,b.hours); }
+    else if (col === 'region') { va = a.region; vb = b.region; }
+    else if (col === 'source') { va = a.source; vb = b.source; }
+    else { va = 0; vb = 0; }
+    if (typeof va === 'string') return sortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+    return sortDir === 'asc' ? va - vb : vb - va;
+  });
+  document.querySelectorAll('thead th').forEach(th => th.classList.remove('sort-asc','sort-desc'));
+  const cols = ['','','model','year','hours','price','resale','margin','cond','region','source'];
+  const idx = cols.indexOf(col);
+  if (idx >= 0) { const ths = document.querySelectorAll('thead th'); if(ths[idx]) ths[idx].classList.add('sort-' + sortDir); }
+  renderTable();
+  toast('Sorted by ' + col + ' (' + sortDir + ')', 'ok');
+}
+
+// ===== INSIGHT CARD CLICKS =====
+function cardClick(type) {
+  setTab('all');
+  if (type === 'total') { clearFilters(); toast('All filters cleared','ok'); }
+  else if (type === 'avg' || type === 'deal') {
+    clearFilters();
+    sortCol='price'; sortDir='asc';
+    applyFilters();
+    filtered.sort((a,b)=>a.price-b.price);
+    renderTable();
+    toast(type==='deal' ? 'Sorted: cheapest first' : 'Sorted by price','ok');
+  }
+  else if (type === 'hot') {
+    clearFilters();
+    var mc = {}; all.forEach(function(l){mc[l.model]=(mc[l.model]||0)+1;});
+    var hotM = Object.keys(mc).filter(function(m){return mc[m]>=5;});
+    if (hotM.length) {
+      Array.from($('fModel').options).forEach(function(o){o.selected=hotM.includes(o.value);});
+      applyFilters();
+      toast('Showing ' + hotM.length + ' hot models (5+ listings)','ok');
+    } else { toast('No hot models found','warn'); }
+  }
+  else if (type === 'rare') {
+    clearFilters();
+    var mc2 = {}; all.forEach(function(l){mc2[l.model]=(mc2[l.model]||0)+1;});
+    var rareM = Object.keys(mc2).filter(function(m){return mc2[m]<=2;});
+    if (rareM.length) {
+      Array.from($('fModel').options).forEach(function(o){o.selected=rareM.includes(o.value);});
+      applyFilters();
+      toast('Showing ' + rareM.length + ' rare models (1-2 listings)','ok');
+    } else { toast('No rare models found','warn'); }
+  }
+}
+
+// ===== SEARCH MASCUS / GOOGLE =====
+function searchMascus() {
+  if (!mItem) return;
+  window.open('https://www.mascus.nl/materieel-en-machines?categories=laden-en-lossen%2Cheftrucks&q=' + encodeURIComponent('Toyota ' + mItem.model), '_blank');
+}
+function searchGoogle() {
+  if (!mItem) return;
+  window.open('https://www.google.com/search?q=' + encodeURIComponent('Toyota ' + mItem.model + ' forklift ' + mItem.year + ' price'), '_blank');
+}
+
+// ===== LANGUAGE TOGGLE =====
+var lang = localStorage.getItem('ff_lang') || 'en';
+// ===== HELP MODAL =====
+function showHelp() {
+  $('helpModal').classList.remove('hide');
+}
+$('helpModal')?.addEventListener('click', function(e) { if(e.target===$('helpModal')) $('helpModal').classList.add('hide'); });
+
+function toggleLang() {
+  lang = lang === 'en' ? 'nl' : 'en';
+  localStorage.setItem('ff_lang', lang);
+  applyLang();
+}
+function applyLang() {
+  $('langBtn').textContent = lang === 'en' ? 'NL' : 'EN';
+  var tl = lang === 'nl' ? 'Spot kansen. Sluit deals sneller.' : 'Spot opportunities. Close deals faster.';
+  document.querySelector('.tagline').textContent = tl;
+  $('fSearch').placeholder = lang === 'nl' ? 'Zoek model, regio...' : 'Search model, region...';
+}
+
+
 document.addEventListener('DOMContentLoaded', ()=>{
   loadLS();
   updateWantedUI();
   updateLabels();
   updateInsights();
   updateDarkBtn();
+  applyLang();
   if(all.length) afterLoad();
 });
 </script>
