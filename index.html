@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Forklift Trader — Opportunity Scout v0.1</title>
+  <title>Forklift Trader — Opportunity Scout v0.2</title>
   <style>
     :root {
       --primary: #1a3d7c;
@@ -135,6 +135,7 @@
     </div>
 
     <div class="controls">
+      <button onclick="loadMergedData()">Load merged data</button>
       <button onclick="loadSampleData()">Load sample data</button>
       <button onclick="document.getElementById('csvImport').click()">Import CSV</button>
       <input type="file" id="csvImport" accept=".csv" style="display:none;" onchange="importCSV(this)">
@@ -154,19 +155,64 @@
           </tr>
         </thead>
         <tbody id="listingsTable">
-          <tr><td colspan="5" style="text-align:center;padding:3rem;">No data. Click "Load sample data" to test.</td></tr>
+          <tr><td colspan="5" style="text-align:center;padding:3rem;">No data loaded yet.</td></tr>
         </tbody>
       </table>
     </div>
 
     <footer>
-      <p><strong>Forklift Trader v0.1</strong> — Opportunity Scanner</p>
+      <p><strong>Forklift Trader v0.2</strong> — Opportunity Scanner</p>
       <p>Data from Mascus, TruckScout24, and manual sources</p>
     </footer>
   </div>
 
   <script>
     let allListings = [];
+
+    // Load merged data from CSV
+    async function loadMergedData() {
+      try {
+        const response = await fetch('output/all_listings.csv');
+        if (!response.ok) throw new Error('Failed to load CSV');
+        
+        const text = await response.text();
+        const lines = text.split('\n').filter(l => l.trim());
+        
+        if (lines.length === 0) {
+          alert('CSV file is empty');
+          return;
+        }
+        
+        const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+        
+        allListings = [];
+        for (let i = 1; i < lines.length; i++) {
+          const values = lines[i].split(',');
+          if (values.length < 5) continue;
+          
+          const item = {
+            id: values[headers.indexOf('id')]?.trim() || 'unknown',
+            model: values[headers.indexOf('model')]?.trim() || '',
+            year: parseInt(values[headers.indexOf('year')]) || 2020,
+            hours: parseInt(values[headers.indexOf('hours')]) || 0,
+            price: parseInt(values[headers.indexOf('price')]) || 0,
+            source: values[headers.indexOf('source')]?.trim() || 'unknown',
+          };
+          
+          if (item.model && item.price > 0) {
+            allListings.push(item);
+          }
+        }
+        
+        renderListings();
+        refreshStats();
+        console.log(`✅ Loaded ${allListings.length} listings from merged data`);
+        
+      } catch (error) {
+        console.error('Error loading merged data:', error);
+        alert('Could not load merged data. Make sure output/all_listings.csv exists.');
+      }
+    }
 
     function loadSampleData() {
       allListings = [
