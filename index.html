@@ -583,11 +583,11 @@
     </div>
 
     <div class="m-acts">
-      <button class="btn-a btn-a-p" id="mSrcBtn" onclick="openSrc()">View on Source</button>
+      <button class="btn-a" onclick="searchGoogle()" style="background:#4285f4;color:white;">&#x1F50D; Google</button>
       <button class="btn-a btn-a-p" onclick="searchMascus()" style="background:#e65100;">Search Mascus</button>
-      <button class="btn-a btn-a-s" onclick="searchGoogle()">Google it</button>
-      <button class="btn-a btn-a-s" onclick="copyUrl()">Copy URL</button>
+      <button class="btn-a btn-a-p" id="mSrcBtn" onclick="openSrc()">View on Source</button>
       <button class="btn-a btn-a-s" onclick="copyWA()">WhatsApp</button>
+      <button class="btn-a btn-a-s" onclick="copyListing()">Copy Info</button>
       <button class="btn-a btn-a-s" id="mWatchBtn" onclick="toggleModalW()">Add to Watchlist</button>
     </div>
   </div>
@@ -1145,10 +1145,10 @@ function openSrc() {
   if (mItem.source==='mascus') window.open('https://www.mascus.nl/laden-en-lossen/heftrucks?q=' + encodeURIComponent('Toyota ' + mItem.model), '_blank');
   else if (mItem.source==='truckscout24') window.open('https://www.truckscout24.de/gebraucht/gabelstapler?q=' + encodeURIComponent('Toyota ' + mItem.model), '_blank');
 }
-function copyUrl() {
+function copyListing() {
   if (!mItem) return;
-  const u = mItem.url || (mItem.source==='mascus'?'https://www.mascus.nl':'https://www.truckscout24.de');
-  navigator.clipboard.writeText(u).then(()=>toast('URL copied','ok'));
+  const info = `Toyota ${mItem.model} (${mItem.year})\nUren: ${mItem.hours.toLocaleString()}h\nPrijs: \u20AC${mItem.price.toLocaleString()}\nBron: ${mItem.source} (${mItem.region})`;
+  navigator.clipboard.writeText(info).then(()=>toast('Listing info gekopieerd','ok'));
 }
 function copyWA() {
   if (!mItem) return;
