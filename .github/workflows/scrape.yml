@@ -1,0 +1,67 @@
+name: Daily Scrape & Deploy
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # Every day at 05:00 UTC (07:00 NL time)
+  workflow_dispatch: # Manual trigger via GitHub UI
+
+jobs:
+  scrape-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run Mascus scraper
+        run: cd scrapers && python mascus_toyota.py --pages 5
+        continue-on-error: true
+
+      - name: Run TruckScout24 scraper
+        run: cd scrapers && python truckscout24_toyota.py --pages 3
+        continue-on-error: true
+
+      - name: Merge listings
+        run: python -X utf8 utils/merge_listings.py
+
+      - name: Convert CSV to JSON
+        run: |
+          python3 -c "
+          import csv, json
+          with open('output/all_listings.csv', 'r') as f:
+              rows = list(csv.DictReader(f))
+          for r in rows:
+              r['year']=int(r['year']); r['hours']=int(r['hours']); r['price']=int(r['price'])
+              r.setdefault('url',''); r.setdefault('photo','')
+          with open('output/merged_listings.json', 'w') as f:
+              json.dump(rows, f, ensure_ascii=False)
+          print(f'Converted {len(rows)} listings to JSON')
+          "
+
+      - name: Embed data in index.html
+        run: |
+          python3 -c "
+          import json, re
+          with open('output/merged_listings.json', 'r') as f:
+              j = json.dumps(json.load(f), ensure_ascii=False)
+          with open('index.html', 'r', encoding='utf-8-sig') as f:
+              html = f.read()
+          html = re.sub(r'let all = \[.*?\], filtered', 'let all = ' + j + ', filtered', html, count=1, flags=re.DOTALL)
+          with open('index.html', 'w', encoding='utf-8') as f:
+              f.write(html)
+          print('Data embedded in index.html')
+          "
+
+      - name: Commit and push
+        run: |
+          git config user.name "ForkFlip Bot"
+          git config user.email "bot@forkflip.app"
+          git add index.html output/ -f
+          git diff --cached --quiet && echo "No changes" || (git commit -m "data: daily scrape $(date +%Y-%m-%d)" && git push)

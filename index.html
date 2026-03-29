@@ -1137,9 +1137,9 @@ function updateModalWBtn() {
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function openSrc() {
   if (!mItem) return;
-  if (mItem.url) window.open(mItem.url, '_blank');
-  else if (mItem.source==='mascus') window.open('https://www.mascus.nl', '_blank');
-  else if (mItem.source==='truckscout24') window.open('https://www.truckscout24.de', '_blank');
+  if (mItem.url) { window.open(mItem.url, '_blank'); return; }
+  if (mItem.source==='mascus') window.open('https://www.mascus.nl/laden-en-lossen/heftrucks?q=' + encodeURIComponent('Toyota ' + mItem.model), '_blank');
+  else if (mItem.source==='truckscout24') window.open('https://www.truckscout24.de/gebraucht/gabelstapler?q=' + encodeURIComponent('Toyota ' + mItem.model), '_blank');
 }
 function copyUrl() {
   if (!mItem) return;
@@ -1289,7 +1289,7 @@ function cardClick(type) {
 // ===== SEARCH MASCUS / GOOGLE =====
 function searchMascus() {
   if (!mItem) return;
-  window.open('https://www.mascus.nl/materieel-en-machines?categories=laden-en-lossen%2Cheftrucks&q=' + encodeURIComponent('Toyota ' + mItem.model), '_blank');
+  window.open('https://www.mascus.nl/laden-en-lossen/heftrucks?q=' + encodeURIComponent('Toyota ' + mItem.model), '_blank');
 }
 function searchGoogle() {
   if (!mItem) return;
