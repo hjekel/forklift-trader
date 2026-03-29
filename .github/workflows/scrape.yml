@@ -23,8 +23,12 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4
 
-      - name: Run Mascus scraper
+      - name: Run Mascus NL scraper
         run: cd scrapers && python mascus_toyota.py --pages 5
+        continue-on-error: true
+
+      - name: Run Mascus DE scraper
+        run: cd scrapers && python mascus_de.py --pages 5
         continue-on-error: true
 
       - name: Run TruckScout24 scraper

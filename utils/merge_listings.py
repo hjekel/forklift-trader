@@ -14,6 +14,14 @@ if mascus_file.exists():
         listings.extend(list(reader))
     print(f"✓ Loaded {len([l for l in listings if l.get('source') == 'mascus'])} from Mascus")
 
+# Load Mascus DE
+mascus_de_file = output_dir / "mascus_de_listings.csv"
+if mascus_de_file.exists():
+    with open(mascus_de_file, 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        listings.extend(list(reader))
+    print(f"+ Loaded {len([l for l in listings if l.get('region') == 'DE' and l.get('source') == 'mascus'])} from Mascus DE")
+
 # Load TruckScout24
 ts24_file = output_dir / "truckscout24_listings.csv"
 if ts24_file.exists():
