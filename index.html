@@ -130,8 +130,7 @@
       margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted);
     }
     .fg select { width: 100%; padding: 0.35rem; border: 1px solid var(--border); border-radius: 5px; font-size: 0.82rem; background: var(--card); color: var(--text); }
-    .fg input[type="range"] { width: 100%; margin: 0.2rem 0; accent-color: var(--primary); }
-    .range-info { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); }
+    .fg select { margin-bottom: 0.2rem; }
     .cb-row { display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; margin: 0.2rem 0; }
     .cb-row input { accent-color: var(--primary); }
     .side input[type="text"], .side input[type="number"] {
@@ -422,22 +421,39 @@
       <select id="fModel" multiple size="5"></select>
     </div>
     <div class="fg">
-      <label>Year <span id="lYear" style="font-weight:400;text-transform:none;">1990-2026</span></label>
-      <input type="range" id="fYearMin" min="1990" max="2026" value="1990">
-      <input type="range" id="fYearMax" min="1990" max="2026" value="2026">
-      <div class="range-info"><span>1990</span><span>2026</span></div>
+      <label>Newer than</label>
+      <select id="fYearAfter" onchange="applyFilters()">
+        <option value="0">All years</option>
+        <option value="2024">2024+</option>
+        <option value="2022">2022+</option>
+        <option value="2020">2020+</option>
+        <option value="2018">2018+</option>
+        <option value="2015">2015+</option>
+        <option value="2010">2010+</option>
+      </select>
     </div>
     <div class="fg">
-      <label>Price <span id="lPrice" style="font-weight:400;text-transform:none;">0-50k</span></label>
-      <input type="range" id="fPriceMin" min="0" max="50000" step="500" value="0">
-      <input type="range" id="fPriceMax" min="0" max="50000" step="500" value="50000">
-      <div class="range-info"><span>0</span><span>50k</span></div>
+      <label>Max budget</label>
+      <select id="fPriceMax" onchange="applyFilters()">
+        <option value="999999">No limit</option>
+        <option value="10000">&le; &euro;10.000</option>
+        <option value="15000">&le; &euro;15.000</option>
+        <option value="20000">&le; &euro;20.000</option>
+        <option value="25000">&le; &euro;25.000</option>
+        <option value="30000">&le; &euro;30.000</option>
+        <option value="50000">&le; &euro;50.000</option>
+      </select>
     </div>
     <div class="fg">
-      <label>Hours <span id="lHours" style="font-weight:400;text-transform:none;">0-15000</span></label>
-      <input type="range" id="fHoursMin" min="0" max="15000" step="250" value="0">
-      <input type="range" id="fHoursMax" min="0" max="15000" step="250" value="15000">
-      <div class="range-info"><span>0</span><span>15000</span></div>
+      <label>Max hours</label>
+      <select id="fHoursMax" onchange="applyFilters()">
+        <option value="999999">All</option>
+        <option value="1000">&le; 1.000h (As new)</option>
+        <option value="3000">&le; 3.000h (Excellent)</option>
+        <option value="5000">&le; 5.000h (Good)</option>
+        <option value="8000">&le; 8.000h (Fair)</option>
+        <option value="10000">&le; 10.000h</option>
+      </select>
     </div>
     <div class="fg">
       <label>Source</label>
@@ -445,10 +461,7 @@
       <div class="cb-row"><input type="checkbox" id="sTruck" checked> TruckScout24</div>
       <div class="cb-row"><input type="checkbox" id="sSample" checked> Sample</div>
     </div>
-    <div class="fg">
-      <label>Default offer (margin)</label>
-      <input type="number" id="defOffer" value="12000">
-    </div>
+    <input type="hidden" id="defOffer" value="12000">
     <button class="btn-s btn-s-g" style="width:100%;" onclick="clearFilters()">Clear All</button>
 
     <div class="side-sep">
@@ -782,9 +795,9 @@ function populateModels() {
 }
 
 function applyFilters() {
-  const yMin=+$('fYearMin').value, yMax=+$('fYearMax').value;
-  const pMin=+$('fPriceMin').value, pMax=+$('fPriceMax').value;
-  const hMin=+$('fHoursMin').value, hMax=+$('fHoursMax').value;
+  const yearAfter = +$('fYearAfter').value;
+  const priceMax = +$('fPriceMax').value;
+  const hoursMax = +$('fHoursMax').value;
   const selM = [...$('fModel').selectedOptions].map(o=>o.value);
   const sM=$('sMascus').checked, sT=$('sTruck').checked, sS=$('sSample').checked;
   const q = $('fSearch').value.trim().toLowerCase();
@@ -793,9 +806,9 @@ function applyFilters() {
 
   filtered = base.filter(l => {
     if (selM.length && !selM.includes(l.model)) return false;
-    if (l.year<yMin || l.year>yMax) return false;
-    if (l.price<pMin || l.price>pMax) return false;
-    if (l.hours<hMin || l.hours>hMax) return false;
+    if (yearAfter > 0 && l.year < yearAfter) return false;
+    if (l.price > priceMax) return false;
+    if (l.hours > hoursMax) return false;
     if (l.source==='mascus' && !sM) return false;
     if (l.source==='truckscout24' && !sT) return false;
     if (l.source==='sample' && !sS) return false;
@@ -809,29 +822,20 @@ function applyFilters() {
 }
 
 function clearFilters() {
-  $('fYearMin').value=1990; $('fYearMax').value=2026;
-  $('fPriceMin').value=0; $('fPriceMax').value=50000;
-  $('fHoursMin').value=0; $('fHoursMax').value=15000;
+  $('fYearAfter').value='0';
+  $('fPriceMax').value='999999';
+  $('fHoursMax').value='999999';
   $('sMascus').checked=true; $('sTruck').checked=true; $('sSample').checked=true;
   $('fSearch').value='';
   [...$('fModel').options].forEach(o=>o.selected=false);
-  updateLabels(); applyFilters();
+  applyFilters();
 }
 
-function updateLabels() {
-  $('lYear').textContent = $('fYearMin').value+'-'+$('fYearMax').value;
-  const p1=+$('fPriceMin').value, p2=+$('fPriceMax').value;
-  $('lPrice').textContent = (p1/1000|0)+'k-'+(p2/1000|0)+'k';
-  $('lHours').textContent = $('fHoursMin').value+'-'+$('fHoursMax').value;
-}
+function updateLabels() {} // dropdowns are self-explanatory
 
 // Wire filter inputs
-['fYearMin','fYearMax','fPriceMin','fPriceMax','fHoursMin','fHoursMax'].forEach(id => {
-  $(id).addEventListener('input', ()=>{ updateLabels(); applyFilters(); });
-});
 ['sMascus','sTruck','sSample'].forEach(id => $(id).addEventListener('change', applyFilters));
 $('fModel').addEventListener('change', applyFilters);
-$('defOffer').addEventListener('input', ()=>{ saveLS(); renderTable(); });
 
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // CONDITION + RESALE
@@ -1157,12 +1161,9 @@ function copyWA() {
 function updateURL() {
   const p = new URLSearchParams();
   if (currentBrand!=='toyota') p.set('brand', currentBrand);
-  if (+$('fYearMin').value!==1990) p.set('yMin', $('fYearMin').value);
-  if (+$('fYearMax').value!==2026) p.set('yMax', $('fYearMax').value);
-  if (+$('fPriceMin').value!==0) p.set('pMin', $('fPriceMin').value);
-  if (+$('fPriceMax').value!==50000) p.set('pMax', $('fPriceMax').value);
-  if (+$('fHoursMin').value!==0) p.set('hMin', $('fHoursMin').value);
-  if (+$('fHoursMax').value!==15000) p.set('hMax', $('fHoursMax').value);
+  if ($('fYearAfter').value!=='0') p.set('year', $('fYearAfter').value);
+  if ($('fPriceMax').value!=='999999') p.set('budget', $('fPriceMax').value);
+  if ($('fHoursMax').value!=='999999') p.set('hours', $('fHoursMax').value);
   const q = $('fSearch').value.trim();
   if (q) p.set('q', q);
   const s = p.toString();
@@ -1172,14 +1173,10 @@ function updateURL() {
 function loadFromURL() {
   const p = new URLSearchParams(location.search);
   if (p.has('brand')) { $('brandSel').value=p.get('brand'); switchBrand(); }
-  if (p.has('yMin')) $('fYearMin').value=p.get('yMin');
-  if (p.has('yMax')) $('fYearMax').value=p.get('yMax');
-  if (p.has('pMin')) $('fPriceMin').value=p.get('pMin');
-  if (p.has('pMax')) $('fPriceMax').value=p.get('pMax');
-  if (p.has('hMin')) $('fHoursMin').value=p.get('hMin');
-  if (p.has('hMax')) $('fHoursMax').value=p.get('hMax');
+  if (p.has('year')) $('fYearAfter').value=p.get('year');
+  if (p.has('budget')) $('fPriceMax').value=p.get('budget');
+  if (p.has('hours')) $('fHoursMax').value=p.get('hours');
   if (p.has('q')) $('fSearch').value=p.get('q');
-  updateLabels();
 }
 
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
