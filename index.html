@@ -485,8 +485,68 @@
       <div class="tabs">
         <button class="tab on" id="tAll" onclick="setTab('all')">All Listings</button>
         <button class="tab" id="tWatch" onclick="setTab('watchlist')">Watchlist (<span id="wBadge">0</span>)</button>
+        <button class="tab" id="tFind" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;">Find Machine</button>
       </div>
     </div>
+
+    <!-- FIND MACHINE PANEL -->
+    <div id="findPanel" style="display:none; padding:1rem; background:var(--card); border-bottom:2px solid var(--green);">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:0.75rem; align-items:end;">
+        <div>
+          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">Brand</label>
+          <select id="findBrand" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+            <option value="">Any</option>
+            <option value="toyota" selected>Toyota</option>
+            <option value="nissan">Nissan</option>
+            <option value="linde">Linde</option>
+            <option value="still">Still</option>
+            <option value="jungheinrich">Jungheinrich</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">Model / keyword</label>
+          <input type="text" id="findModel" placeholder="e.g. 8FBE15T" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+        </div>
+        <div>
+          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">Year from</label>
+          <select id="findYear" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+            <option value="0">Any</option>
+            <option value="2024">2024+</option>
+            <option value="2022">2022+</option>
+            <option value="2020">2020+</option>
+            <option value="2018">2018+</option>
+            <option value="2015">2015+</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">Max price</label>
+          <input type="number" id="findPrice" placeholder="e.g. 15000" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+        </div>
+        <div>
+          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">Max hours</label>
+          <select id="findHours" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+            <option value="999999">Any</option>
+            <option value="1000">&le; 1.000h</option>
+            <option value="3000">&le; 3.000h</option>
+            <option value="5000">&le; 5.000h</option>
+            <option value="8000">&le; 8.000h</option>
+          </select>
+        </div>
+        <div>
+          <button onclick="runFind()" style="width:100%; padding:0.5rem; background:var(--green); color:white; border:none; border-radius:5px; font-weight:700; cursor:pointer; font-size:0.88rem;">Search 106 listings</button>
+        </div>
+      </div>
+      <div id="findExternal" style="margin-top:0.75rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+        <span style="font-size:0.8rem; color:var(--muted); line-height:2;">Also search:</span>
+        <button onclick="findExternal('mascus-nl')" class="btn-s btn-s-g">Mascus NL</button>
+        <button onclick="findExternal('mascus-de')" class="btn-s btn-s-g">Mascus DE</button>
+        <button onclick="findExternal('mascus-uk')" class="btn-s btn-s-g">Mascus UK</button>
+        <button onclick="findExternal('ts24')" class="btn-s btn-s-g">TruckScout24</button>
+        <button onclick="findExternal('tradus')" class="btn-s btn-s-g">Tradus</button>
+        <button onclick="findExternal('google')" class="btn-s" style="background:#4285f4;color:white;">Google</button>
+      </div>
+    </div>
+
     <div class="bulk-bar" id="bulkBar">
       <span><strong id="bulkN">0</strong> selected</span>
       <button onclick="bulkWatch()">Add to watchlist</button>
@@ -939,10 +999,49 @@ function updateInsights() {
 // TABS
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function setTab(t) {
-  activeTab = t;
+  activeTab = t === 'find' ? 'all' : t;
   $('tAll').classList.toggle('on', t==='all');
   $('tWatch').classList.toggle('on', t==='watchlist');
-  applyFilters();
+  $('tFind').classList.toggle('on', t==='find');
+  $('findPanel').style.display = t==='find' ? 'block' : 'none';
+  if (t !== 'find') applyFilters();
+  // Update search count
+  if (t === 'find') $('findPanel').querySelector('button[onclick="runFind()"]').textContent = 'Search ' + all.length + ' listings';
+}
+
+// ===== FIND MACHINE =====
+function runFind() {
+  const model = $('findModel').value.trim().toUpperCase();
+  const yearAfter = +$('findYear').value;
+  const maxPrice = +($('findPrice').value) || 999999;
+  const maxHours = +$('findHours').value;
+
+  filtered = all.filter(l => {
+    if (model && !l.model.toUpperCase().includes(model)) return false;
+    if (yearAfter > 0 && l.year < yearAfter) return false;
+    if (l.price > maxPrice) return false;
+    if (l.hours > maxHours) return false;
+    return true;
+  });
+
+  filtered.sort((a,b) => a.price - b.price);
+  renderTable();
+  updateInsights();
+  toast('Found ' + filtered.length + ' matches', filtered.length > 0 ? 'ok' : 'warn');
+}
+
+function findExternal(site) {
+  const model = $('findModel').value.trim() || '';
+  const q = 'Toyota ' + model;
+  const urls = {
+    'mascus-nl': 'https://www.mascus.nl/laden-en-lossen/heftrucks?q=' + encodeURIComponent(q),
+    'mascus-de': 'https://www.mascus.de/laden-und-lossen/gabelstapler?q=' + encodeURIComponent(q),
+    'mascus-uk': 'https://www.mascus.co.uk/loading-and-lifting/forklifts?q=' + encodeURIComponent(q),
+    'ts24': 'https://www.truckscout24.de/gebraucht/gabelstapler?q=' + encodeURIComponent(q),
+    'tradus': 'https://www.tradus.com/en/search?q=' + encodeURIComponent(q),
+    'google': 'https://www.google.com/search?q=' + encodeURIComponent(q + ' forklift price'),
+  };
+  if (urls[site]) window.open(urls[site], '_blank');
 }
 
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
