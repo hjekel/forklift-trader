@@ -486,6 +486,7 @@
         <button class="tab on" id="tAll" onclick="setTab('all')">All Listings</button>
         <button class="tab" id="tWatch" onclick="setTab('watchlist')">Watchlist (<span id="wBadge">0</span>)</button>
         <button class="tab" id="tFind" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;">Find Machine</button>
+        <button class="tab" id="tWant" onclick="setTab('want')" style="border-color:#9c27b0;color:#9c27b0;font-weight:700;">Want to Buy</button>
       </div>
     </div>
 
@@ -545,6 +546,56 @@
         <button onclick="findExternal('tradus')" class="btn-s btn-s-g">Tradus</button>
         <button onclick="findExternal('google')" class="btn-s" style="background:#4285f4;color:white;">Google</button>
       </div>
+    </div>
+
+    <!-- WANT TO BUY PANEL -->
+    <div id="wantPanel" style="display:none; padding:1rem; background:var(--card); border-bottom:2px solid #9c27b0;">
+      <h4 style="color:#9c27b0; margin-bottom:0.75rem;">Define What You're Looking For</h4>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:0.6rem; align-items:end;">
+        <div>
+          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Brand</label>
+          <select id="wantBrand" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+            <option value="">Any brand</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Model / keyword</label>
+          <input type="text" id="wantModel" placeholder="e.g. RX50-15" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+        </div>
+        <div>
+          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Year from</label>
+          <select id="wantYear" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+            <option value="0">Any</option><option value="2024">2024+</option><option value="2022">2022+</option><option value="2020">2020+</option><option value="2018">2018+</option><option value="2015">2015+</option><option value="2010">2010+</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Max hours</label>
+          <select id="wantHours" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+            <option value="999999">Any</option><option value="1000">&le; 1.000h</option><option value="3000">&le; 3.000h</option><option value="5000">&le; 5.000h</option><option value="8000">&le; 8.000h</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Max price</label>
+          <input type="number" id="wantPrice" placeholder="e.g. 15000" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+        </div>
+        <div>
+          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Region</label>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <label style="font-size:0.78rem;"><input type="checkbox" id="wantNL" checked> NL</label>
+            <label style="font-size:0.78rem;"><input type="checkbox" id="wantDE" checked> DE</label>
+            <label style="font-size:0.78rem;"><input type="checkbox" id="wantUK"> UK</label>
+            <label style="font-size:0.78rem;"><input type="checkbox" id="wantFR"> FR</label>
+          </div>
+        </div>
+        <div>
+          <button onclick="searchWant()" style="width:100%; padding:0.5rem; background:#9c27b0; color:white; border:none; border-radius:5px; font-weight:700; cursor:pointer; font-size:0.85rem;">SEARCH MARKET</button>
+        </div>
+        <div>
+          <button onclick="saveWantSpec()" style="width:100%; padding:0.5rem; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:5px; font-weight:500; cursor:pointer; font-size:0.82rem;">Save to Watchlist</button>
+        </div>
+      </div>
+      <!-- Saved specs -->
+      <div id="savedSpecs" style="margin-top:0.75rem;"></div>
     </div>
 
     <div class="bulk-bar" id="bulkBar">
@@ -857,6 +908,7 @@ function populateModels() {
 
 function applyFilters() {
   const yearAfter = +$('fYearAfter').value;
+  const brandFilter = $('brandSel').value;
   const priceMax = +$('fPriceMax').value;
   const hoursMax = +$('fHoursMax').value;
   const selM = [...$('fModel').selectedOptions].map(o=>o.value);
@@ -866,6 +918,7 @@ function applyFilters() {
   let base = activeTab === 'watchlist' ? all.filter(l=>watchlist.has(l.id)) : all;
 
   filtered = base.filter(l => {
+    if (brandFilter !== 'all' && (l.brand||'toyota') !== brandFilter) return false;
     if (selM.length && !selM.includes(l.model)) return false;
     if (yearAfter > 0 && l.year < yearAfter) return false;
     if (l.price > priceMax) return false;
@@ -1005,7 +1058,9 @@ function setTab(t) {
   $('tAll').classList.toggle('on', t==='all');
   $('tWatch').classList.toggle('on', t==='watchlist');
   $('tFind').classList.toggle('on', t==='find');
+  if ($('tWant')) $('tWant').classList.toggle('on', t==='want');
   $('findPanel').style.display = t==='find' ? 'block' : 'none';
+  if ($('wantPanel')) $('wantPanel').style.display = t==='want' ? 'block' : 'none';
   if (t !== 'find') applyFilters();
   // Update search count
   if (t === 'find') $('findPanel').querySelector('button[onclick="runFind()"]').textContent = 'Search ' + all.length + ' listings';
@@ -1416,6 +1471,123 @@ function applyLang() {
 }
 
 
+
+// ===== WANT TO BUY =====
+function populateWantBrands() {
+  var brands = {};
+  all.forEach(function(l) { if(l.brand) brands[l.brand]=1; });
+  var sel = $('wantBrand');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">Any brand</option>';
+  Object.keys(brands).sort().forEach(function(b) {
+    sel.innerHTML += '<option value="'+b+'">'+b.charAt(0).toUpperCase()+b.slice(1)+'</option>';
+  });
+}
+
+function searchWant() {
+  var brand = $('wantBrand').value;
+  var model = ($('wantModel').value||'').trim().toUpperCase();
+  var yearMin = +$('wantYear').value;
+  var maxPrice = +($('wantPrice').value) || 999999;
+  var maxHours = +$('wantHours').value;
+  var regions = [];
+  if ($('wantNL').checked) regions.push('NL');
+  if ($('wantDE').checked) regions.push('DE');
+  if ($('wantUK').checked) regions.push('UK');
+  if ($('wantFR').checked) regions.push('FR');
+
+  filtered = all.filter(function(l) {
+    if (brand && (l.brand||'') !== brand) return false;
+    if (model && !(l.model||'').toUpperCase().includes(model)) return false;
+    if (yearMin > 0 && l.year < yearMin) return false;
+    if (l.price > maxPrice) return false;
+    if (l.hours > maxHours) return false;
+    if (regions.length > 0 && !regions.includes(l.region)) return false;
+    return true;
+  });
+  filtered.sort(function(a,b) { return a.price - b.price; });
+  renderTable();
+  updateInsights();
+  var msg = 'Found ' + filtered.length + ' matches';
+  if (brand) msg += ' for ' + brand;
+  if (model) msg += ' ' + model;
+  toast(msg, filtered.length > 0 ? 'ok' : 'warn');
+}
+
+// Saved specs (localStorage)
+var savedSpecs = JSON.parse(localStorage.getItem('ff_specs') || '[]');
+
+function saveWantSpec() {
+  var spec = {
+    id: 'spec-' + Date.now(),
+    brand: $('wantBrand').value,
+    model: $('wantModel').value.trim(),
+    yearMin: +$('wantYear').value,
+    priceMax: +($('wantPrice').value) || 0,
+    hoursMax: +$('wantHours').value,
+    regions: [],
+    createdAt: new Date().toISOString().split('T')[0]
+  };
+  if ($('wantNL').checked) spec.regions.push('NL');
+  if ($('wantDE').checked) spec.regions.push('DE');
+  if ($('wantUK').checked) spec.regions.push('UK');
+  if ($('wantFR').checked) spec.regions.push('FR');
+
+  if (!spec.brand && !spec.model) { toast('Fill in at least brand or model', 'warn'); return; }
+  savedSpecs.push(spec);
+  localStorage.setItem('ff_specs', JSON.stringify(savedSpecs));
+  renderSavedSpecs();
+  toast('Spec saved to watchlist', 'ok');
+}
+
+function deleteSpec(id) {
+  savedSpecs = savedSpecs.filter(function(s) { return s.id !== id; });
+  localStorage.setItem('ff_specs', JSON.stringify(savedSpecs));
+  renderSavedSpecs();
+}
+
+function loadSpec(id) {
+  var spec = savedSpecs.find(function(s) { return s.id === id; });
+  if (!spec) return;
+  $('wantBrand').value = spec.brand || '';
+  $('wantModel').value = spec.model || '';
+  $('wantYear').value = spec.yearMin || '0';
+  $('wantPrice').value = spec.priceMax || '';
+  $('wantHours').value = spec.hoursMax || '999999';
+  $('wantNL').checked = spec.regions.includes('NL');
+  $('wantDE').checked = spec.regions.includes('DE');
+  $('wantUK').checked = (spec.regions||[]).includes('UK');
+  $('wantFR').checked = (spec.regions||[]).includes('FR');
+  searchWant();
+}
+
+function countMatches(spec) {
+  return all.filter(function(l) {
+    if (spec.brand && (l.brand||'') !== spec.brand) return false;
+    if (spec.model && !(l.model||'').toUpperCase().includes(spec.model.toUpperCase())) return false;
+    if (spec.yearMin > 0 && l.year < spec.yearMin) return false;
+    if (spec.priceMax > 0 && l.price > spec.priceMax) return false;
+    if (spec.hoursMax < 999999 && l.hours > spec.hoursMax) return false;
+    if (spec.regions && spec.regions.length > 0 && !spec.regions.includes(l.region)) return false;
+    return true;
+  }).length;
+}
+
+function renderSavedSpecs() {
+  var el = $('savedSpecs');
+  if (!el || !savedSpecs.length) { if(el) el.innerHTML = ''; return; }
+  el.innerHTML = '<h4 style="font-size:0.82rem; color:var(--muted); margin-bottom:0.4rem;">Saved Searches (' + savedSpecs.length + ')</h4>' +
+    savedSpecs.map(function(s) {
+      var matches = countMatches(s);
+      var label = (s.brand ? s.brand.charAt(0).toUpperCase()+s.brand.slice(1) : 'Any') + ' ' + (s.model || 'Any model');
+      if (s.priceMax > 0) label += ' max ' + String.fromCharCode(8364) + s.priceMax.toLocaleString();
+      return '<div style="display:flex; justify-content:space-between; align-items:center; padding:0.35rem 0.5rem; background:var(--bg); border-radius:5px; margin:0.25rem 0; border-left:3px solid #9c27b0; font-size:0.8rem;">' +
+        '<span style="cursor:pointer;" onclick="loadSpec(\'' + s.id + '\')">' + label + ' <strong style="color:#9c27b0;">(' + matches + ' matches)</strong></span>' +
+        '<button onclick="deleteSpec(\'' + s.id + '\')" style="background:none;border:none;cursor:pointer;color:var(--red);font-size:0.85rem;">x</button></div>';
+    }).join('');
+}
+
+
 document.addEventListener('DOMContentLoaded', ()=>{
   loadLS();
   updateWantedUI();
@@ -1424,6 +1596,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
   updateDarkBtn();
   applyLang();
   if(all.length) afterLoad();
+  populateWantBrands();
+  renderSavedSpecs();
 });
 </script>
 </body>
