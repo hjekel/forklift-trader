@@ -23,20 +23,8 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4
 
-      - name: Run Mascus NL scraper
-        run: cd scrapers && python mascus_toyota.py --pages 5
-        continue-on-error: true
-
-      - name: Run Mascus DE scraper
-        run: cd scrapers && python mascus_de.py --pages 5
-        continue-on-error: true
-
-      - name: Run TruckScout24 scraper
-        run: cd scrapers && python truckscout24_toyota.py --pages 3
-        continue-on-error: true
-
-      - name: Merge listings
-        run: python -X utf8 utils/merge_listings.py
+      - name: Run universal scraper (all brands, all sources)
+        run: cd scrapers && python scrape_all.py --pages 5
         continue-on-error: true
 
       - name: Convert and embed data
@@ -44,32 +32,39 @@ jobs:
           python3 << 'PYEOF'
           import csv, json, re, os
 
-          # Check if CSV exists
           csv_path = 'output/all_listings.csv'
           if not os.path.exists(csv_path):
-              print('No CSV found - scrapers may have failed. Keeping existing data.')
+              print('No CSV found - keeping existing data.')
               exit(0)
 
-          # CSV to JSON
           with open(csv_path, 'r') as f:
               rows = list(csv.DictReader(f))
           if len(rows) == 0:
               print('Empty CSV - keeping existing data.')
               exit(0)
+
           for r in rows:
-              r['year']=int(r['year']); r['hours']=int(r['hours']); r['price']=int(r['price'])
-              r.setdefault('url',''); r.setdefault('photo','')
+              r['year']=int(r.get('year',0)); r['hours']=int(r.get('hours',0)); r['price']=int(r.get('price',0))
+              r.setdefault('url',''); r.setdefault('photo',''); r.setdefault('brand','unknown')
+
           with open('output/merged_listings.json', 'w') as f:
               json.dump(rows, f, ensure_ascii=False)
 
-          # Embed in HTML
           j = json.dumps(rows, ensure_ascii=False)
           with open('index.html', 'r', encoding='utf-8-sig') as f:
               html = f.read()
           html = re.sub(r'let all = \[.*?\], filtered', 'let all = ' + j + ', filtered', html, count=1, flags=re.DOTALL)
           with open('index.html', 'w', encoding='utf-8') as f:
               f.write(html)
-          print(f'Embedded {len(rows)} listings into index.html')
+
+          # Summary
+          brands = {}
+          for r in rows:
+              b = r.get('brand','unknown')
+              brands[b] = brands.get(b,0) + 1
+          print(f'Embedded {len(rows)} listings:')
+          for b,c in sorted(brands.items(), key=lambda x:-x[1]):
+              print(f'  {b}: {c}')
           PYEOF
 
       - name: Commit and push
@@ -77,4 +72,4 @@ jobs:
           git config user.name "ForkFlip Bot"
           git config user.email "bot@forkflip.app"
           git add index.html output/ -f
-          git diff --cached --quiet && echo "No changes to commit" || (git commit -m "data: daily scrape $(date +%Y-%m-%d)" && git push)
+          git diff --cached --quiet && echo "No changes to commit" || (git commit -m "data: scrape $(date +%Y-%m-%d) - multi-brand" && git push)
