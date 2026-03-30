@@ -395,10 +395,10 @@
     <div class="ic-value" id="iHot">0</div>
     <div class="ic-sub">5+ listings = negotiate</div>
   </div>
-  <div class="insight-card rare" onclick="cardClick('rare')">
-    <div class="ic-label">Rare Finds</div>
+  <div class="insight-card rare" onclick="cardClick('budget')">
+    <div class="ic-label">Under &euro;10k</div>
     <div class="ic-value" id="iRare">0</div>
-    <div class="ic-sub">1 listing only = act fast</div>
+    <div class="ic-sub">Budget machines</div>
   </div>
   <div class="insight-card" onclick="setTab('watchlist')">
     <div class="ic-label">Watchlist</div>
@@ -480,7 +480,10 @@
   <!-- MAIN -->
   <div class="main">
     <div class="toolbar">
-      <div class="info">Showing <strong id="showN">0</strong> of <strong id="totalN">0</strong></div>
+      <div class="info">
+        Showing <strong id="showN">0</strong> of <strong id="totalN">0</strong>
+        <button onclick="resetAll()" style="margin-left:0.5rem; padding:0.2rem 0.6rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text); cursor:pointer; font-size:0.78rem;">Reset</button>
+      </div>
       <div class="tabs">
         <button class="tab on" id="tAll" onclick="setTab('all')">All Listings</button>
         <button class="tab" id="tWatch" onclick="setTab('watchlist')">Watchlist (<span id="wBadge">0</span>)</button>
@@ -1037,15 +1040,18 @@ function updateInsights() {
     const avg = Math.round(filtered.reduce((s,l)=>s+l.price,0)/filtered.length);
     $('iAvg').textContent = '\u20AC'+avg.toLocaleString();
 
-    const sorted = [...filtered].sort((a,b)=>a.price-b.price);
-    const best = sorted[0];
-    $('iBest').textContent = '\u20AC'+best.price.toLocaleString();
-    $('iBestSub').textContent = best.model+' ('+best.year+') \u2212\u20AC'+(avg-best.price).toLocaleString()+' vs avg';
+    // Best Deals: count listings below model average
+    var mavg2 = {}; var mcnt2 = {};
+    all.forEach(function(l) { mavg2[l.model]=(mavg2[l.model]||0)+l.price; mcnt2[l.model]=(mcnt2[l.model]||0)+1; });
+    Object.keys(mavg2).forEach(function(m) { mavg2[m]=mavg2[m]/mcnt2[m]; });
+    var dealCount = all.filter(function(l) { return mcnt2[l.model]>1 && l.price < mavg2[l.model]*0.85; }).length;
+    $('iBest').textContent = dealCount;
+    $('iBestSub').textContent = '15%+ under model avg';
 
     const mc = {};
     all.forEach(l => { mc[l.model]=(mc[l.model]||0)+1; });
     $('iHot').textContent = Object.values(mc).filter(c=>c>=5).length;
-    $('iRare').textContent = Object.values(mc).filter(c=>c===1).length;
+    $('iRare').textContent = all.filter(l=>l.price<10000).length;
     $('iAvgSub').textContent = 'from '+filtered.length+' listings';
   } else {
     $('iAvg').innerHTML = '&mdash;'; $('iBest').innerHTML = '&mdash;';
@@ -1480,16 +1486,21 @@ function cardClick(type) {
     $('showN').textContent = hotModels.length;
     toast(hotModels.length + ' hot models (5+ listings each)','ok');
   }
-  else if (type === 'rare') {
-    // Models with exactly 1 listing only
-    var mc2 = {};
-    all.forEach(function(l) { mc2[l.model] = (mc2[l.model]||0) + 1; });
-    var rareModels = Object.keys(mc2).filter(function(m) { return mc2[m] === 1; });
-    filtered = all.filter(function(l) { return rareModels.indexOf(l.model) >= 0; });
+  else if (type === 'budget') {
+    // All listings under €10k
+    filtered = all.filter(function(l) { return l.price < 10000; });
     filtered.sort(function(a,b) { return a.price - b.price; });
     renderTable(); updateInsights();
-    toast(filtered.length + ' unique models (1 listing each)','ok');
+    toast(filtered.length + ' machines under \u20AC10.000','ok');
   }
+}
+
+// ===== RESET ALL =====
+function resetAll() {
+  $('brandSel').value = 'all';
+  clearFilters();
+  setTab('all');
+  toast('Reset - showing all ' + all.length + ' listings', 'ok');
 }
 
 // ===== HOT MODEL DRILL DOWN =====
