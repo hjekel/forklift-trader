@@ -326,6 +326,18 @@
     footer { text-align: center; padding: 0.75rem; color: var(--muted); font-size: 0.75rem; background: var(--card); border-top: 1px solid var(--border); }
 
     .hidden { display: none; }
+    [data-tip] { position: relative; }
+    [data-tip]:hover::after {
+      content: attr(data-tip); position: absolute; bottom: calc(100% + 8px); left: 50%;
+      transform: translateX(-50%); background: var(--dark); color: white; padding: 0.4rem 0.7rem;
+      border-radius: 6px; font-size: 0.75rem; white-space: nowrap; z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3); pointer-events: none;
+    }
+    [data-tip]:hover::before {
+      content: ''; position: absolute; bottom: calc(100% + 2px); left: 50%;
+      transform: translateX(-50%); border: 5px solid transparent;
+      border-top-color: var(--dark); z-index: 100;
+    }
     .sort-asc::after { content: ' \25B2'; font-size: 0.6rem; }
     .sort-desc::after { content: ' \25BC'; font-size: 0.6rem; }
     .lang-btn { font-size: 0.78rem; padding: 0.35rem 0.5rem !important; background: rgba(255,255,255,0.12) !important; border: 1px solid rgba(255,255,255,0.25) !important; cursor: pointer; color: white; border-radius: 6px; }
@@ -363,44 +375,44 @@
       <option value="still">Still</option>
       <option value="jungheinrich">Jungheinrich</option>
     </select>
-    <button class="btn-load" onclick="loadMergedData()">Load Data</button>
-    <button onclick="loadSampleData()">Sample</button>
-    <button onclick="document.getElementById('csvIn').click()">Import</button>
+    <button class="btn-load" onclick="loadMergedData()" data-tip="Refresh embedded data">Load Data</button>
+    <button onclick="loadSampleData()" data-tip="Load 5 test listings">Sample</button>
+    <button onclick="document.getElementById('csvIn').click()" data-tip="Upload your own CSV">Import</button>
     <input type="file" id="csvIn" accept=".csv" class="hidden" onchange="importCSV(this)">
-    <button class="lang-btn" onclick="toggleLang()" id="langBtn" title="Switch language">EN</button>
-    <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode" id="darkBtn">Dark</button>
-    <button class="lang-btn" onclick="showHelp()" title="Help">?</button>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn" data-tip="Switch language NL/EN" title="Switch language">EN</button>
+    <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode" id="darkBtn" data-tip="Toggle dark/light mode">Dark</button>
+    <button class="lang-btn" onclick="showHelp()" title="Help" data-tip="Help / user guide">?</button>
   </div>
 </div>
 
 <!-- ÔòÉÔòÉÔòÉ INSIGHT CARDS ÔòÉÔòÉÔòÉ -->
 <div class="insights-bar">
-  <div class="insight-card" onclick="cardClick('total')">
+  <div class="insight-card" onclick="cardClick('total')" data-tip="Click to reset all filters">
     <div class="ic-label">Listings</div>
     <div class="ic-value"><span id="iFiltered">0</span></div>
     <div class="ic-sub"><span id="iTotal">0</span> total &bull; <span id="iModels">0</span> models</div>
   </div>
-  <div class="insight-card" onclick="cardClick('avg')">
+  <div class="insight-card" onclick="cardClick('avg')" data-tip="Average price of visible listings">
     <div class="ic-label">Market Average</div>
     <div class="ic-value" id="iAvg">&mdash;</div>
     <div class="ic-sub" id="iAvgSub">Load data</div>
   </div>
-  <div class="insight-card deal" onclick="cardClick('deal')">
+  <div class="insight-card deal" onclick="cardClick('deal')" data-tip="Listings 15%+ below their model average">
     <div class="ic-label">Best Deals</div>
     <div class="ic-value" id="iBest">&mdash;</div>
     <div class="ic-sub" id="iBestSub">&nbsp;</div>
   </div>
-  <div class="insight-card hot" onclick="cardClick('hot')">
+  <div class="insight-card hot" onclick="cardClick('hot')" data-tip="Models with 5+ listings — more room to negotiate">
     <div class="ic-label">Hot Models</div>
     <div class="ic-value" id="iHot">0</div>
     <div class="ic-sub">5+ listings = negotiate</div>
   </div>
-  <div class="insight-card rare" onclick="cardClick('budget')">
+  <div class="insight-card rare" onclick="cardClick('budget')" data-tip="All machines under 10.000 euro">
     <div class="ic-label">Under &euro;10k</div>
     <div class="ic-value" id="iRare">0</div>
     <div class="ic-sub">Budget machines</div>
   </div>
-  <div class="insight-card" onclick="setTab('watchlist')">
+  <div class="insight-card" onclick="setTab('watchlist')" data-tip="Your saved favorites">
     <div class="ic-label">Watchlist</div>
     <div class="ic-value" id="iWatch">0</div>
     <div class="ic-sub">Hot deals &lt;18k: <span id="iDeals">0</span></div>
@@ -485,10 +497,10 @@
         <button onclick="resetAll()" style="margin-left:0.5rem; padding:0.2rem 0.6rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text); cursor:pointer; font-size:0.78rem;">Reset</button>
       </div>
       <div class="tabs">
-        <button class="tab on" id="tAll" onclick="setTab('all')">All Listings</button>
-        <button class="tab" id="tWatch" onclick="setTab('watchlist')">Watchlist (<span id="wBadge">0</span>)</button>
-        <button class="tab" id="tFind" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;">Find Machine</button>
-        <button class="tab" id="tWant" onclick="setTab('want')" style="border-color:#9c27b0;color:#9c27b0;font-weight:700;">Want to Buy</button>
+        <button class="tab on" id="tAll" onclick="setTab('all')" data-tip="Show all listings">All Listings</button>
+        <button class="tab" id="tWatch" onclick="setTab('watchlist')" data-tip="Your saved favorites" data-tip="Your saved favorites">Watchlist (<span id="wBadge">0</span>)</button>
+        <button class="tab" id="tFind" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;" data-tip="Search by specs across all data">Find Machine</button>
+        <button class="tab" id="tWant" onclick="setTab('want')" style="border-color:#9c27b0;color:#9c27b0;font-weight:700;" data-tip="Define what you need, find matches">Want to Buy</button>
       </div>
     </div>
 
