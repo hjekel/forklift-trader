@@ -376,9 +376,9 @@
 <!-- ÔòÉÔòÉÔòÉ INSIGHT CARDS ÔòÉÔòÉÔòÉ -->
 <div class="insights-bar">
   <div class="insight-card" onclick="cardClick('total')">
-    <div class="ic-label">Total / Filtered</div>
-    <div class="ic-value"><span id="iTotal">0</span> / <span id="iFiltered">0</span></div>
-    <div class="ic-sub" id="iModels">0 models</div>
+    <div class="ic-label">Listings</div>
+    <div class="ic-value"><span id="iFiltered">0</span></div>
+    <div class="ic-sub"><span id="iTotal">0</span> total &bull; <span id="iModels">0</span> models</div>
   </div>
   <div class="insight-card" onclick="cardClick('avg')">
     <div class="ic-label">Market Average</div>
@@ -398,7 +398,7 @@
   <div class="insight-card rare" onclick="cardClick('rare')">
     <div class="ic-label">Rare Finds</div>
     <div class="ic-value" id="iRare">0</div>
-    <div class="ic-sub">&le;2 listings = act fast</div>
+    <div class="ic-sub">1 listing only = act fast</div>
   </div>
   <div class="insight-card" onclick="setTab('watchlist')">
     <div class="ic-label">Watchlist</div>
@@ -1029,7 +1029,7 @@ function updateInsights() {
   $('iFiltered').textContent = filtered.length;
   $('showN').textContent = filtered.length;
   $('totalN').textContent = all.length;
-  $('iModels').textContent = new Set(filtered.map(l=>l.model)).size + ' models';
+  $('iModels').textContent = new Set(filtered.map(l=>l.model)).size;
   $('iWatch').textContent = watchlist.size;
   $('wBadge').textContent = watchlist.size;
   $('iDeals').textContent = filtered.filter(l=>l.price<18000).length;
@@ -1046,7 +1046,7 @@ function updateInsights() {
     const mc = {};
     all.forEach(l => { mc[l.model]=(mc[l.model]||0)+1; });
     $('iHot').textContent = Object.values(mc).filter(c=>c>=5).length;
-    $('iRare').textContent = Object.values(mc).filter(c=>c<=2).length;
+    $('iRare').textContent = Object.values(mc).filter(c=>c===1).length;
     $('iAvgSub').textContent = 'from '+filtered.length+' listings';
   } else {
     $('iAvg').innerHTML = '&mdash;'; $('iBest').innerHTML = '&mdash;';
@@ -1423,36 +1423,61 @@ function cardClick(type) {
 
   if (type === 'total') {
     clearFilters();
-    toast('All filters cleared - showing all ' + all.length + ' listings','ok');
+    toast('Showing all ' + all.length + ' listings','ok');
   }
   else if (type === 'deal') {
-    // Top 25 cheapest listings
-    filtered = all.slice().sort(function(a,b){return a.price-b.price;}).slice(0, 25);
+    // Best deals = furthest below their model's average price
+    var mavg = {};
+    var mcnt = {};
+    all.forEach(function(l) {
+      mavg[l.model] = (mavg[l.model]||0) + l.price;
+      mcnt[l.model] = (mcnt[l.model]||0) + 1;
+    });
+    Object.keys(mavg).forEach(function(m) { mavg[m] = mavg[m] / mcnt[m]; });
+    var scored = all.map(function(l) {
+      var avg = mavg[l.model] || l.price;
+      return { listing: l, discount: avg - l.price, pct: mcnt[l.model] > 1 ? Math.round(((avg - l.price) / avg) * 100) : 0 };
+    });
+    scored.sort(function(a,b) { return b.discount - a.discount; });
+    filtered = scored.filter(function(s) { return s.discount > 0; }).slice(0, 30).map(function(s) { return s.listing; });
     renderTable(); updateInsights();
-    toast('Top 25 best deals (cheapest first)','ok');
+    toast('Top 30 deals (biggest discount vs model average)','ok');
   }
   else if (type === 'avg') {
-    filtered = all.slice().sort(function(a,b){return a.price-b.price;});
+    filtered = all.slice().sort(function(a,b) { return a.price - b.price; });
     renderTable(); updateInsights();
-    toast('All ' + filtered.length + ' listings sorted by price','ok');
+    toast('All ' + filtered.length + ' sorted by price','ok');
   }
   else if (type === 'hot') {
-    // Only models with 5+ listings
-    var mc = {}; all.forEach(function(l){mc[l.model]=(mc[l.model]||0)+1;});
-    var hotModels = Object.keys(mc).filter(function(m){return mc[m]>=5;});
-    filtered = all.filter(function(l){return hotModels.indexOf(l.model)>=0;});
-    filtered.sort(function(a,b){return a.price-b.price;});
+    // Show summary: one row per hot model (5+ listings), showing count + avg price
+    var mc = {};
+    var mprices = {};
+    all.forEach(function(l) {
+      mc[l.model] = (mc[l.model]||0) + 1;
+      if (!mprices[l.model]) mprices[l.model] = [];
+      mprices[l.model].push(l.price);
+    });
+    var hotModels = Object.keys(mc).filter(function(m) { return mc[m] >= 5; });
+    hotModels.sort(function(a,b) { return mc[b] - mc[a]; });
+    // Show all listings for hot models, grouped
+    filtered = [];
+    hotModels.forEach(function(m) {
+      var items = all.filter(function(l) { return l.model === m; });
+      items.sort(function(a,b) { return a.price - b.price; });
+      filtered = filtered.concat(items);
+    });
     renderTable(); updateInsights();
-    toast(filtered.length + ' listings in ' + hotModels.length + ' hot models','ok');
+    toast(hotModels.length + ' hot models, ' + filtered.length + ' listings total','ok');
   }
   else if (type === 'rare') {
-    // Direct filter: only models with 1-2 listings
-    var mc2 = {}; all.forEach(function(l){mc2[l.model]=(mc2[l.model]||0)+1;});
-    var rareModels = Object.keys(mc2).filter(function(m){return mc2[m]<=2;});
-    filtered = all.filter(function(l){return rareModels.indexOf(l.model)>=0;});
-    filtered.sort(function(a,b){return a.price-b.price;});
+    // Models with exactly 1 listing only
+    var mc2 = {};
+    all.forEach(function(l) { mc2[l.model] = (mc2[l.model]||0) + 1; });
+    var rareModels = Object.keys(mc2).filter(function(m) { return mc2[m] === 1; });
+    filtered = all.filter(function(l) { return rareModels.indexOf(l.model) >= 0; });
+    filtered.sort(function(a,b) { return a.price - b.price; });
     renderTable(); updateInsights();
-    toast('Showing ' + rareModels.length + ' rare models (' + filtered.length + ' listings)','ok');
+    toast(filtered.length + ' unique models (1 listing each)','ok');
   }
 }
 
