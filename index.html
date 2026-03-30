@@ -593,6 +593,9 @@
         <div>
           <button onclick="saveWantSpec()" style="width:100%; padding:0.5rem; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:5px; font-weight:500; cursor:pointer; font-size:0.82rem;">Save to Watchlist</button>
         </div>
+        <div>
+          <button onclick="resetWant()" style="width:100%; padding:0.5rem; background:var(--red); color:white; border:none; border-radius:5px; font-weight:500; cursor:pointer; font-size:0.82rem;">Reset</button>
+        </div>
       </div>
       <!-- Saved specs -->
       <div id="savedSpecs" style="margin-top:0.75rem;"></div>
@@ -1482,6 +1485,19 @@ function populateWantBrands() {
   Object.keys(brands).sort().forEach(function(b) {
     sel.innerHTML += '<option value="'+b+'">'+b.charAt(0).toUpperCase()+b.slice(1)+'</option>';
   });
+}
+
+function resetWant() {
+  $('wantBrand').value='';
+  $('wantModel').value='';
+  $('wantYear').value='0';
+  $('wantHours').value='999999';
+  $('wantPrice').value='';
+  $('wantNL').checked=true; $('wantDE').checked=true; $('wantUK').checked=false; $('wantFR').checked=false;
+  filtered = all.slice();
+  renderTable();
+  updateInsights();
+  toast('Search reset — showing all ' + all.length + ' listings', 'ok');
 }
 
 function searchWant() {
