@@ -35,11 +35,11 @@ MIN_DELAY = 2
 MAX_DELAY = 5
 
 BRANDS = {
-    'toyota':       { 'slug_nl': 'toyota', 'slug_de': 'toyota', 'slug_ts24': 'toyota' },
-    'linde':        { 'slug_nl': 'linde', 'slug_de': 'linde', 'slug_ts24': 'linde' },
-    'still':        { 'slug_nl': 'still', 'slug_de': 'still', 'slug_ts24': 'still' },
-    'jungheinrich': { 'slug_nl': 'jungheinrich', 'slug_de': 'jungheinrich', 'slug_ts24': 'jungheinrich' },
-    'manitou':      { 'slug_nl': 'manitou', 'slug_de': 'manitou', 'slug_ts24': 'manitou' },
+    'toyota':       { 'slug_nl': 'toyota', 'slug_de': 'toyota', 'slug_uk': 'toyota', 'slug_fr': 'toyota', 'slug_ts24': 'toyota' },
+    'linde':        { 'slug_nl': 'linde', 'slug_de': 'linde', 'slug_uk': 'linde', 'slug_fr': 'linde', 'slug_ts24': 'linde' },
+    'still':        { 'slug_nl': 'still', 'slug_de': 'still', 'slug_uk': 'still', 'slug_fr': 'still', 'slug_ts24': 'still' },
+    'jungheinrich': { 'slug_nl': 'jungheinrich', 'slug_de': 'jungheinrich', 'slug_uk': 'jungheinrich', 'slug_fr': 'jungheinrich', 'slug_ts24': 'jungheinrich' },
+    'manitou':      { 'slug_nl': 'manitou', 'slug_de': 'manitou', 'slug_uk': 'manitou', 'slug_fr': 'manitou', 'slug_ts24': 'manitou' },
 }
 
 SOURCES = {
@@ -53,9 +53,24 @@ SOURCES = {
         'region': 'DE',
         'source': 'mascus',
     },
-    'truckscout24': {
+    'mascus_uk': {
+        'base': 'https://www.mascus.co.uk/loading-and-lifting/forklifts/{brand}?page={page}',
+        'region': 'UK',
+        'source': 'mascus',
+    },
+    'mascus_fr': {
+        'base': 'https://www.mascus.fr/chargement-et-levage/chariots-elevateurs/{brand}?page={page}',
+        'region': 'FR',
+        'source': 'mascus',
+    },
+    'truckscout24_de': {
         'base': 'https://www.truckscout24.de/gebraucht/gabelstapler/{brand}?currentpage={page}',
         'region': 'DE',
+        'source': 'truckscout24',
+    },
+    'truckscout24_nl': {
+        'base': 'https://www.truckscout24.nl/gebruikt/heftrucks/{brand}?currentpage={page}',
+        'region': 'NL',
         'source': 'truckscout24',
     },
 }
@@ -146,7 +161,7 @@ class ForkFlipScraper:
         return None
 
     def _extract_price(self, text):
-        for pattern in [r'([\d.]+)\s*EUR', r'EUR\s*([\d.,]+)', r'([\d.,]+)\s*\xe2\x82\xac', r'\xe2\x82\xac\s*([\d.,]+)']:
+        for pattern in [r'([\d.]+)\s*EUR', r'EUR\s*([\d.,]+)', r'([\d.,]+)\s*\xe2\x82\xac', r'\xe2\x82\xac\s*([\d.,]+)', r'([\d.,]+)\s*GBP', r'GBP\s*([\d.,]+)', r'\xc2\xa3\s*([\d.,]+)', r'([\d.,]+)\s*\xc2\xa3']:
             match = re.search(pattern, text)
             if match:
                 price_str = match.group(1).replace('.', '').replace(',', '')
@@ -174,7 +189,12 @@ class ForkFlipScraper:
     def scrape_mascus(self, brand, source_key, max_pages=5):
         """Scrape Mascus (NL or DE) for a given brand."""
         src = SOURCES[source_key]
-        brand_slug = BRANDS[brand].get('slug_nl' if 'nl' in source_key else 'slug_de', brand)
+        # Pick correct slug for this source
+        slug_key = 'slug_nl'
+        if '_de' in source_key: slug_key = 'slug_de'
+        elif '_uk' in source_key: slug_key = 'slug_uk'
+        elif '_fr' in source_key: slug_key = 'slug_fr'
+        brand_slug = BRANDS[brand].get(slug_key, brand)
         region = src['region']
         prefix = f'{brand.upper()}-{region}'
 
@@ -234,13 +254,15 @@ class ForkFlipScraper:
             log.info(f'[{prefix}] Page {page}: {page_count} listings')
             self._delay()
 
-    def scrape_truckscout24(self, brand, max_pages=3):
-        """Scrape TruckScout24 for a given brand."""
+    def scrape_truckscout24(self, brand, source_key='truckscout24_de', max_pages=3):
+        """Scrape TruckScout24 (DE or NL) for a given brand."""
+        src = SOURCES[source_key]
         brand_slug = BRANDS[brand].get('slug_ts24', brand)
-        prefix = f'{brand.upper()}-TS24'
+        region = src['region']
+        prefix = f'{brand.upper()}-TS24-{region}'
 
         for page in range(1, max_pages + 1):
-            url = SOURCES['truckscout24']['base'].format(brand=brand_slug, page=page)
+            url = src['base'].format(brand=brand_slug, page=page)
             log.info(f'[{prefix}] Page {page}: {url}')
 
             soup = self._fetch(url)
@@ -287,7 +309,7 @@ class ForkFlipScraper:
                         'hours': self._extract_hours(text),
                         'price': price,
                         'source': 'truckscout24',
-                        'region': 'DE',
+                        'region': region,
                     }
                     self.all_listings.append(listing)
                     page_count += 1
@@ -306,7 +328,10 @@ class ForkFlipScraper:
 
         self.scrape_mascus(brand, 'mascus_nl', max_pages=pages_mascus)
         self.scrape_mascus(brand, 'mascus_de', max_pages=pages_mascus)
-        self.scrape_truckscout24(brand, max_pages=pages_ts24)
+        self.scrape_mascus(brand, 'mascus_uk', max_pages=pages_mascus)
+        self.scrape_mascus(brand, 'mascus_fr', max_pages=pages_mascus)
+        self.scrape_truckscout24(brand, 'truckscout24_de', max_pages=pages_ts24)
+        self.scrape_truckscout24(brand, 'truckscout24_nl', max_pages=pages_ts24)
 
     def scrape_all(self, brands=None, pages_mascus=5, pages_ts24=3):
         """Scrape all brands across all sources."""
