@@ -189,7 +189,7 @@
     .search-row input:focus { outline: none; border-color: var(--primary); background: var(--card); }
 
     /* Table */
-    .tscroll { overflow: auto; flex: 1; }
+    .tscroll { overflow: auto; flex: 1; max-height: calc(100vh - 220px); }
     table { width: 100%; border-collapse: collapse; }
     thead th {
       background: var(--dark); color: white;
@@ -386,7 +386,7 @@
     <div class="ic-sub" id="iAvgSub">Load data</div>
   </div>
   <div class="insight-card deal" onclick="cardClick('deal')">
-    <div class="ic-label">Best Deal</div>
+    <div class="ic-label">Best Deals</div>
     <div class="ic-value" id="iBest">&mdash;</div>
     <div class="ic-sub" id="iBestSub">&nbsp;</div>
   </div>
@@ -457,9 +457,8 @@
     </div>
     <div class="fg">
       <label>Source</label>
-      <div class="cb-row"><input type="checkbox" id="sMascus" checked> Mascus</div>
-      <div class="cb-row"><input type="checkbox" id="sTruck" checked> TruckScout24</div>
-      <div class="cb-row"><input type="checkbox" id="sSample" checked> Sample</div>
+      <div class="cb-row"><input type="checkbox" id="sMascus" checked> Mascus (NL/DE/UK/FR)</div>
+      <div class="cb-row"><input type="checkbox" id="sTruck" checked> TruckScout24 (DE/NL)</div>
     </div>
     <input type="hidden" id="defOffer" value="12000">
     <button class="btn-s btn-s-g" style="width:100%;" onclick="clearFilters()">Clear All</button>
@@ -916,7 +915,7 @@ function applyFilters() {
   const priceMax = +$('fPriceMax').value;
   const hoursMax = +$('fHoursMax').value;
   const selM = [...$('fModel').selectedOptions].map(o=>o.value);
-  const sM=$('sMascus').checked, sT=$('sTruck').checked, sS=$('sSample').checked;
+  const sM=$('sMascus').checked, sT=$('sTruck').checked;
   const q = $('fSearch').value.trim().toLowerCase();
 
   let base = activeTab === 'watchlist' ? all.filter(l=>watchlist.has(l.id)) : all;
@@ -929,7 +928,7 @@ function applyFilters() {
     if (l.hours > hoursMax) return false;
     if (l.source==='mascus' && !sM) return false;
     if (l.source==='truckscout24' && !sT) return false;
-    if (l.source==='sample' && !sS) return false;
+    // sample source removed
     if (q && !(l.model.toLowerCase().includes(q) || l.region.toLowerCase().includes(q) || l.source.toLowerCase().includes(q) || l.id.toLowerCase().includes(q))) return false;
     return true;
   });
@@ -943,7 +942,7 @@ function clearFilters() {
   $('fYearAfter').value='0';
   $('fPriceMax').value='999999';
   $('fHoursMax').value='999999';
-  $('sMascus').checked=true; $('sTruck').checked=true; $('sSample').checked=true;
+  $('sMascus').checked=true; $('sTruck').checked=true;
   $('fSearch').value='';
   [...$('fModel').options].forEach(o=>o.selected=false);
   applyFilters();
@@ -952,7 +951,7 @@ function clearFilters() {
 function updateLabels() {} // dropdowns are self-explanatory
 
 // Wire filter inputs
-['sMascus','sTruck','sSample'].forEach(id => $(id).addEventListener('change', applyFilters));
+['sMascus','sTruck'].forEach(id => $(id).addEventListener('change', applyFilters));
 $('fModel').addEventListener('change', applyFilters);
 
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
@@ -1449,25 +1448,37 @@ function cardClick(type) {
     toast('All ' + filtered.length + ' sorted by price','ok');
   }
   else if (type === 'hot') {
-    // Show summary: one row per hot model (5+ listings), showing count + avg price
-    var mc = {};
-    var mprices = {};
+    // Show summary table: one row per hot model
+    var mc = {}; var mprices = {}; var mbrands = {};
     all.forEach(function(l) {
       mc[l.model] = (mc[l.model]||0) + 1;
       if (!mprices[l.model]) mprices[l.model] = [];
       mprices[l.model].push(l.price);
+      mbrands[l.model] = l.brand || 'unknown';
     });
     var hotModels = Object.keys(mc).filter(function(m) { return mc[m] >= 5; });
     hotModels.sort(function(a,b) { return mc[b] - mc[a]; });
-    // Show all listings for hot models, grouped
-    filtered = [];
-    hotModels.forEach(function(m) {
-      var items = all.filter(function(l) { return l.model === m; });
-      items.sort(function(a,b) { return a.price - b.price; });
-      filtered = filtered.concat(items);
-    });
-    renderTable(); updateInsights();
-    toast(hotModels.length + ' hot models, ' + filtered.length + ' listings total','ok');
+    // Render summary directly
+    var tb = $('tbody');
+    tb.innerHTML = '<tr><td colspan="13" style="padding:0;"><table style="width:100%;border-collapse:collapse;">' +
+      '<tr style="background:var(--dark);color:white;font-size:0.75rem;text-transform:uppercase;"><th style="padding:0.5rem;">#</th><th style="padding:0.5rem;">Brand</th><th style="padding:0.5rem;">Model</th><th style="padding:0.5rem;">Listings</th><th style="padding:0.5rem;">Lowest</th><th style="padding:0.5rem;">Highest</th><th style="padding:0.5rem;">Avg Price</th><th style="padding:0.5rem;">Action</th></tr>' +
+      hotModels.map(function(m, i) {
+        var prices = mprices[m].sort(function(a,b){return a-b;});
+        var avg = Math.round(prices.reduce(function(s,p){return s+p;},0) / prices.length);
+        return '<tr style="border-bottom:1px solid var(--border);cursor:pointer;" onclick="cardClickModel(\''+m+'\')">' +
+          '<td style="padding:0.5rem;color:var(--muted);">'+(i+1)+'</td>' +
+          '<td style="padding:0.5rem;text-transform:capitalize;">'+mbrands[m]+'</td>' +
+          '<td style="padding:0.5rem;font-weight:700;">'+m+'</td>' +
+          '<td style="padding:0.5rem;font-weight:700;color:var(--primary);">'+mc[m]+'</td>' +
+          '<td style="padding:0.5rem;color:var(--green);">\u20AC'+prices[0].toLocaleString()+'</td>' +
+          '<td style="padding:0.5rem;color:var(--red);">\u20AC'+prices[prices.length-1].toLocaleString()+'</td>' +
+          '<td style="padding:0.5rem;">\u20AC'+avg.toLocaleString()+'</td>' +
+          '<td style="padding:0.5rem;"><span style="color:var(--primary);text-decoration:underline;">View all \u2192</span></td></tr>';
+      }).join('') +
+      '</table></td></tr>';
+    filtered = []; // Not using normal filtered for this view
+    $('showN').textContent = hotModels.length;
+    toast(hotModels.length + ' hot models (5+ listings each)','ok');
   }
   else if (type === 'rare') {
     // Models with exactly 1 listing only
@@ -1479,6 +1490,14 @@ function cardClick(type) {
     renderTable(); updateInsights();
     toast(filtered.length + ' unique models (1 listing each)','ok');
   }
+}
+
+// ===== HOT MODEL DRILL DOWN =====
+function cardClickModel(model) {
+  filtered = all.filter(function(l) { return l.model === model; });
+  filtered.sort(function(a,b) { return a.price - b.price; });
+  renderTable(); updateInsights();
+  toast('Showing all ' + filtered.length + ' ' + model + ' listings','ok');
 }
 
 // ===== SEARCH MASCUS / GOOGLE =====
