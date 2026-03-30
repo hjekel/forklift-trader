@@ -43,34 +43,31 @@ BRANDS = {
 }
 
 SOURCES = {
+    # Mascus — verified URLs via browser inspection 2026-03-31
     'mascus_nl': {
         'base': 'https://www.mascus.nl/laden-en-lossen/heftrucks/{brand}?page={page}',
         'region': 'NL',
         'source': 'mascus',
     },
     'mascus_de': {
-        'base': 'https://www.mascus.de/laden-und-lossen/gabelstapler/{brand}?page={page}',
+        'base': 'https://www.mascus.de/flurforderzeuge/gabelstapler/{brand}?page={page}',
         'region': 'DE',
         'source': 'mascus',
     },
     'mascus_uk': {
-        'base': 'https://www.mascus.co.uk/loading-and-lifting/forklifts/{brand}?page={page}',
+        'base': 'https://www.mascus.co.uk/material-handling/forklift-trucks/{brand}?page={page}',
         'region': 'UK',
         'source': 'mascus',
     },
     'mascus_fr': {
-        'base': 'https://www.mascus.fr/chargement-et-levage/chariots-elevateurs/{brand}?page={page}',
+        'base': 'https://www.mascus.fr/manutention/chariot-elevateur/{brand}?page={page}',
         'region': 'FR',
         'source': 'mascus',
     },
+    # TruckScout24 — JS-rendered site, uses category-ids + fulltext search
     'truckscout24_de': {
-        'base': 'https://www.truckscout24.de/gebraucht/gabelstapler/{brand}?currentpage={page}',
+        'base': 'https://www.truckscout24.de/main/search/index?category-ids=42&fulltext={brand}&page={page}',
         'region': 'DE',
-        'source': 'truckscout24',
-    },
-    'truckscout24_nl': {
-        'base': 'https://www.truckscout24.nl/gebruikt/heftrucks/{brand}?currentpage={page}',
-        'region': 'NL',
         'source': 'truckscout24',
     },
 }
@@ -155,7 +152,7 @@ class ForkFlipScraper:
                 # Filter out garbage (too short, just numbers, common words)
                 if len(result) < 3 or result.isdigit():
                     continue
-                if result in ('EUR', 'NL', 'DE', 'BTW', 'INC', 'VAT', 'PDF'):
+                if result in ('EUR', 'GBP', 'NL', 'DE', 'UK', 'FR', 'BTW', 'INC', 'VAT', 'PDF', 'MWS', 'NET', 'VHB'):
                     continue
                 return result
         return None
@@ -269,15 +266,15 @@ class ForkFlipScraper:
             if not soup:
                 break
 
-            # TruckScout24 uses different HTML structure
-            items = soup.find_all('div', class_=lambda c: c and ('ls-elem' in str(c) or 'data-item' in str(c)))
+            # TruckScout24 uses section.grid-card with data-listing-id
+            items = soup.find_all('section', attrs={'data-listing-id': True})
             if not items:
-                # Try alternative selectors
-                items = soup.find_all('a', class_=lambda c: c and 'ls-elem' in str(c))
+                # Fallback: try grid-card class
+                items = soup.find_all('section', class_=lambda c: c and 'grid-card' in str(c))
             if not items:
-                items = soup.find_all('div', class_=lambda c: c and 'listing' in str(c).lower())
+                items = soup.find_all('div', class_=lambda c: c and ('ls-elem' in str(c) or 'listing' in str(c).lower()))
             if not items:
-                log.info(f'[{prefix}] No items found on page {page}')
+                log.info(f'[{prefix}] No items found on page {page} (site may be JS-rendered)')
                 break
 
             page_count = 0
@@ -331,7 +328,6 @@ class ForkFlipScraper:
         self.scrape_mascus(brand, 'mascus_uk', max_pages=pages_mascus)
         self.scrape_mascus(brand, 'mascus_fr', max_pages=pages_mascus)
         self.scrape_truckscout24(brand, 'truckscout24_de', max_pages=pages_ts24)
-        self.scrape_truckscout24(brand, 'truckscout24_nl', max_pages=pages_ts24)
 
     def scrape_all(self, brands=None, pages_mascus=5, pages_ts24=3):
         """Scrape all brands across all sources."""
