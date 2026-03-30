@@ -611,6 +611,7 @@
       <table>
         <thead>
           <tr>
+            <th style="width:30px; font-size:0.65rem;">#</th>
             <th class="chk-cell"><input type="checkbox" id="chkAll" onchange="toggleAll(this.checked)"></th>
             <th style="width:32px"></th>
             <th onclick="sortBy('brand')">Brand</th>
@@ -983,7 +984,7 @@ function estResale(model, year, hours) {
 function renderTable() {
   const tb = $('tbody');
   if (!filtered.length) {
-    tb.innerHTML = '<tr><td colspan="12"><div class="empty-s"><div class="icon">&#128270;</div><p><strong>No listings found</strong></p><p>Adjust filters or load data.</p></div></td></tr>';
+    tb.innerHTML = '<tr><td colspan="13"><div class="empty-s"><div class="icon">&#128270;</div><p><strong>No listings found</strong></p><p>Adjust filters or load data.</p></div></td></tr>';
     return;
   }
   const offer = parseInt($('defOffer').value) || 0;
@@ -1003,6 +1004,7 @@ function renderTable() {
     const sc = it.source==='mascus'?'src-mascus':it.source==='truckscout24'?'src-truckscout24':'src-sample';
 
     return `<tr class="${isW?'watch-row':''} ${matchW?'match-row':''}" onclick="openModal(${i})">
+      <td style="font-size:0.7rem; color:var(--muted); text-align:right; width:30px; padding-right:0.3rem;">${i+1}</td>
       <td class="chk-cell" onclick="event.stopPropagation()"><input type="checkbox" ${isSel?'checked':''} onchange="toggleSel('${it.id}')"></td>
       <td><button class="heart" onclick="event.stopPropagation();toggleW('${it.id}')">${heart}</button></td>
       <td style="font-size:0.78rem;text-transform:capitalize;">${it.brand||'toyota'}</td>
@@ -1411,35 +1413,46 @@ function sortBy(col) {
 
 // ===== INSIGHT CARD CLICKS =====
 function cardClick(type) {
-  setTab('all');
-  if (type === 'total') { clearFilters(); toast('All filters cleared','ok'); }
-  else if (type === 'avg' || type === 'deal') {
+  // Reset tabs visually
+  activeTab = 'all';
+  $('tAll').classList.add('on'); $('tWatch').classList.remove('on');
+  if ($('tFind')) $('tFind').classList.remove('on');
+  if ($('tWant')) $('tWant').classList.remove('on');
+  if ($('findPanel')) $('findPanel').style.display='none';
+  if ($('wantPanel')) $('wantPanel').style.display='none';
+
+  if (type === 'total') {
     clearFilters();
-    sortCol='price'; sortDir='asc';
-    applyFilters();
-    filtered.sort((a,b)=>a.price-b.price);
-    renderTable();
-    toast(type==='deal' ? 'Sorted: cheapest first' : 'Sorted by price','ok');
+    toast('All filters cleared - showing all ' + all.length + ' listings','ok');
+  }
+  else if (type === 'deal') {
+    // Direct filter: sort all by price, cheapest first
+    filtered = all.slice().sort(function(a,b){return a.price-b.price;});
+    renderTable(); updateInsights();
+    toast('Sorted: cheapest first','ok');
+  }
+  else if (type === 'avg') {
+    filtered = all.slice().sort(function(a,b){return a.price-b.price;});
+    renderTable(); updateInsights();
+    toast('Sorted by price','ok');
   }
   else if (type === 'hot') {
-    clearFilters();
+    // Direct filter: only models with 5+ listings
     var mc = {}; all.forEach(function(l){mc[l.model]=(mc[l.model]||0)+1;});
-    var hotM = Object.keys(mc).filter(function(m){return mc[m]>=5;});
-    if (hotM.length) {
-      Array.from($('fModel').options).forEach(function(o){o.selected=hotM.includes(o.value);});
-      applyFilters();
-      toast('Showing ' + hotM.length + ' hot models (5+ listings)','ok');
-    } else { toast('No hot models found','warn'); }
+    var hotModels = Object.keys(mc).filter(function(m){return mc[m]>=5;});
+    filtered = all.filter(function(l){return hotModels.indexOf(l.model)>=0;});
+    filtered.sort(function(a,b){return a.price-b.price;});
+    renderTable(); updateInsights();
+    toast('Showing ' + hotModels.length + ' hot models (' + filtered.length + ' listings)','ok');
   }
   else if (type === 'rare') {
-    clearFilters();
+    // Direct filter: only models with 1-2 listings
     var mc2 = {}; all.forEach(function(l){mc2[l.model]=(mc2[l.model]||0)+1;});
-    var rareM = Object.keys(mc2).filter(function(m){return mc2[m]<=2;});
-    if (rareM.length) {
-      Array.from($('fModel').options).forEach(function(o){o.selected=rareM.includes(o.value);});
-      applyFilters();
-      toast('Showing ' + rareM.length + ' rare models (1-2 listings)','ok');
-    } else { toast('No rare models found','warn'); }
+    var rareModels = Object.keys(mc2).filter(function(m){return mc2[m]<=2;});
+    filtered = all.filter(function(l){return rareModels.indexOf(l.model)>=0;});
+    filtered.sort(function(a,b){return a.price-b.price;});
+    renderTable(); updateInsights();
+    toast('Showing ' + rareModels.length + ' rare models (' + filtered.length + ' listings)','ok');
   }
 }
 
