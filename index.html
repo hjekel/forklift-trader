@@ -1426,24 +1426,24 @@ function cardClick(type) {
     toast('All filters cleared - showing all ' + all.length + ' listings','ok');
   }
   else if (type === 'deal') {
-    // Direct filter: sort all by price, cheapest first
-    filtered = all.slice().sort(function(a,b){return a.price-b.price;});
+    // Top 25 cheapest listings
+    filtered = all.slice().sort(function(a,b){return a.price-b.price;}).slice(0, 25);
     renderTable(); updateInsights();
-    toast('Sorted: cheapest first','ok');
+    toast('Top 25 best deals (cheapest first)','ok');
   }
   else if (type === 'avg') {
     filtered = all.slice().sort(function(a,b){return a.price-b.price;});
     renderTable(); updateInsights();
-    toast('Sorted by price','ok');
+    toast('All ' + filtered.length + ' listings sorted by price','ok');
   }
   else if (type === 'hot') {
-    // Direct filter: only models with 5+ listings
+    // Only models with 5+ listings
     var mc = {}; all.forEach(function(l){mc[l.model]=(mc[l.model]||0)+1;});
     var hotModels = Object.keys(mc).filter(function(m){return mc[m]>=5;});
     filtered = all.filter(function(l){return hotModels.indexOf(l.model)>=0;});
     filtered.sort(function(a,b){return a.price-b.price;});
     renderTable(); updateInsights();
-    toast('Showing ' + hotModels.length + ' hot models (' + filtered.length + ' listings)','ok');
+    toast(filtered.length + ' listings in ' + hotModels.length + ' hot models','ok');
   }
   else if (type === 'rare') {
     // Direct filter: only models with 1-2 listings
