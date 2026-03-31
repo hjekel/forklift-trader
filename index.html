@@ -497,10 +497,10 @@
         <button onclick="resetAll()" style="margin-left:0.5rem; padding:0.2rem 0.6rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text); cursor:pointer; font-size:0.78rem;">Reset</button>
       </div>
       <div class="tabs">
-        <button class="tab on" id="tAll" onclick="setTab('all')" data-tip="Show all listings">All Listings</button>
-        <button class="tab" id="tWatch" onclick="setTab('watchlist')" data-tip="Your saved favorites" data-tip="Your saved favorites">Watchlist (<span id="wBadge">0</span>)</button>
-        <button class="tab" id="tFind" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;" data-tip="Search any equipment across all sources">Find Equipment</button>
-        <button class="tab" id="tWant" onclick="setTab('want')" style="border-color:#9c27b0;color:#9c27b0;font-weight:700;" data-tip="Define what you need, find matches">Want to Buy</button>
+        <button class="tab on" id="tAll" onclick="setTab('all')" data-tip="Show all 1.692 listings in ForkFlip database">All Listings</button>
+        <button class="tab" id="tWatch" onclick="setTab('watchlist')" data-tip="Your saved/favorite listings">Watchlist (<span id="wBadge">0</span>)</button>
+        <button class="tab" id="tFind" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;" data-tip="Search any equipment type across ForkFlip + 10 external marketplaces">Find Equipment</button>
+        <button class="tab" id="tWant" onclick="setTab('want')" style="border-color:#9c27b0;color:#9c27b0;font-weight:700;" data-tip="Define specs you need, save searches, track matches">Want to Buy</button>
       </div>
     </div>
 
@@ -1103,9 +1103,9 @@ function runEquipmentSearch() {
   var featured = [
     { name:'Google Search', desc:'All sources combined', url:'https://www.google.com/search?q=' + eq + '+koop+occasion', color:'#4285f4', bg:'#e8eaf6' },
     { name:'Machineseeker', desc:'2.500+ specialist equipment', url:'https://www.machineseeker.nl/main/search/index?search-word=' + qPlus, color:'#333', bg:'#f5f5f5' },
-    { name:'Machineryline', desc:'Heavy equipment marketplace', url:'https://machineryline.nl/zoeken?search=' + eq, color:'#1565c0', bg:'#e3f2fd' },
-    { name:'Mascus (4 landen)', desc:'NL + DE + UK + FR in apart tabblad', url:'#', color:'#e65100', bg:'#fff3e0', action:'mascus' },
-    { name:'Troostwijk Veilingen', desc:'Actieve en gesloten veilingen', url:'https://www.troostwijkauctions.com/nl/zoekresultaten/?query=' + eq, color:'#7b1fa2', bg:'#f3e5f5' },
+    { name:'Machineryline', desc:'Equipment marketplace (7+ results)', url:'https://www.machineryline.nl/search_text.php?query=' + eq, color:'#1565c0', bg:'#e3f2fd' },
+    { name:'Mascus (4 landen)', desc:'NL + DE + UK + FR opent in 4 tabs', url:'#', color:'#e65100', bg:'#fff3e0', action:'mascus' },
+    { name:'Troostwijk Veilingen', desc:'77 veilingresultaten', url:'https://www.troostwijkauctions.com/search?searchTerm=' + eq, color:'#7b1fa2', bg:'#f3e5f5' },
   ];
 
   $('equipFeatured').innerHTML = featured.map(function(f) {
@@ -1120,17 +1120,18 @@ function runEquipmentSearch() {
 
   // 4. More marketplace links (collapsible)
   var moreLinks = [
-    { name:'Mascus NL', url:'https://www.mascus.nl/search.html?query=' + eq },
-    { name:'Mascus DE', url:'https://www.mascus.de/search.html?query=' + eq },
-    { name:'Mascus UK', url:'https://www.mascus.co.uk/search.html?query=' + eq },
-    { name:'Mascus FR', url:'https://www.mascus.fr/search.html?query=' + eq },
+    { name:'Mascus NL', url:'https://www.mascus.nl/search?q=' + eq },
+    { name:'Mascus DE', url:'https://www.mascus.de/search?q=' + eq },
+    { name:'Mascus UK', url:'https://www.mascus.co.uk/search?q=' + eq },
+    { name:'Mascus FR', url:'https://www.mascus.fr/search?q=' + eq },
     { name:'TruckScout24', url:'https://www.truckscout24.de/main/search/index?fulltext=' + eq },
+    { name:'Machineryline DE', url:'https://www.machineryline.de/search_text.php?query=' + eq },
     { name:'Tradus', url:'https://www.tradus.com/en/search?q=' + eq },
     { name:'Marktplaats', url:'https://www.marktplaats.nl/q/' + qPlus + '/' },
     { name:'eBay', url:'https://www.ebay.nl/sch/i.html?_nkw=' + eq },
   ];
 
-  var moreHtml = '<div style="margin-bottom:0.4rem;"><button onclick="var g=this.nextElementSibling;g.style.display=g.style.display===\'none\'?\'flex\':\'none\';this.textContent=g.style.display===\'none\'?\'+  8 meer marktplaatsen\':\'-  Verberg extra marktplaatsen\'" style="background:none;border:none;color:var(--primary);cursor:pointer;font-size:0.8rem;font-weight:700;padding:0;">+ 8 meer marktplaatsen</button>' +
+  var moreHtml = '<div style="margin-bottom:0.4rem;"><button onclick="var g=this.nextElementSibling;g.style.display=g.style.display===\'none\'?\'flex\':\'none\';this.textContent=g.style.display===\'none\'?\'+  8 meer marktplaatsen\':\'-  Verberg extra marktplaatsen\'" style="background:none;border:none;color:var(--primary);cursor:pointer;font-size:0.8rem;font-weight:700;padding:0;">+ 9 meer marktplaatsen</button>' +
     '<div style="display:none;flex-wrap:wrap;gap:0.35rem;margin-top:0.4rem;">' +
     moreLinks.map(function(l) {
       return '<a href="' + l.url + '" target="_blank" rel="noopener" style="padding:0.3rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;text-decoration:none;color:var(--primary);font-size:0.78rem;font-weight:600;">' + l.name + '</a>';
@@ -1144,15 +1145,19 @@ function runEquipmentSearch() {
 // Legacy compatibility
 function runFind() { runEquipmentSearch(); }
 function findExternal(site) {
-  var q = ($('findQuery').value || $('findModel')?.value || '').trim();
+  var q = ($('findQuery').value || '').trim();
   if (!q) return;
+  var eq = encodeURIComponent(q);
   var urls = {
-    'mascus-nl': 'https://www.mascus.nl/?search_text=' + encodeURIComponent(q),
-    'mascus-de': 'https://www.mascus.de/?search_text=' + encodeURIComponent(q),
-    'mascus-uk': 'https://www.mascus.co.uk/?search_text=' + encodeURIComponent(q),
-    'ts24': 'https://www.truckscout24.de/main/search/index?fulltext=' + encodeURIComponent(q),
-    'tradus': 'https://www.tradus.com/en/search?q=' + encodeURIComponent(q),
-    'google': 'https://www.google.com/search?q=' + encodeURIComponent(q + ' koop occasion'),
+    'mascus-nl': 'https://www.mascus.nl/search?q=' + eq,
+    'mascus-de': 'https://www.mascus.de/search?q=' + eq,
+    'mascus-uk': 'https://www.mascus.co.uk/search?q=' + eq,
+    'mascus-fr': 'https://www.mascus.fr/search?q=' + eq,
+    'machineryline': 'https://www.machineryline.nl/search_text.php?query=' + eq,
+    'troostwijk': 'https://www.troostwijkauctions.com/search?searchTerm=' + eq,
+    'ts24': 'https://www.truckscout24.de/main/search/index?fulltext=' + eq,
+    'tradus': 'https://www.tradus.com/en/search?q=' + eq,
+    'google': 'https://www.google.com/search?q=' + eq + '+koop+occasion',
   };
   if (urls[site]) window.open(urls[site], '_blank');
 }
@@ -1543,10 +1548,10 @@ function cardClick(type) {
 
 // ===== OPEN MASCUS ALL 4 COUNTRIES =====
 function openMascusAll(eq) {
-  window.open('https://www.mascus.nl/search.html?query=' + eq, '_blank');
-  window.open('https://www.mascus.de/search.html?query=' + eq, '_blank');
-  window.open('https://www.mascus.co.uk/search.html?query=' + eq, '_blank');
-  window.open('https://www.mascus.fr/search.html?query=' + eq, '_blank');
+  window.open('https://www.mascus.nl/search?q=' + eq, '_blank');
+  window.open('https://www.mascus.de/search?q=' + eq, '_blank');
+  window.open('https://www.mascus.co.uk/search?q=' + eq, '_blank');
+  window.open('https://www.mascus.fr/search?q=' + eq, '_blank');
   toast('Mascus opened in 4 tabs (NL, DE, UK, FR)', 'ok');
 }
 
