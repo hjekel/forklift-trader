@@ -23,8 +23,40 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4
 
-      - name: Run universal scraper (all brands, all sources)
+      - name: Run forklift scraper (Mascus NL/DE/UK/FR)
         run: cd scrapers && python scrape_all.py --pages 5
+        continue-on-error: true
+
+      - name: Run Machineseeker scraper (specialist equipment)
+        run: cd scrapers && python machineseeker.py --pages 3
+        continue-on-error: true
+
+      - name: Merge all data sources
+        run: |
+          python3 << 'PYEOF'
+          import csv, os, glob
+          # Merge all CSV files from output/
+          all_rows = []
+          fieldnames = ['id', 'model', 'brand', 'year', 'hours', 'price', 'source', 'region']
+          for f in glob.glob('output/*_listings.csv'):
+              try:
+                  with open(f, 'r') as fh:
+                      reader = csv.DictReader(fh)
+                      for row in reader:
+                          # Normalize to standard fields
+                          normalized = {k: row.get(k, '') for k in fieldnames}
+                          if normalized['model'] and normalized['price']:
+                              all_rows.append(normalized)
+              except Exception as e:
+                  print(f'Error reading {f}: {e}')
+          # Write merged
+          if all_rows:
+              with open('output/all_listings.csv', 'w', newline='') as fh:
+                  writer = csv.DictWriter(fh, fieldnames=fieldnames)
+                  writer.writeheader()
+                  writer.writerows(all_rows)
+              print(f'Merged {len(all_rows)} total listings from {len(glob.glob("output/*_listings.csv"))} files')
+          PYEOF
         continue-on-error: true
 
       - name: Convert and embed data
