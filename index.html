@@ -1098,6 +1098,7 @@ function runEquipmentSearch() {
   // 3. Build specific search URLs
   var eq = encodeURIComponent(query);
   var qPlus = query.replace(/\s+/g, '+');
+  var qLow = encodeURIComponent(query.toLowerCase()); // Mascus needs lowercase in path
 
   // Featured: Google FIRST, then specialist, then Mascus (all 4 countries)
   var featured = [
@@ -1120,10 +1121,10 @@ function runEquipmentSearch() {
 
   // 4. More marketplace links (collapsible)
   var moreLinks = [
-    { name:'Mascus NL', url:'https://www.mascus.nl/search?q=' + eq },
-    { name:'Mascus DE', url:'https://www.mascus.de/search?q=' + eq },
-    { name:'Mascus UK', url:'https://www.mascus.co.uk/search?q=' + eq },
-    { name:'Mascus FR', url:'https://www.mascus.fr/search?q=' + eq },
+    { name:'Mascus NL', url:'https://www.mascus.nl/' + qLow + '/+/1,relevance,search.html' },
+    { name:'Mascus DE', url:'https://www.mascus.de/' + qLow + '/+/1,relevance,search.html' },
+    { name:'Mascus UK', url:'https://www.mascus.co.uk/' + qLow + '/+/1,relevance,search.html' },
+    { name:'Mascus FR', url:'https://www.mascus.fr/' + qLow + '/+/1,relevance,search.html' },
     { name:'TruckScout24', url:'https://www.truckscout24.de/main/search/index?fulltext=' + eq },
     { name:'Machineryline DE', url:'https://www.machineryline.de/search_text.php?query=' + eq },
     { name:'Tradus', url:'https://www.tradus.com/en/search?q=' + eq },
@@ -1149,10 +1150,10 @@ function findExternal(site) {
   if (!q) return;
   var eq = encodeURIComponent(q);
   var urls = {
-    'mascus-nl': 'https://www.mascus.nl/search?q=' + eq,
-    'mascus-de': 'https://www.mascus.de/search?q=' + eq,
-    'mascus-uk': 'https://www.mascus.co.uk/search?q=' + eq,
-    'mascus-fr': 'https://www.mascus.fr/search?q=' + eq,
+    'mascus-nl': getMascusUrl(q, 'www.mascus.nl'),
+    'mascus-de': getMascusUrl(q, 'www.mascus.de'),
+    'mascus-uk': getMascusUrl(q, 'www.mascus.co.uk'),
+    'mascus-fr': getMascusUrl(q, 'www.mascus.fr'),
     'machineryline': 'https://www.machineryline.nl/search_text.php?query=' + eq,
     'troostwijk': 'https://www.troostwijkauctions.com/search?searchTerm=' + eq,
     'ts24': 'https://www.truckscout24.de/main/search/index?fulltext=' + eq,
@@ -1547,11 +1548,17 @@ function cardClick(type) {
 }
 
 // ===== OPEN MASCUS ALL 4 COUNTRIES =====
-function openMascusAll(eq) {
-  window.open('https://www.mascus.nl/search?q=' + eq, '_blank');
-  window.open('https://www.mascus.de/search?q=' + eq, '_blank');
-  window.open('https://www.mascus.co.uk/search?q=' + eq, '_blank');
-  window.open('https://www.mascus.fr/search?q=' + eq, '_blank');
+// Mascus requires lowercase search term in URL path, not query param
+function getMascusUrl(query, domain) {
+  var term = encodeURIComponent(query.toLowerCase());
+  return 'https://' + domain + '/' + term + '/+/1,relevance,search.html';
+}
+function openMascusAll(rawQuery) {
+  var q = decodeURIComponent(rawQuery);
+  window.open(getMascusUrl(q, 'www.mascus.nl'), '_blank');
+  window.open(getMascusUrl(q, 'www.mascus.de'), '_blank');
+  window.open(getMascusUrl(q, 'www.mascus.co.uk'), '_blank');
+  window.open(getMascusUrl(q, 'www.mascus.fr'), '_blank');
   toast('Mascus opened in 4 tabs (NL, DE, UK, FR)', 'ok');
 }
 
