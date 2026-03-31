@@ -375,44 +375,44 @@
       <option value="still">Still</option>
       <option value="jungheinrich">Jungheinrich</option>
     </select>
-    <button class="btn-load" onclick="loadMergedData()" data-tip="Refresh embedded data">Load Data</button>
-    <button onclick="loadSampleData()" data-tip="Load 5 test listings">Sample</button>
-    <button onclick="document.getElementById('csvIn').click()" data-tip="Upload your own CSV">Import</button>
+    <button class="btn-load" onclick="loadMergedData()" data-tip="Refresh embedded data" title="Herlaad data uit de embedded database">Load Data</button>
+    <button onclick="loadSampleData()" data-tip="Load 5 test listings" title="Laad 5 test-listings om de app te verkennen">Sample</button>
+    <button onclick="document.getElementById('csvIn').click()" data-tip="Upload your own CSV" title="Upload een eigen CSV bestand met listings">Import</button>
     <input type="file" id="csvIn" accept=".csv" class="hidden" onchange="importCSV(this)">
-    <button class="lang-btn" onclick="toggleLang()" id="langBtn" data-tip="Switch language NL/EN" title="Switch language">EN</button>
-    <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode" id="darkBtn" data-tip="Toggle dark/light mode">Dark</button>
-    <button class="lang-btn" onclick="showHelp()" title="Help" data-tip="Help / user guide">?</button>
+    <button class="lang-btn" onclick="toggleLang()"  title="Wissel taal (English / Nederlands)"id="langBtn" data-tip="Switch language NL/EN" title="Switch language">EN</button>
+    <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"  title="Schakel donker/licht thema"id="darkBtn" data-tip="Toggle dark/light mode">Dark</button>
+    <button class="lang-btn" onclick="showHelp()" title="Help" data-tip="Help / user guide" title="Toon de gebruikershandleiding">?</button>
   </div>
 </div>
 
 <!-- ÔòÉÔòÉÔòÉ INSIGHT CARDS ÔòÉÔòÉÔòÉ -->
 <div class="insights-bar">
-  <div class="insight-card" onclick="cardClick('total')" data-tip="Click to reset all filters">
+  <div class="insight-card" onclick="cardClick('total')" title="Klik om alle filters te resetten" data-tip="Click to reset all filters">
     <div class="ic-label">Listings</div>
     <div class="ic-value"><span id="iFiltered">0</span></div>
     <div class="ic-sub"><span id="iTotal">0</span> total &bull; <span id="iModels">0</span> models</div>
   </div>
-  <div class="insight-card" onclick="cardClick('avg')" data-tip="Average price of visible listings">
+  <div class="insight-card" onclick="cardClick('avg')" title="Gemiddelde prijs van zichtbare listings" data-tip="Average price of visible listings">
     <div class="ic-label">Market Average</div>
     <div class="ic-value" id="iAvg">&mdash;</div>
     <div class="ic-sub" id="iAvgSub">Load data</div>
   </div>
-  <div class="insight-card deal" onclick="cardClick('deal')" data-tip="Listings 15%+ below their model average">
+  <div class="insight-card deal" onclick="cardClick('deal')" title="Listings 15%+ onder hun model-gemiddelde" data-tip="Listings 15%+ below their model average">
     <div class="ic-label">Best Deals</div>
     <div class="ic-value" id="iBest">&mdash;</div>
     <div class="ic-sub" id="iBestSub">&nbsp;</div>
   </div>
-  <div class="insight-card hot" onclick="cardClick('hot')" data-tip="Models with 5+ listings — more room to negotiate">
+  <div class="insight-card hot" onclick="cardClick('hot')" title="Modellen met 5+ listings — meer onderhandelingsruimte" data-tip="Models with 5+ listings — more room to negotiate">
     <div class="ic-label">Hot Models</div>
     <div class="ic-value" id="iHot">0</div>
     <div class="ic-sub">5+ listings = negotiate</div>
   </div>
-  <div class="insight-card rare" onclick="cardClick('budget')" data-tip="All machines under 10.000 euro">
+  <div class="insight-card rare" onclick="cardClick('budget')" title="Alle machines onder 10.000 euro" data-tip="All machines under 10.000 euro">
     <div class="ic-label">Under &euro;10k</div>
     <div class="ic-value" id="iRare">0</div>
     <div class="ic-sub">Budget machines</div>
   </div>
-  <div class="insight-card" onclick="setTab('watchlist')" data-tip="Your saved favorites">
+  <div class="insight-card" onclick="setTab('watchlist')" title="Je opgeslagen favorieten" data-tip="Your saved favorites">
     <div class="ic-label">Watchlist</div>
     <div class="ic-value" id="iWatch">0</div>
     <div class="ic-sub">Hot deals &lt;18k: <span id="iDeals">0</span></div>
@@ -497,17 +497,17 @@
         <button onclick="resetAll()" style="margin-left:0.5rem; padding:0.2rem 0.6rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text); cursor:pointer; font-size:0.78rem;">Reset</button>
       </div>
       <div class="tabs">
-        <button class="tab on" id="tAll" onclick="setTab('all')" data-tip="Show all 1.692 listings in ForkFlip database">All Listings</button>
-        <button class="tab" id="tWatch" onclick="setTab('watchlist')" data-tip="Your saved/favorite listings">Watchlist (<span id="wBadge">0</span>)</button>
-        <button class="tab" id="tFind" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;" data-tip="Search any equipment type across ForkFlip + 10 external marketplaces">Find Equipment</button>
-        <button class="tab" id="tWant" onclick="setTab('want')" style="border-color:#9c27b0;color:#9c27b0;font-weight:700;" data-tip="Define specs you need, save searches, track matches">Want to Buy</button>
+        <button class="tab on" id="tAll" title="Toon alle listings in de ForkFlip database" onclick="setTab('all')" data-tip="Show all 1.692 listings in ForkFlip database">All Listings</button>
+        <button class="tab" id="tWatch" title="Je opgeslagen favorieten — klik het hartje bij een listing" onclick="setTab('watchlist')" title="Je opgeslagen favorieten" data-tip="Your saved/favorite listings">Watchlist (<span id="wBadge">0</span>)</button>
+        <button class="tab" id="tFind" title="Zoek elk type equipment — eenmalige zoekopdracht in ForkFlip + 12 marktplaatsen" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;" data-tip="Search any equipment type across ForkFlip + 10 external marketplaces">Find Equipment</button>
+        <button class="tab" id="tWant" title="Maak een zoekprofiel — ForkFlip matcht automatisch bij elke data refresh" onclick="setTab('want')" style="border-color:#9c27b0;color:#9c27b0;font-weight:700;" data-tip="Define specs you need, save searches, track matches">Want to Buy</button>
       </div>
     </div>
 
     <!-- FIND ANY EQUIPMENT PANEL -->
     <div id="findPanel" style="display:none; padding:1rem; background:var(--card); border-bottom:2px solid var(--green);">
       <h4 style="color:var(--green); margin-bottom:0.5rem;">Find Any Equipment</h4>
-      <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.75rem;">Search forklifts, aerial lifts, telehandlers, cherry pickers — anything. Searches local data + external marketplaces.</p>
+      <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.75rem;">Search forklifts, aerial lifts, telehandlers — anything. One-time search across ForkFlip data + 12 external marketplaces.</p>
 
       <div style="display:flex; gap:0.5rem; align-items:end; flex-wrap:wrap;">
         <div style="flex:1; min-width:250px;">
@@ -537,7 +537,7 @@
 
     <!-- WANT TO BUY PANEL -->
     <div id="wantPanel" style="display:none; padding:1rem; background:var(--card); border-bottom:2px solid #9c27b0;">
-      <h4 style="color:#9c27b0; margin-bottom:0.75rem;">Define What You're Looking For</h4>
+      <h4 style="color:#9c27b0; margin-bottom:0.75rem;">Create Search Profile</h4>
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:0.6rem; align-items:end;">
         <div>
           <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Brand</label>
@@ -1605,10 +1605,114 @@ function toggleLang() {
   applyLang();
 }
 function applyLang() {
-  $('langBtn').textContent = lang === 'en' ? 'NL' : 'EN';
-  var tl = lang === 'nl' ? 'Spot kansen. Sluit deals sneller.' : 'Spot opportunities. Close deals faster.';
-  document.querySelector('.tagline').textContent = tl;
-  $('fSearch').placeholder = lang === 'nl' ? 'Zoek model, regio...' : 'Search model, region...';
+  var isNL = lang === 'nl';
+  $('langBtn').textContent = isNL ? 'EN' : 'NL';
+
+  // Tagline
+  var tagline = document.querySelector('.tagline');
+  if (tagline) tagline.textContent = isNL ? 'Spot kansen. Sluit deals sneller.' : 'Spot opportunities. Close deals faster.';
+
+  // Search placeholder
+  if ($('fSearch')) $('fSearch').placeholder = isNL ? 'Zoek model, regio...' : 'Search model, region...';
+
+  // Sidebar labels
+  var sideLabels = document.querySelectorAll('.side .fg label, .side h3');
+  var nlMap = {
+    'Filters': 'Filters',
+    'Search': isNL ? 'Zoeken' : 'Search',
+    'Model': 'Model',
+    'Newer than': isNL ? 'Nieuwer dan' : 'Newer than',
+    'Max budget': isNL ? 'Max budget' : 'Max budget',
+    'Max hours': isNL ? 'Max uren' : 'Max hours',
+    'Source': isNL ? 'Bron' : 'Source',
+    'Wanted Deals': isNL ? 'Zoekprofielen' : 'Search Profiles',
+  };
+
+  // Tab buttons
+  if ($('tAll')) $('tAll').childNodes[0].textContent = isNL ? 'Alle Listings' : 'All Listings';
+  // Watchlist tab has a span inside, just update first text node
+  // Find Equipment + Want to Buy
+  if ($('tFind')) {
+    var findText = $('tFind').childNodes[0];
+    if (findText) findText.textContent = isNL ? 'Zoek Equipment' : 'Find Equipment';
+  }
+  if ($('tWant')) {
+    var wantText = $('tWant').childNodes[0];
+    if (wantText) wantText.textContent = isNL ? 'Zoekprofiel' : 'Want to Buy';
+  }
+
+  // Insight card labels
+  var icLabels = document.querySelectorAll('.ic-label');
+  var icMap = {
+    'Listings': 'Listings',
+    'Market Average': isNL ? 'Marktgemiddelde' : 'Market Average',
+    'Best Deals': isNL ? 'Beste Deals' : 'Best Deals',
+    'Hot Models': isNL ? 'Populaire Modellen' : 'Hot Models',
+    'Under': isNL ? 'Onder' : 'Under',
+    'Watchlist': isNL ? 'Volglijst' : 'Watchlist',
+  };
+  icLabels.forEach(function(el) {
+    var t = el.textContent.trim();
+    for (var key in icMap) {
+      if (t.startsWith(key) || t === key) {
+        // Keep the €10k part for Under card
+        if (key === 'Under' && t.includes('10k')) {
+          el.textContent = icMap[key] + ' \u20ac10k';
+        } else {
+          el.textContent = icMap[key];
+        }
+        break;
+      }
+    }
+  });
+
+  // Table headers
+  var thMap = {
+    'Brand': isNL ? 'Merk' : 'Brand',
+    'Model': 'Model',
+    'Year': isNL ? 'Jaar' : 'Year',
+    'Hours': isNL ? 'Uren' : 'Hours',
+    'Price': isNL ? 'Prijs' : 'Price',
+    'Est. Resale': isNL ? 'Gesch. Herverkoop' : 'Est. Resale',
+    'Margin': isNL ? 'Marge' : 'Margin',
+    'Cond.': isNL ? 'Staat' : 'Cond.',
+    'Region': isNL ? 'Regio' : 'Region',
+    'Source': isNL ? 'Bron' : 'Source',
+  };
+  var ths = document.querySelectorAll('thead th');
+  ths.forEach(function(th) {
+    var text = th.textContent.replace(/[\u25B2\u25BC]/g, '').trim();
+    if (thMap[text]) th.textContent = thMap[text];
+  });
+
+  // Find Equipment panel
+  var findTitle = document.querySelector('#findPanel h4');
+  if (findTitle) findTitle.textContent = isNL ? 'Zoek Elk Type Equipment' : 'Find Any Equipment';
+  var findDesc = document.querySelector('#findPanel p');
+  if (findDesc) findDesc.textContent = isNL
+    ? 'Zoek heftrucks, hoogwerkers, verreikers — alles. Eenmalige zoekopdracht in ForkFlip + externe marktplaatsen.'
+    : 'Search forklifts, aerial lifts, telehandlers — anything. One-time search across ForkFlip + external marketplaces.';
+
+  // Want to Buy panel
+  var wantTitle = document.querySelector('#wantPanel h4');
+  if (wantTitle) wantTitle.textContent = isNL ? 'Zoekprofiel Aanmaken' : 'Create Search Profile';
+
+  // Buttons
+  var clearBtn = document.querySelector('button[onclick="clearFilters()"]');
+  if (clearBtn) clearBtn.textContent = isNL ? 'Wis Alles' : 'Clear All';
+  var resetBtn = document.querySelector('button[onclick="resetAll()"]');
+  if (resetBtn) resetBtn.textContent = isNL ? 'Reset' : 'Reset';
+
+  // Toolbar info
+  var showInfo = document.querySelector('.toolbar .info');
+  if (showInfo) {
+    var showN = $('showN') ? $('showN').textContent : '0';
+    var totalN = $('totalN') ? $('totalN').textContent : '0';
+    showInfo.innerHTML = (isNL ? 'Toont ' : 'Showing ') + '<strong id="showN">' + showN + '</strong>' + (isNL ? ' van ' : ' of ') + '<strong id="totalN">' + totalN + '</strong> <button onclick="resetAll()" style="margin-left:0.5rem; padding:0.2rem 0.6rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text); cursor:pointer; font-size:0.78rem;">' + (isNL ? 'Reset' : 'Reset') + '</button>';
+  }
+
+  // Dark mode button
+  if ($('darkBtn')) $('darkBtn').textContent = document.body.classList.contains('dark') ? (isNL ? 'Licht' : 'Light') : (isNL ? 'Donker' : 'Dark');
 }
 
 
