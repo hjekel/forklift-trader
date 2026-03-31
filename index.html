@@ -499,66 +499,36 @@
       <div class="tabs">
         <button class="tab on" id="tAll" onclick="setTab('all')" data-tip="Show all listings">All Listings</button>
         <button class="tab" id="tWatch" onclick="setTab('watchlist')" data-tip="Your saved favorites" data-tip="Your saved favorites">Watchlist (<span id="wBadge">0</span>)</button>
-        <button class="tab" id="tFind" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;" data-tip="Search by specs across all data">Find Machine</button>
+        <button class="tab" id="tFind" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;" data-tip="Search any equipment across all sources">Find Equipment</button>
         <button class="tab" id="tWant" onclick="setTab('want')" style="border-color:#9c27b0;color:#9c27b0;font-weight:700;" data-tip="Define what you need, find matches">Want to Buy</button>
       </div>
     </div>
 
-    <!-- FIND MACHINE PANEL -->
+    <!-- FIND ANY EQUIPMENT PANEL -->
     <div id="findPanel" style="display:none; padding:1rem; background:var(--card); border-bottom:2px solid var(--green);">
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:0.75rem; align-items:end;">
-        <div>
-          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">Brand</label>
-          <select id="findBrand" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
-            <option value="">Any</option>
-            <option value="toyota" selected>Toyota</option>
-            <option value="nissan">Nissan</option>
-            <option value="linde">Linde</option>
-            <option value="still">Still</option>
-            <option value="jungheinrich">Jungheinrich</option>
-          </select>
+      <h4 style="color:var(--green); margin-bottom:0.5rem;">Find Any Equipment</h4>
+      <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.75rem;">Search forklifts, aerial lifts, telehandlers, cherry pickers — anything. Searches local data + external marketplaces.</p>
+
+      <div style="display:flex; gap:0.5rem; align-items:end; flex-wrap:wrap;">
+        <div style="flex:1; min-width:250px;">
+          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">What are you looking for?</label>
+          <input type="text" id="findQuery" placeholder="e.g. JLG Toucan 8E-L, Toyota 8FBE15T, Genie S-65..." style="width:100%; padding:0.6rem 0.75rem; border:2px solid var(--green); border-radius:6px; background:var(--card); color:var(--text); font-size:0.95rem;" onkeydown="if(event.key==='Enter')runEquipmentSearch()">
         </div>
         <div>
-          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">Model / keyword</label>
-          <input type="text" id="findModel" placeholder="e.g. 8FBE15T" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
-        </div>
-        <div>
-          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">Year from</label>
-          <select id="findYear" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
-            <option value="0">Any</option>
-            <option value="2024">2024+</option>
-            <option value="2022">2022+</option>
-            <option value="2020">2020+</option>
-            <option value="2018">2018+</option>
-            <option value="2015">2015+</option>
-          </select>
-        </div>
-        <div>
-          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">Max price</label>
-          <input type="number" id="findPrice" placeholder="e.g. 15000" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
-        </div>
-        <div>
-          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">Max hours</label>
-          <select id="findHours" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
-            <option value="999999">Any</option>
-            <option value="1000">&le; 1.000h</option>
-            <option value="3000">&le; 3.000h</option>
-            <option value="5000">&le; 5.000h</option>
-            <option value="8000">&le; 8.000h</option>
-          </select>
-        </div>
-        <div>
-          <button onclick="runFind()" style="width:100%; padding:0.5rem; background:var(--green); color:white; border:none; border-radius:5px; font-weight:700; cursor:pointer; font-size:0.88rem;">Search 106 listings</button>
+          <button onclick="runEquipmentSearch()" style="padding:0.6rem 1.5rem; background:var(--green); color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.95rem; white-space:nowrap;">SEARCH</button>
         </div>
       </div>
-      <div id="findExternal" style="margin-top:0.75rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
-        <span style="font-size:0.8rem; color:var(--muted); line-height:2;">Also search:</span>
-        <button onclick="findExternal('mascus-nl')" class="btn-s btn-s-g">Mascus NL</button>
-        <button onclick="findExternal('mascus-de')" class="btn-s btn-s-g">Mascus DE</button>
-        <button onclick="findExternal('mascus-uk')" class="btn-s btn-s-g">Mascus UK</button>
-        <button onclick="findExternal('ts24')" class="btn-s btn-s-g">TruckScout24</button>
-        <button onclick="findExternal('tradus')" class="btn-s btn-s-g">Tradus</button>
-        <button onclick="findExternal('google')" class="btn-s" style="background:#4285f4;color:white;">Google</button>
+
+      <!-- Search results panel -->
+      <div id="equipResults" style="display:none; margin-top:1rem;">
+        <!-- Local results -->
+        <div id="equipLocal" style="margin-bottom:0.75rem;"></div>
+
+        <!-- External search links -->
+        <div style="background:var(--bg); padding:0.75rem; border-radius:8px;">
+          <div style="font-size:0.78rem; font-weight:600; text-transform:uppercase; color:var(--muted); margin-bottom:0.5rem;">Search on marketplaces</div>
+          <div id="equipExtLinks" style="display:flex; gap:0.4rem; flex-wrap:wrap;"></div>
+        </div>
       </div>
     </div>
 
@@ -1089,36 +1059,71 @@ function setTab(t) {
 }
 
 // ===== FIND MACHINE =====
-function runFind() {
-  const model = $('findModel').value.trim().toUpperCase();
-  const yearAfter = +$('findYear').value;
-  const maxPrice = +($('findPrice').value) || 999999;
-  const maxHours = +$('findHours').value;
+// ===== UNIVERSAL EQUIPMENT SEARCH =====
+function runEquipmentSearch() {
+  var query = ($('findQuery').value || '').trim();
+  if (!query) { toast('Enter what you are looking for', 'warn'); return; }
 
-  filtered = all.filter(l => {
-    if (model && !l.model.toUpperCase().includes(model)) return false;
-    if (yearAfter > 0 && l.year < yearAfter) return false;
-    if (l.price > maxPrice) return false;
-    if (l.hours > maxHours) return false;
-    return true;
+  var qLower = query.toLowerCase();
+  var qParts = qLower.split(/\s+/);
+
+  // 1. Search local data — match against brand, model, or full text
+  filtered = all.filter(function(l) {
+    var haystack = ((l.brand||'') + ' ' + (l.model||'') + ' ' + (l.id||'')).toLowerCase();
+    return qParts.every(function(part) { return haystack.includes(part); });
   });
+  filtered.sort(function(a,b) { return a.price - b.price; });
 
-  filtered.sort((a,b) => a.price - b.price);
-  renderTable();
-  updateInsights();
-  toast('Found ' + filtered.length + ' matches', filtered.length > 0 ? 'ok' : 'warn');
+  // 2. Show results panel
+  $('equipResults').style.display = 'block';
+
+  // Local results summary
+  var localEl = $('equipLocal');
+  if (filtered.length > 0) {
+    localEl.innerHTML = '<div style="padding:0.5rem 0.75rem; background:var(--green-bg); border-radius:6px; border-left:3px solid var(--green);">' +
+      '<strong style="color:var(--green);">' + filtered.length + ' found in ForkFlip data</strong>' +
+      '<span style="font-size:0.8rem; color:var(--muted); margin-left:0.5rem;">Showing below</span></div>';
+    renderTable();
+    updateInsights();
+  } else {
+    localEl.innerHTML = '<div style="padding:0.5rem 0.75rem; background:var(--yellow-bg); border-radius:6px; border-left:3px solid var(--yellow);">' +
+      '<strong style="color:var(--yellow);">Not found in ForkFlip (' + all.length + ' listings)</strong>' +
+      '<span style="font-size:0.8rem; color:var(--muted); margin-left:0.5rem;">Try the marketplace links below</span></div>';
+    $('tbody').innerHTML = '<tr><td colspan="13"><div class="empty-s"><div class="icon">&#128270;</div><p><strong>\"' + query + '\" not in local data</strong></p><p>Use the marketplace links below to search externally.</p></div></td></tr>';
+  }
+
+  // 3. Build external search links
+  var eq = encodeURIComponent(query);
+  var links = [
+    { name:'Google', url:'https://www.google.com/search?q=' + eq + '+koop+occasion', color:'#4285f4', icon:'&#x1F50D;' },
+    { name:'Mascus NL', url:'https://www.mascus.nl/?url_referrer=product&search_text=' + eq, color:'#e65100', icon:'' },
+    { name:'Mascus DE', url:'https://www.mascus.de/?url_referrer=product&search_text=' + eq, color:'#e65100', icon:'' },
+    { name:'Mascus UK', url:'https://www.mascus.co.uk/?url_referrer=product&search_text=' + eq, color:'#e65100', icon:'' },
+    { name:'Mascus FR', url:'https://www.mascus.fr/?url_referrer=product&search_text=' + eq, color:'#e65100', icon:'' },
+    { name:'TruckScout24', url:'https://www.truckscout24.de/main/search/index?fulltext=' + eq, color:'#333', icon:'' },
+    { name:'Tradus', url:'https://www.tradus.com/en/search?q=' + eq, color:'#0066cc', icon:'' },
+    { name:'Marktplaats', url:'https://www.marktplaats.nl/q/' + eq + '/', color:'#f39c12', icon:'' },
+  ];
+
+  $('equipExtLinks').innerHTML = links.map(function(l) {
+    return '<a href="' + l.url + '" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:0.3rem; padding:0.4rem 0.75rem; background:' + l.color + '; color:white; border-radius:5px; text-decoration:none; font-size:0.82rem; font-weight:600;">' + (l.icon||'') + ' ' + l.name + '</a>';
+  }).join('');
+
+  toast(filtered.length > 0 ? filtered.length + ' found locally for \"' + query + '\"' : 'Searching externally for \"' + query + '\"', filtered.length > 0 ? 'ok' : 'warn');
 }
 
+// Legacy compatibility
+function runFind() { runEquipmentSearch(); }
 function findExternal(site) {
-  const model = $('findModel').value.trim() || '';
-  const q = 'Toyota ' + model;
-  const urls = {
-    'mascus-nl': 'https://www.mascus.nl/laden-en-lossen/heftrucks?q=' + encodeURIComponent(q),
-    'mascus-de': 'https://www.mascus.de/laden-und-lossen/gabelstapler?q=' + encodeURIComponent(q),
-    'mascus-uk': 'https://www.mascus.co.uk/loading-and-lifting/forklifts?q=' + encodeURIComponent(q),
-    'ts24': 'https://www.truckscout24.de/gebraucht/gabelstapler?q=' + encodeURIComponent(q),
+  var q = ($('findQuery').value || $('findModel')?.value || '').trim();
+  if (!q) return;
+  var urls = {
+    'mascus-nl': 'https://www.mascus.nl/?search_text=' + encodeURIComponent(q),
+    'mascus-de': 'https://www.mascus.de/?search_text=' + encodeURIComponent(q),
+    'mascus-uk': 'https://www.mascus.co.uk/?search_text=' + encodeURIComponent(q),
+    'ts24': 'https://www.truckscout24.de/main/search/index?fulltext=' + encodeURIComponent(q),
     'tradus': 'https://www.tradus.com/en/search?q=' + encodeURIComponent(q),
-    'google': 'https://www.google.com/search?q=' + encodeURIComponent(q + ' forklift price'),
+    'google': 'https://www.google.com/search?q=' + encodeURIComponent(q + ' koop occasion'),
   };
   if (urls[site]) window.open(urls[site], '_blank');
 }
