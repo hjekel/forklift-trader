@@ -524,9 +524,12 @@
         <!-- Local results -->
         <div id="equipLocal" style="margin-bottom:0.75rem;"></div>
 
-        <!-- External search links -->
+        <!-- Featured marketplaces -->
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:0.5rem; margin-bottom:0.75rem;" id="equipFeatured"></div>
+
+        <!-- More marketplaces -->
         <div style="background:var(--bg); padding:0.75rem; border-radius:8px;">
-          <div style="font-size:0.78rem; font-weight:600; text-transform:uppercase; color:var(--muted); margin-bottom:0.5rem;">Search on marketplaces</div>
+          <div style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); margin-bottom:0.5rem;">More marketplaces</div>
           <div id="equipExtLinks" style="display:flex; gap:0.4rem; flex-wrap:wrap;"></div>
         </div>
       </div>
@@ -1092,24 +1095,37 @@ function runEquipmentSearch() {
     $('tbody').innerHTML = '<tr><td colspan="13"><div class="empty-s"><div class="icon">&#128270;</div><p><strong>\"' + query + '\" not in local data</strong></p><p>Use the marketplace links below to search externally.</p></div></td></tr>';
   }
 
-  // 3. Build external search links
+  // 3. Build featured marketplace cards
   var eq = encodeURIComponent(query);
+  var featured = [
+    { name:'Machineryline', desc:'72+ listings for equipment', url:'https://machineryline.nl/zoeken?search=' + eq, color:'#1565c0', bg:'#e3f2fd' },
+    { name:'Troostwijk Auctions', desc:'Active & closed auctions', url:'https://www.troostwijkauctions.com/nl/zoekresultaten/?query=' + eq, color:'#7b1fa2', bg:'#f3e5f5' },
+    { name:'Google Shopping', desc:'All sources combined', url:'https://www.google.com/search?q=' + eq + '+te+koop+occasion&tbm=shop', color:'#4285f4', bg:'#e8eaf6' },
+  ];
+
+  $('equipFeatured').innerHTML = featured.map(function(f) {
+    return '<a href="' + f.url + '" target="_blank" rel="noopener" style="display:block; padding:0.75rem; background:' + f.bg + '; border-radius:8px; border-left:4px solid ' + f.color + '; text-decoration:none; transition:transform 0.1s;" onmouseenter="this.style.transform=\'translateY(-2px)\'" onmouseleave="this.style.transform=\'none\'">' +
+      '<div style="font-weight:700; color:' + f.color + '; font-size:0.9rem;">' + f.name + ' &#x2192;</div>' +
+      '<div style="font-size:0.78rem; color:var(--muted);">' + f.desc + '</div></a>';
+  }).join('');
+
+  // 4. More marketplace links
   var links = [
-    { name:'Google', url:'https://www.google.com/search?q=' + eq + '+koop+occasion', color:'#4285f4', icon:'&#x1F50D;' },
-    { name:'Mascus NL', url:'https://www.mascus.nl/?url_referrer=product&search_text=' + eq, color:'#e65100', icon:'' },
-    { name:'Mascus DE', url:'https://www.mascus.de/?url_referrer=product&search_text=' + eq, color:'#e65100', icon:'' },
-    { name:'Mascus UK', url:'https://www.mascus.co.uk/?url_referrer=product&search_text=' + eq, color:'#e65100', icon:'' },
-    { name:'Mascus FR', url:'https://www.mascus.fr/?url_referrer=product&search_text=' + eq, color:'#e65100', icon:'' },
-    { name:'TruckScout24', url:'https://www.truckscout24.de/main/search/index?fulltext=' + eq, color:'#333', icon:'' },
-    { name:'Tradus', url:'https://www.tradus.com/en/search?q=' + eq, color:'#0066cc', icon:'' },
-    { name:'Marktplaats', url:'https://www.marktplaats.nl/q/' + eq + '/', color:'#f39c12', icon:'' },
+    { name:'Mascus NL', url:'https://www.mascus.nl/?search_text=' + eq, color:'#e65100' },
+    { name:'Mascus DE', url:'https://www.mascus.de/?search_text=' + eq, color:'#e65100' },
+    { name:'Mascus UK', url:'https://www.mascus.co.uk/?search_text=' + eq, color:'#e65100' },
+    { name:'Mascus FR', url:'https://www.mascus.fr/?search_text=' + eq, color:'#e65100' },
+    { name:'TruckScout24', url:'https://www.truckscout24.de/main/search/index?fulltext=' + eq, color:'#333' },
+    { name:'Tradus', url:'https://www.tradus.com/en/search?q=' + eq, color:'#0066cc' },
+    { name:'Marktplaats', url:'https://www.marktplaats.nl/q/' + eq + '/', color:'#f39c12' },
+    { name:'eBay', url:'https://www.ebay.nl/sch/i.html?_nkw=' + eq, color:'#e53238' },
   ];
 
   $('equipExtLinks').innerHTML = links.map(function(l) {
-    return '<a href="' + l.url + '" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:0.3rem; padding:0.4rem 0.75rem; background:' + l.color + '; color:white; border-radius:5px; text-decoration:none; font-size:0.82rem; font-weight:600;">' + (l.icon||'') + ' ' + l.name + '</a>';
+    return '<a href="' + l.url + '" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:0.3rem; padding:0.35rem 0.65rem; background:' + l.color + '; color:white; border-radius:4px; text-decoration:none; font-size:0.78rem; font-weight:600;">' + l.name + '</a>';
   }).join('');
 
-  toast(filtered.length > 0 ? filtered.length + ' found locally for \"' + query + '\"' : 'Searching externally for \"' + query + '\"', filtered.length > 0 ? 'ok' : 'warn');
+  toast(filtered.length > 0 ? filtered.length + ' found locally + marketplace links below' : 'Not in local data. Check marketplace links below.', filtered.length > 0 ? 'ok' : 'warn');
 }
 
 // Legacy compatibility
