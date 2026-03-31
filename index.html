@@ -476,11 +476,9 @@
     <button class="btn-s btn-s-g" style="width:100%;" onclick="clearFilters()">Clear All</button>
 
     <div class="side-sep">
-      <h3>Wanted Deals</h3>
-      <input type="text" id="wModel" placeholder="Model e.g. 8FBE15T">
-      <input type="number" id="wBudget" placeholder="Max budget">
-      <button class="btn-s btn-s-p" onclick="addWanted()">+ Add</button>
-      <div id="wList"></div>
+      <h3>Search Profiles</h3>
+      <div id="sidebarProfiles" style="font-size:0.8rem;"></div>
+      <button class="btn-s btn-s-p" onclick="setTab('want')" style="width:100%; margin-top:0.4rem;">+ New Profile</button>
     </div>
 
     <div class="side-btns">
@@ -535,60 +533,60 @@
       </div>
     </div>
 
-    <!-- WANT TO BUY PANEL -->
+    <!-- WANT TO BUY PANEL — Search Profiles -->
     <div id="wantPanel" style="display:none; padding:1rem; background:var(--card); border-bottom:2px solid #9c27b0;">
-      <h4 style="color:#9c27b0; margin-bottom:0.75rem;">Create Search Profile</h4>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:0.6rem; align-items:end;">
+      <h4 style="color:#9c27b0; margin-bottom:0.25rem;">Create Search Profile</h4>
+      <p style="font-size:0.78rem; color:var(--muted); margin-bottom:0.75rem;">Save what you need. ForkFlip checks every data refresh and highlights matching deals.</p>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:0.5rem; align-items:end;">
         <div>
-          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Brand</label>
-          <select id="wantBrand" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+          <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Profile Name</label>
+          <input type="text" id="spName" placeholder="e.g. Toyota budget NL" style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text); font-size:0.82rem;">
+        </div>
+        <div>
+          <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Brand</label>
+          <select id="spBrand" style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text); font-size:0.82rem;">
             <option value="">Any brand</option>
           </select>
         </div>
         <div>
-          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Model / keyword</label>
-          <input type="text" id="wantModel" placeholder="e.g. RX50-15" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
+          <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Model / keyword</label>
+          <input type="text" id="spModel" placeholder="e.g. 8FBE20T" style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text); font-size:0.82rem;">
         </div>
         <div>
-          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Year from</label>
-          <select id="wantYear" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
-            <option value="0">Any</option><option value="2024">2024+</option><option value="2022">2022+</option><option value="2020">2020+</option><option value="2018">2018+</option><option value="2015">2015+</option><option value="2010">2010+</option>
+          <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Year from</label>
+          <select id="spYear" style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text); font-size:0.82rem;">
+            <option value="0">Any</option><option value="2024">2024+</option><option value="2022">2022+</option><option value="2020">2020+</option><option value="2018">2018+</option><option value="2015">2015+</option>
           </select>
         </div>
         <div>
-          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Max hours</label>
-          <select id="wantHours" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
-            <option value="999999">Any</option><option value="1000">&le; 1.000h</option><option value="3000">&le; 3.000h</option><option value="5000">&le; 5.000h</option><option value="8000">&le; 8.000h</option>
+          <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Max price</label>
+          <input type="number" id="spPrice" placeholder="e.g. 15000" style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text); font-size:0.82rem;">
+        </div>
+        <div>
+          <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Max hours</label>
+          <select id="spHours" style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text); font-size:0.82rem;">
+            <option value="0">Any</option><option value="1000">&le;1000h</option><option value="3000">&le;3000h</option><option value="5000">&le;5000h</option><option value="8000">&le;8000h</option>
           </select>
         </div>
         <div>
-          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Max price</label>
-          <input type="number" id="wantPrice" placeholder="e.g. 15000" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text);">
-        </div>
-        <div>
-          <label style="font-size:0.7rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Region</label>
-          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-            <label style="font-size:0.78rem;"><input type="checkbox" id="wantNL" checked> NL</label>
-            <label style="font-size:0.78rem;"><input type="checkbox" id="wantDE" checked> DE</label>
-            <label style="font-size:0.78rem;"><input type="checkbox" id="wantUK"> UK</label>
-            <label style="font-size:0.78rem;"><input type="checkbox" id="wantFR"> FR</label>
+          <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Region</label>
+          <div style="display:flex; gap:0.4rem;">
+            <label style="font-size:0.75rem;"><input type="checkbox" id="spNL" checked> NL</label>
+            <label style="font-size:0.75rem;"><input type="checkbox" id="spDE" checked> DE</label>
+            <label style="font-size:0.75rem;"><input type="checkbox" id="spUK"> UK</label>
           </div>
         </div>
         <div>
-          <button onclick="searchWant()" style="width:100%; padding:0.5rem; background:#9c27b0; color:white; border:none; border-radius:5px; font-weight:700; cursor:pointer; font-size:0.85rem;">SEARCH MARKET</button>
-        </div>
-        <div>
-          <button onclick="saveWantSpec()" style="width:100%; padding:0.5rem; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:5px; font-weight:500; cursor:pointer; font-size:0.82rem;">Save to Watchlist</button>
-        </div>
-        <div>
-          <button onclick="resetWant()" style="width:100%; padding:0.5rem; background:var(--red); color:white; border:none; border-radius:5px; font-weight:500; cursor:pointer; font-size:0.82rem;">Reset</button>
+          <button onclick="saveProfile()" style="width:100%; padding:0.45rem; background:#9c27b0; color:white; border:none; border-radius:5px; font-weight:700; cursor:pointer; font-size:0.82rem;">SAVE PROFILE</button>
         </div>
       </div>
-      <!-- Saved specs -->
-      <div id="savedSpecs" style="margin-top:0.75rem;"></div>
+
+      <!-- Saved profiles list -->
+      <div id="profilesList" style="margin-top:1rem;"></div>
     </div>
 
-    <div class="bulk-bar" id="bulkBar">
+        <div class="bulk-bar" id="bulkBar">
       <span><strong id="bulkN">0</strong> selected</span>
       <button onclick="bulkWatch()">Add to watchlist</button>
       <button onclick="bulkExport()">Export</button>
@@ -1717,11 +1715,13 @@ function applyLang() {
 
 
 
-// ===== WANT TO BUY =====
-function populateWantBrands() {
+// ===== SEARCH PROFILES (Want to Buy v2) =====
+var searchProfiles = JSON.parse(localStorage.getItem('forkflip_profiles') || '[]');
+
+function populateProfileBrands() {
   var brands = {};
   all.forEach(function(l) { if(l.brand) brands[l.brand]=1; });
-  var sel = $('wantBrand');
+  var sel = $('spBrand');
   if (!sel) return;
   sel.innerHTML = '<option value="">Any brand</option>';
   Object.keys(brands).sort().forEach(function(b) {
@@ -1729,121 +1729,196 @@ function populateWantBrands() {
   });
 }
 
-function resetWant() {
-  $('wantBrand').value='';
-  $('wantModel').value='';
-  $('wantYear').value='0';
-  $('wantHours').value='999999';
-  $('wantPrice').value='';
-  $('wantNL').checked=true; $('wantDE').checked=true; $('wantUK').checked=false; $('wantFR').checked=false;
-  filtered = all.slice();
-  renderTable();
-  updateInsights();
-  toast('Search reset — showing all ' + all.length + ' listings', 'ok');
+function matchProfile(profile) {
+  return all.filter(function(l) {
+    if (profile.brand && (l.brand||'').toLowerCase() !== profile.brand.toLowerCase()) return false;
+    if (profile.model && !(l.model||'').toLowerCase().includes(profile.model.toLowerCase())) return false;
+    if (profile.yearFrom > 0 && l.year < profile.yearFrom) return false;
+    if (profile.maxHours > 0 && l.hours > profile.maxHours) return false;
+    if (profile.maxPrice > 0 && l.price > profile.maxPrice) return false;
+    if (profile.regions && profile.regions.length > 0 && !profile.regions.includes(l.region)) return false;
+    return true;
+  });
 }
 
-function searchWant() {
-  var brand = $('wantBrand').value;
-  var model = ($('wantModel').value||'').trim().toUpperCase();
-  var yearMin = +$('wantYear').value;
-  var maxPrice = +($('wantPrice').value) || 999999;
-  var maxHours = +$('wantHours').value;
-  var regions = [];
-  if ($('wantNL').checked) regions.push('NL');
-  if ($('wantDE').checked) regions.push('DE');
-  if ($('wantUK').checked) regions.push('UK');
-  if ($('wantFR').checked) regions.push('FR');
+function saveProfile() {
+  var brand = ($('spBrand').value || '').trim();
+  var model = ($('spModel').value || '').trim();
+  var name = ($('spName').value || '').trim();
+  if (!brand && !model) { toast('Vul minstens brand of model in', 'warn'); return; }
+  if (!name) name = (brand || 'Any') + ' ' + (model || 'all');
+  if (searchProfiles.length >= 10) { toast('Max 10 profielen', 'warn'); return; }
 
+  var regions = [];
+  if ($('spNL') && $('spNL').checked) regions.push('NL');
+  if ($('spDE') && $('spDE').checked) regions.push('DE');
+  if ($('spUK') && $('spUK').checked) regions.push('UK');
+
+  var profile = {
+    id: 'sp_' + Date.now(),
+    name: name,
+    brand: brand,
+    model: model,
+    yearFrom: +($('spYear').value || 0),
+    maxHours: +($('spHours').value || 0),
+    maxPrice: +($('spPrice').value || 0),
+    regions: regions,
+    lastMatchCount: 0,
+    enabled: true
+  };
+
+  // Run matching immediately
+  var matches = matchProfile(profile);
+  profile.lastMatchCount = matches.length;
+
+  searchProfiles.push(profile);
+  localStorage.setItem('forkflip_profiles', JSON.stringify(searchProfiles));
+
+  // Clear form
+  $('spName').value = ''; $('spModel').value = ''; $('spBrand').value = '';
+  $('spYear').value = '0'; $('spHours').value = '0'; $('spPrice').value = '';
+
+  renderProfiles();
+  updateSidebarProfiles();
+  updateWantBadge();
+  toast('Profile saved! ' + matches.length + ' matches found', 'ok');
+}
+
+function deleteProfile(id) {
+  searchProfiles = searchProfiles.filter(function(p) { return p.id !== id; });
+  localStorage.setItem('forkflip_profiles', JSON.stringify(searchProfiles));
+  renderProfiles();
+  updateSidebarProfiles();
+  updateWantBadge();
+}
+
+function viewProfileMatches(id) {
+  var profile = searchProfiles.find(function(p) { return p.id === id; });
+  if (!profile) return;
+  filtered = matchProfile(profile);
+  filtered.sort(function(a,b) { return a.price - b.price; });
+  activeTab = 'all';
+  $('tAll').classList.add('on'); $('tWatch').classList.remove('on');
+  if ($('tFind')) $('tFind').classList.remove('on');
+  if ($('tWant')) $('tWant').classList.remove('on');
+  if ($('findPanel')) $('findPanel').style.display='none';
+  if ($('wantPanel')) $('wantPanel').style.display='none';
+  renderTable();
+  updateInsights();
+  toast(filtered.length + ' matches for "' + profile.name + '"', 'ok');
+}
+
+function toggleProfile(id) {
+  var p = searchProfiles.find(function(x) { return x.id === id; });
+  if (p) { p.enabled = !p.enabled; localStorage.setItem('forkflip_profiles', JSON.stringify(searchProfiles)); renderProfiles(); updateSidebarProfiles(); }
+}
+
+function renderProfiles() {
+  var el = $('profilesList');
+  if (!el) return;
+  if (!searchProfiles.length) {
+    el.innerHTML = '<p style="font-size:0.8rem; color:var(--muted);">No profiles yet. Fill in the form above and click Save Profile.</p>';
+    return;
+  }
+  el.innerHTML = '<h4 style="font-size:0.82rem; color:var(--muted); margin-bottom:0.5rem;">Saved Profiles (' + searchProfiles.length + '/10)</h4>' +
+    searchProfiles.map(function(p) {
+      var matches = matchProfile(p);
+      var color = matches.length > 0 ? 'var(--green)' : 'var(--muted)';
+      var dot = p.enabled ? '\u2B24' : '\u25CB';
+      var details = [];
+      if (p.brand) details.push(p.brand);
+      if (p.model) details.push(p.model);
+      if (p.maxPrice > 0) details.push('\u2264\u20AC' + p.maxPrice.toLocaleString());
+      if (p.maxHours > 0) details.push('\u2264' + p.maxHours + 'h');
+      if (p.yearFrom > 0) details.push(p.yearFrom + '+');
+      if (p.regions.length) details.push(p.regions.join(','));
+
+      return '<div style="display:flex; justify-content:space-between; align-items:center; padding:0.5rem; background:var(--bg); border-radius:6px; margin:0.35rem 0; border-left:3px solid ' + color + ';">' +
+        '<div style="flex:1; cursor:pointer;" onclick="viewProfileMatches(\'' + p.id + '\')">' +
+          '<div style="font-weight:700; font-size:0.85rem;"><span style="color:' + color + '; font-size:0.7rem;">' + dot + '</span> ' + p.name + '</div>' +
+          '<div style="font-size:0.75rem; color:var(--muted);">' + details.join(' \u2022 ') + '</div>' +
+          '<div style="font-size:0.78rem; font-weight:600; color:' + color + ';">' + matches.length + ' matches</div>' +
+        '</div>' +
+        '<div style="display:flex; gap:0.3rem;">' +
+          '<button onclick="viewProfileMatches(\'' + p.id + '\')" style="background:var(--primary);color:white;border:none;border-radius:4px;padding:0.25rem 0.5rem;cursor:pointer;font-size:0.72rem;">View</button>' +
+          '<button onclick="toggleProfile(\'' + p.id + '\')" style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.25rem 0.4rem;cursor:pointer;font-size:0.72rem;">' + (p.enabled ? '\u23F8' : '\u25B6') + '</button>' +
+          '<button onclick="deleteProfile(\'' + p.id + '\')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:0.9rem;">\u2715</button>' +
+        '</div></div>';
+    }).join('');
+}
+
+function updateSidebarProfiles() {
+  var el = $('sidebarProfiles');
+  if (!el) return;
+  if (!searchProfiles.length) {
+    el.innerHTML = '<p style="color:var(--muted);">No profiles yet.</p>';
+    return;
+  }
+  el.innerHTML = searchProfiles.map(function(p) {
+    var matches = matchProfile(p);
+    var color = matches.length > 0 ? 'var(--green)' : 'var(--muted)';
+    var dot = p.enabled ? '\u2B24' : '\u25CB';
+    return '<div onclick="viewProfileMatches(\'' + p.id + '\')" style="cursor:pointer; display:flex; justify-content:space-between; padding:0.3rem 0.4rem; border-radius:4px; margin:0.2rem 0; border-left:3px solid ' + color + '; background:var(--bg);">' +
+      '<span style="font-size:0.78rem;"><span style="color:' + color + '; font-size:0.6rem;">' + dot + '</span> ' + p.name + '</span>' +
+      '<span style="font-size:0.75rem; font-weight:700; color:' + color + ';">' + matches.length + '</span></div>';
+  }).join('');
+}
+
+function updateWantBadge() {
+  var totalMatches = 0;
+  searchProfiles.forEach(function(p) {
+    if (p.enabled) totalMatches += matchProfile(p).length;
+  });
+  var badge = $('wantBadge');
+  if (badge) badge.textContent = totalMatches > 0 ? totalMatches : '';
+  if (badge) badge.style.display = totalMatches > 0 ? 'inline' : 'none';
+}
+
+function runAutoMatching() {
+  searchProfiles.forEach(function(p) {
+    if (!p.enabled) return;
+    var matches = matchProfile(p);
+    var prev = p.lastMatchCount || 0;
+    var newCount = Math.max(0, matches.length - prev);
+    p.lastMatchCount = matches.length;
+    if (newCount > 0) {
+      toast(p.name + ': ' + newCount + ' new match' + (newCount > 1 ? 'es' : '') + '!', 'ok');
+    }
+  });
+  localStorage.setItem('forkflip_profiles', JSON.stringify(searchProfiles));
+  renderProfiles();
+  updateSidebarProfiles();
+  updateWantBadge();
+}
+
+// Legacy compatibility
+function searchWant() {
+  var brand = ($('spBrand') ? $('spBrand').value : '');
+  var model = ($('spModel') ? $('spModel').value : '').trim().toUpperCase();
   filtered = all.filter(function(l) {
     if (brand && (l.brand||'') !== brand) return false;
     if (model && !(l.model||'').toUpperCase().includes(model)) return false;
-    if (yearMin > 0 && l.year < yearMin) return false;
-    if (l.price > maxPrice) return false;
-    if (l.hours > maxHours) return false;
-    if (regions.length > 0 && !regions.includes(l.region)) return false;
     return true;
   });
   filtered.sort(function(a,b) { return a.price - b.price; });
-  renderTable();
-  updateInsights();
-  var msg = 'Found ' + filtered.length + ' matches';
-  if (brand) msg += ' for ' + brand;
-  if (model) msg += ' ' + model;
-  toast(msg, filtered.length > 0 ? 'ok' : 'warn');
+  renderTable(); updateInsights();
+  toast('Found ' + filtered.length + ' matches', filtered.length > 0 ? 'ok' : 'warn');
 }
-
-// Saved specs (localStorage)
-var savedSpecs = JSON.parse(localStorage.getItem('ff_specs') || '[]');
-
-function saveWantSpec() {
-  var spec = {
-    id: 'spec-' + Date.now(),
-    brand: $('wantBrand').value,
-    model: $('wantModel').value.trim(),
-    yearMin: +$('wantYear').value,
-    priceMax: +($('wantPrice').value) || 0,
-    hoursMax: +$('wantHours').value,
-    regions: [],
-    createdAt: new Date().toISOString().split('T')[0]
-  };
-  if ($('wantNL').checked) spec.regions.push('NL');
-  if ($('wantDE').checked) spec.regions.push('DE');
-  if ($('wantUK').checked) spec.regions.push('UK');
-  if ($('wantFR').checked) spec.regions.push('FR');
-
-  if (!spec.brand && !spec.model) { toast('Fill in at least brand or model', 'warn'); return; }
-  savedSpecs.push(spec);
-  localStorage.setItem('ff_specs', JSON.stringify(savedSpecs));
-  renderSavedSpecs();
-  toast('Spec saved to watchlist', 'ok');
+function resetWant() {
+  if ($('spBrand')) $('spBrand').value='';
+  if ($('spModel')) $('spModel').value='';
+  if ($('spYear')) $('spYear').value='0';
+  if ($('spHours')) $('spHours').value='0';
+  if ($('spPrice')) $('spPrice').value='';
+  filtered = all.slice();
+  renderTable(); updateInsights();
+  toast('Reset', 'ok');
 }
-
-function deleteSpec(id) {
-  savedSpecs = savedSpecs.filter(function(s) { return s.id !== id; });
-  localStorage.setItem('ff_specs', JSON.stringify(savedSpecs));
-  renderSavedSpecs();
-}
-
-function loadSpec(id) {
-  var spec = savedSpecs.find(function(s) { return s.id === id; });
-  if (!spec) return;
-  $('wantBrand').value = spec.brand || '';
-  $('wantModel').value = spec.model || '';
-  $('wantYear').value = spec.yearMin || '0';
-  $('wantPrice').value = spec.priceMax || '';
-  $('wantHours').value = spec.hoursMax || '999999';
-  $('wantNL').checked = spec.regions.includes('NL');
-  $('wantDE').checked = spec.regions.includes('DE');
-  $('wantUK').checked = (spec.regions||[]).includes('UK');
-  $('wantFR').checked = (spec.regions||[]).includes('FR');
-  searchWant();
-}
-
-function countMatches(spec) {
-  return all.filter(function(l) {
-    if (spec.brand && (l.brand||'') !== spec.brand) return false;
-    if (spec.model && !(l.model||'').toUpperCase().includes(spec.model.toUpperCase())) return false;
-    if (spec.yearMin > 0 && l.year < spec.yearMin) return false;
-    if (spec.priceMax > 0 && l.price > spec.priceMax) return false;
-    if (spec.hoursMax < 999999 && l.hours > spec.hoursMax) return false;
-    if (spec.regions && spec.regions.length > 0 && !spec.regions.includes(l.region)) return false;
-    return true;
-  }).length;
-}
-
-function renderSavedSpecs() {
-  var el = $('savedSpecs');
-  if (!el || !savedSpecs.length) { if(el) el.innerHTML = ''; return; }
-  el.innerHTML = '<h4 style="font-size:0.82rem; color:var(--muted); margin-bottom:0.4rem;">Saved Searches (' + savedSpecs.length + ')</h4>' +
-    savedSpecs.map(function(s) {
-      var matches = countMatches(s);
-      var label = (s.brand ? s.brand.charAt(0).toUpperCase()+s.brand.slice(1) : 'Any') + ' ' + (s.model || 'Any model');
-      if (s.priceMax > 0) label += ' max ' + String.fromCharCode(8364) + s.priceMax.toLocaleString();
-      return '<div style="display:flex; justify-content:space-between; align-items:center; padding:0.35rem 0.5rem; background:var(--bg); border-radius:5px; margin:0.25rem 0; border-left:3px solid #9c27b0; font-size:0.8rem;">' +
-        '<span style="cursor:pointer;" onclick="loadSpec(\'' + s.id + '\')">' + label + ' <strong style="color:#9c27b0;">(' + matches + ' matches)</strong></span>' +
-        '<button onclick="deleteSpec(\'' + s.id + '\')" style="background:none;border:none;cursor:pointer;color:var(--red);font-size:0.85rem;">x</button></div>';
-    }).join('');
-}
+function addWanted() {} // Legacy stub
+function removeWanted() {} // Legacy stub
+function updateWantedUI() {} // Legacy stub
+function saveWantSpec() { saveProfile(); } // Redirect
+function populateWantBrands() { populateProfileBrands(); } // Redirect
 
 
 document.addEventListener('DOMContentLoaded', ()=>{
