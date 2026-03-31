@@ -42,6 +42,17 @@ DAILY_SEARCHES = [
     {'name': 'Manitou Telehandler', 'query': 'Manitou verreiker', 'category': 133, 'brand': 'Manitou', 'equipment': 'telehandler'},
     {'name': 'JCB Telehandler', 'query': 'JCB telehandler', 'category': 133, 'brand': 'JCB', 'equipment': 'telehandler'},
     {'name': 'Merlo Telehandler', 'query': 'Merlo verreiker', 'category': 133, 'brand': 'Merlo', 'equipment': 'telehandler'},
+    # Extra forklifts
+    {'name': 'Toyota Forklift', 'query': 'Toyota forklift', 'category': 133, 'brand': 'Toyota', 'equipment': 'forklift'},
+    {'name': 'Linde Forklift', 'query': 'Linde forklift', 'category': 133, 'brand': 'Linde', 'equipment': 'forklift'},
+    {'name': 'Still Forklift', 'query': 'Still forklift', 'category': 133, 'brand': 'Still', 'equipment': 'forklift'},
+    {'name': 'Hyster Forklift', 'query': 'Hyster forklift', 'category': 133, 'brand': 'Hyster', 'equipment': 'forklift'},
+    {'name': 'Yale Forklift', 'query': 'Yale forklift', 'category': 133, 'brand': 'Yale', 'equipment': 'forklift'},
+    # Extra aerial
+    {'name': 'Skyjack', 'query': 'Skyjack hoogwerker', 'category': 133, 'brand': 'Skyjack', 'equipment': 'aerial_lift'},
+    {'name': 'Dingli', 'query': 'Dingli hoogwerker', 'category': 133, 'brand': 'Dingli', 'equipment': 'aerial_lift'},
+    # Extra telehandler
+    {'name': 'Bobcat Telehandler', 'query': 'Bobcat telehandler', 'category': 133, 'brand': 'Bobcat', 'equipment': 'telehandler'},
 ]
 
 MIN_PRICE = 500

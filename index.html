@@ -383,6 +383,7 @@
     <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode"  title="Schakel donker/licht thema"id="darkBtn" data-tip="Toggle dark/light mode">Dark</button>
     <button class="lang-btn" onclick="showHelp()" title="Help" data-tip="Help / user guide" title="Toon de gebruikershandleiding">?</button>
   </div>
+<div style="text-align:right;padding:0 1rem 0.25rem;font-size:0.68rem;color:var(--muted);">Data: 01 Apr 2026 07:00 CET</div>
 </div>
 
 <!-- ÔòÉÔòÉÔòÉ INSIGHT CARDS ÔòÉÔòÉÔòÉ -->
@@ -509,8 +510,8 @@
 
       <div style="display:flex; gap:0.5rem; align-items:end; flex-wrap:wrap;">
         <div style="flex:1; min-width:250px;">
-          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;">What are you looking for?</label>
-          <input type="text" id="findQuery" placeholder="e.g. JLG Toucan 8E-L, Toyota 8FBE15T, Genie S-65..." style="width:100%; padding:0.6rem 0.75rem; border:2px solid var(--green); border-radius:6px; background:var(--card); color:var(--text); font-size:0.95rem;" onkeydown="if(event.key==='Enter')runEquipmentSearch()">
+          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;" id="findLabel">What are you looking for?</label>
+          <input type="text" id="findQuery" placeholder="e.g. JLG Toucan 8E-L, Toyota 8FB*15, Genie S-65... (* = wildcard)" style="width:100%; padding:0.6rem 0.75rem; border:2px solid var(--green); border-radius:6px; background:var(--card); color:var(--text); font-size:0.95rem;" onkeydown="if(event.key==='Enter')runEquipmentSearch()">
         </div>
         <div>
           <button onclick="runEquipmentSearch()" style="padding:0.6rem 1.5rem; background:var(--green); color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.95rem; white-space:nowrap;">SEARCH</button>
@@ -540,7 +541,7 @@
 
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:0.5rem; align-items:end;">
         <div>
-          <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Profile Name</label>
+          <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;" id="spNameLbl">Profile Name</label>
           <input type="text" id="spName" placeholder="e.g. Toyota budget NL" style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:5px; background:var(--card); color:var(--text); font-size:0.82rem;">
         </div>
         <div>
@@ -578,9 +579,12 @@
           </div>
         </div>
         <div>
-          <button onclick="saveProfile()" style="width:100%; padding:0.45rem; background:#9c27b0; color:white; border:none; border-radius:5px; font-weight:700; cursor:pointer; font-size:0.82rem;">SAVE PROFILE</button>
+          <button onclick="saveProfile()" style="width:100%; padding:0.45rem; background:#9c27b0; color:white; border:none; border-radius:5px; font-weight:700; cursor:pointer; font-size:0.82rem;" id="spSaveBtn">SAVE PROFILE</button>
         </div>
       </div>
+
+      <!-- Marketplace cards for search results -->
+      <div id="wantMarketplace" style="margin-top:0.75rem;display:none;"></div>
 
       <!-- Saved profiles list -->
       <div id="profilesList" style="margin-top:1rem;"></div>
@@ -592,6 +596,7 @@
       <button onclick="bulkExport()">Export</button>
       <button class="cancel" onclick="bulkClear()">Clear</button>
     </div>
+    <div id="activeFilter" style="display:none;padding:0.3rem 0.75rem;background:var(--primary-bg);font-size:0.8rem;border-bottom:1px solid var(--border);"></div>
     <div class="tscroll">
       <table>
         <thead>
@@ -625,7 +630,7 @@
     <div class="m-head">
       <div class="m-photo">
         <img id="mImg" src="" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="placeholder" style="display:none;">No photo available</div>
+        <div class="placeholder" style="display:none;"><div style="margin-bottom:0.5rem;">No photo</div><a id="mPhotoLink" href="#" target="_blank" style="color:var(--primary);font-size:0.78rem;text-decoration:underline;">View on source</a></div>
       </div>
       <div class="m-title">
         <h2 id="mModel">&mdash;</h2>
@@ -915,7 +920,15 @@ function applyFilters() {
     if (l.source==='mascus' && !sM) return false;
     if (l.source==='truckscout24' && !sT) return false;
     // sample source removed
-    if (q && !(l.model.toLowerCase().includes(q) || l.region.toLowerCase().includes(q) || l.source.toLowerCase().includes(q) || l.id.toLowerCase().includes(q))) return false;
+    if (q) {
+      var hay = ((l.brand||'')+' '+l.model+' '+l.region+' '+l.source+' '+l.id).toLowerCase();
+      if (q.includes('*')) {
+        var rx = new RegExp(q.replace(/\*/g, '.*'), 'i');
+        if (!rx.test(hay)) return false;
+      } else {
+        if (!hay.includes(q)) return false;
+      }
+    }
     return true;
   });
 
@@ -1060,6 +1073,30 @@ function setTab(t) {
 }
 
 // ===== FIND MACHINE =====
+
+// ===== SHARED MARKETPLACE CARDS =====
+function showMarketplaceCards(query, containerEl) {
+  var eq = encodeURIComponent(query);
+  var qPlus = query.replace(/\s+/g, '+');
+  var qLow = encodeURIComponent(query.toLowerCase());
+
+  var featured = [
+    { name:'Google', desc:lang==='nl'?'Alle bronnen gecombineerd':'All sources combined', url:'https://www.google.com/search?q=' + eq + '+koop+occasion', color:'#4285f4', bg:'#e8eaf6' },
+    { name:'Machineseeker', desc:'2.500+ equipment', url:'https://www.machineseeker.nl/main/search/index?search-word=' + qPlus, color:'#333', bg:'#f5f5f5' },
+    { name:'Machineryline', desc:lang==='nl'?'Zware machines marktplaats':'Heavy equipment marketplace', url:'https://www.machineryline.nl/search_text.php?query=' + eq, color:'#1565c0', bg:'#e3f2fd' },
+    { name:'Mascus (4)', desc:'NL+DE+UK+FR', url:'#', color:'#e65100', bg:'#fff3e0', action:'mascus' },
+    { name:'Troostwijk', desc:lang==='nl'?'Veilingen':'Auctions', url:'https://www.troostwijkauctions.com/search?searchTerm=' + eq, color:'#7b1fa2', bg:'#f3e5f5' },
+  ];
+
+  containerEl.innerHTML = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.5rem;margin-bottom:0.5rem;">' +
+    featured.map(function(f) {
+      var oc = f.action==='mascus' ? ' onclick="event.preventDefault();openMascusAll(\''+eq+'\')"' : '';
+      return '<a href="'+f.url+'" target="_blank" rel="noopener"'+oc+' style="display:block;padding:0.6rem;background:'+f.bg+';border-radius:6px;border-left:3px solid '+f.color+';text-decoration:none;cursor:pointer;" onmouseenter="this.style.transform=\'translateY(-1px)\'" onmouseleave="this.style.transform=\'none\'">' +
+        '<div style="font-weight:700;color:'+f.color+';font-size:0.82rem;">'+f.name+' \u2192</div>' +
+        '<div style="font-size:0.72rem;color:var(--muted);">'+f.desc+'</div></a>';
+    }).join('') + '</div>';
+}
+
 // ===== UNIVERSAL EQUIPMENT SEARCH =====
 function runEquipmentSearch() {
   var query = ($('findQuery').value || '').trim();
@@ -1071,7 +1108,13 @@ function runEquipmentSearch() {
   // 1. Search local data — match against brand, model, or full text
   filtered = all.filter(function(l) {
     var haystack = ((l.brand||'') + ' ' + (l.model||'') + ' ' + (l.id||'')).toLowerCase();
-    return qParts.every(function(part) { return haystack.includes(part); });
+    return qParts.every(function(part) {
+      if (part.includes('*')) {
+        var regex = new RegExp(part.replace(/\*/g, '.*'), 'i');
+        return regex.test(haystack);
+      }
+      return haystack.includes(part);
+    });
   });
   filtered.sort(function(a,b) { return a.price - b.price; });
 
@@ -1082,14 +1125,14 @@ function runEquipmentSearch() {
   var localEl = $('equipLocal');
   if (filtered.length > 0) {
     localEl.innerHTML = '<div style="padding:0.5rem 0.75rem; background:var(--green-bg); border-radius:6px; border-left:3px solid var(--green);">' +
-      '<strong style="color:var(--green);">' + filtered.length + ' found in ForkFlip data</strong>' +
-      '<span style="font-size:0.8rem; color:var(--muted); margin-left:0.5rem;">Showing below</span></div>';
+      '<strong style="color:var(--green);">' + filtered.length + ' ' + (lang==='nl'?'gevonden in ForkFlip':'found in ForkFlip data') + '</strong>' +
+      '<span style="font-size:0.8rem; color:var(--muted); margin-left:0.5rem;">' + (lang==='nl'?'Hieronder weergegeven':'Showing below') + '</span></div>';
     renderTable();
     updateInsights();
   } else {
     localEl.innerHTML = '<div style="padding:0.5rem 0.75rem; background:var(--yellow-bg); border-radius:6px; border-left:3px solid var(--yellow);">' +
-      '<strong style="color:var(--yellow);">Not found in ForkFlip (' + all.length + ' listings)</strong>' +
-      '<span style="font-size:0.8rem; color:var(--muted); margin-left:0.5rem;">Try the marketplace links below</span></div>';
+      '<strong style="color:var(--yellow);">' + (lang==='nl'?'Niet gevonden in ForkFlip':'Not found in ForkFlip') + ' (' + all.length + ' listings)</strong>' +
+      '<span style="font-size:0.8rem; color:var(--muted); margin-left:0.5rem;">' + (lang==='nl'?'Probeer de marktplaats links hieronder':'Try the marketplace links below') + '</span></div>';
     $('tbody').innerHTML = '<tr><td colspan="13"><div class="empty-s"><div class="icon">&#128270;</div><p><strong>\"' + query + '\" not in local data</strong></p><p>Use the marketplace links below to search externally.</p></div></td></tr>';
   }
 
@@ -1248,6 +1291,10 @@ function openModal(idx) {
   $('mCond').textContent = stars(cs)+' '+condText(cs);
   $('mRegion').textContent = mItem.region || '-';
   $('mSrc').textContent = mItem.source;
+  // Photo link
+  var photoUrl = mItem.url || getMascusUrl(((mItem.brand||'')+ ' '+mItem.model).trim(), 'www.mascus.nl');
+  var mpl = $('mPhotoLink');
+  if (mpl) { mpl.href = photoUrl; mpl.textContent = (lang==='nl'?'Bekijk op ':'View on ') + mItem.source; }
 
   // Resale estimate
   if (resale) {
@@ -1275,7 +1322,16 @@ function openModal(idx) {
     $('mInsights').innerHTML =
       '<div style="margin-bottom:0.25rem"><strong>Range:</strong> \u20AC'+prices[0].toLocaleString()+' \u2013 \u20AC'+prices[prices.length-1].toLocaleString()+'</div>'+
       '<div style="margin-bottom:0.25rem"><strong>This:</strong> '+dl+'</div>'+
-      '<div><strong>Avg hours:</strong> '+avgH.toLocaleString()+'h</div>';
+      '<div><strong>Avg hours:</strong> '+avgH.toLocaleString()+'h</div>' +
+      '<div style="margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid var(--border);">' +
+      (function() {
+        var spread = prices[prices.length-1] / Math.max(prices[0], 1);
+        var belowAvg = prices.filter(function(p){return p < avgP * 0.7;}).length;
+        if (same.length < 5) return '<strong>'+(lang==='nl'?'Markt':'Market')+':</strong> '+(lang==='nl'?'Weinig aanbod - verkopersmarkt':'Low supply - seller\'s market');
+        if (belowAvg > same.length * 0.3) return '<strong>'+(lang==='nl'?'Markt':'Market')+':</strong> '+(lang==='nl'?'Koopjes beschikbaar!':'Some bargains available!');
+        if (spread < 2) return '<strong>'+(lang==='nl'?'Markt':'Market')+':</strong> '+(lang==='nl'?'Prijzen stabiel':'Prices stable');
+        return '<strong>'+(lang==='nl'?'Markt':'Market')+':</strong> '+(lang==='nl'?'Groot aanbod - kopersmarkt':'Growing supply - buyer\'s market');
+      })() + '</div>';
   } else { $('mInsights').textContent = 'Not enough data.'; }
 
   // Comparison table
@@ -1370,7 +1426,15 @@ function copyListing() {
 }
 function copyWA() {
   if (!mItem) return;
-  navigator.clipboard.writeText(`Hoi, ik ben geinteresseerd in je ${mItem.model} (${mItem.year}). Hoe is de staat? Bereid je voor onderhandeling?`).then(()=>toast('WhatsApp template copied','ok'));
+  navigator.clipboard.writeText(`Hoi, ik heb interesse in de volgende machine:\n\n` +
+    `\ud83d\udd27 ${(mItem.brand||'').charAt(0).toUpperCase()+(mItem.brand||'').slice(1)} ${mItem.model}\n` +
+    `\ud83d\udcc5 Jaar: ${mItem.year}\n` +
+    `\u23f1\ufe0f Uren: ${mItem.hours.toLocaleString()}h\n` +
+    `\ud83d\udcb0 Prijs: \u20ac${mItem.price.toLocaleString()}\n` +
+    `\ud83d\udccd Regio: ${mItem.region}\n` +
+    `\ud83c\udfe2 Bron: ${mItem.source}\n\n` +
+    `Gevonden via ForkFlip\n\n` +
+    `Is deze nog beschikbaar?`).then(()=>toast('WhatsApp template copied','ok'));
 }
 
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
@@ -1480,6 +1544,7 @@ function cardClick(type) {
 
   if (type === 'total') {
     clearFilters();
+    if ($('activeFilter')) $('activeFilter').style.display='none';
     toast('Showing all ' + all.length + ' listings','ok');
   }
   else if (type === 'deal') {
@@ -1498,7 +1563,8 @@ function cardClick(type) {
     scored.sort(function(a,b) { return b.discount - a.discount; });
     filtered = scored.filter(function(s) { return s.discount > 0; }).slice(0, 30).map(function(s) { return s.listing; });
     renderTable(); updateInsights();
-    toast('Top 30 deals (biggest discount vs model average)','ok');
+    toast('Top 30 deals','ok');
+    showFilterTag((lang==='nl'?'Filter: Beste Deals (30 listings, 15%+ onder modelgemiddelde)':'Filter: Best Deals (30 listings, 15%+ below model avg)'));
   }
   else if (type === 'avg') {
     filtered = all.slice().sort(function(a,b) { return a.price - b.price; });
@@ -1536,13 +1602,15 @@ function cardClick(type) {
       '</table></td></tr>';
     filtered = []; // Not using normal filtered for this view
     $('showN').textContent = hotModels.length;
-    toast(hotModels.length + ' hot models (5+ listings each)','ok');
+    toast(hotModels.length + ' hot models','ok');
+    showFilterTag((lang==='nl'?'Filter: Populaire Modellen (':'Filter: Hot Models (') + hotModels.length + (lang==='nl'?' modellen, 5+ listings elk)':' models, 5+ listings each)'));
   }
   else if (type === 'budget') {
     // All listings under €10k
     filtered = all.filter(function(l) { return l.price < 10000; });
     filtered.sort(function(a,b) { return a.price - b.price; });
     renderTable(); updateInsights();
+    showFilterTag((lang==='nl'?'Filter: Onder \u20ac10.000 (':'Filter: Under \u20ac10k (') + filtered.length + ' listings)');
     toast(filtered.length + ' machines under \u20AC10.000','ok');
   }
 }
@@ -1560,6 +1628,20 @@ function openMascusAll(rawQuery) {
   window.open(getMascusUrl(q, 'www.mascus.co.uk'), '_blank');
   window.open(getMascusUrl(q, 'www.mascus.fr'), '_blank');
   toast('Mascus opened in 4 tabs (NL, DE, UK, FR)', 'ok');
+}
+
+
+// ===== ACTIVE FILTER TAG =====
+function showFilterTag(text) {
+  var el = $('activeFilter');
+  if (!el) return;
+  el.style.display = 'block';
+  el.innerHTML = '<span style="color:var(--primary);font-weight:600;">' + text + '</span> <button onclick="clearFilterTag()" style="margin-left:0.5rem;background:none;border:none;color:var(--red);cursor:pointer;font-size:0.85rem;">\u2715</button>';
+}
+function clearFilterTag() {
+  var el = $('activeFilter');
+  if (el) el.style.display = 'none';
+  cardClick('total');
 }
 
 // ===== RESET ALL =====
@@ -1708,6 +1790,20 @@ function applyLang() {
     var totalN = $('totalN') ? $('totalN').textContent : '0';
     showInfo.innerHTML = (isNL ? 'Toont ' : 'Showing ') + '<strong id="showN">' + showN + '</strong>' + (isNL ? ' van ' : ' of ') + '<strong id="totalN">' + totalN + '</strong> <button onclick="resetAll()" style="margin-left:0.5rem; padding:0.2rem 0.6rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text); cursor:pointer; font-size:0.78rem;">' + (isNL ? 'Reset' : 'Reset') + '</button>';
   }
+
+  // Dark mode button
+  
+  // Find Equipment panel labels
+  var findLabel = $('findLabel');
+  if (findLabel) findLabel.textContent = isNL ? 'Wat zoek je?' : 'What are you looking for?';
+  var findQueryInput = $('findQuery');
+  if (findQueryInput) findQueryInput.placeholder = isNL ? 'bijv. JLG Toucan 8E-L, Toyota 8FBE15T, Genie S-65...' : 'e.g. JLG Toucan 8E-L, Toyota 8FBE15T, Genie S-65...';
+
+  // Want to Buy / Search Profile labels
+  var spNameLbl = $('spNameLbl');
+  if (spNameLbl) spNameLbl.textContent = isNL ? 'Profiel Naam' : 'Profile Name';
+  var spSaveBtn = $('spSaveBtn');
+  if (spSaveBtn) spSaveBtn.textContent = isNL ? 'PROFIEL OPSLAAN' : 'SAVE PROFILE';
 
   // Dark mode button
   if ($('darkBtn')) $('darkBtn').textContent = document.body.classList.contains('dark') ? (isNL ? 'Licht' : 'Light') : (isNL ? 'Donker' : 'Dark');
@@ -1894,15 +1990,28 @@ function runAutoMatching() {
 // Legacy compatibility
 function searchWant() {
   var brand = ($('spBrand') ? $('spBrand').value : '');
-  var model = ($('spModel') ? $('spModel').value : '').trim().toUpperCase();
+  var model = ($('spModel') ? $('spModel').value : '').trim();
+  var query = ((brand || '') + ' ' + (model || '')).trim();
+  if (!query) query = 'forklift';
+
+  // Search local
+  var qUpper = (model || '').toUpperCase();
   filtered = all.filter(function(l) {
     if (brand && (l.brand||'') !== brand) return false;
-    if (model && !(l.model||'').toUpperCase().includes(model)) return false;
+    if (qUpper && !(l.model||'').toUpperCase().includes(qUpper)) return false;
     return true;
   });
   filtered.sort(function(a,b) { return a.price - b.price; });
   renderTable(); updateInsights();
-  toast('Found ' + filtered.length + ' matches', filtered.length > 0 ? 'ok' : 'warn');
+
+  // Show marketplace cards
+  var mp = $('wantMarketplace');
+  if (mp) {
+    mp.style.display = 'block';
+    showMarketplaceCards(query, mp);
+  }
+
+  toast(filtered.length > 0 ? filtered.length + (lang==='nl'?' gevonden lokaal':' found locally') : (lang==='nl'?'Niet gevonden - bekijk marktplaatsen':'Not found - check marketplaces'), filtered.length > 0 ? 'ok' : 'warn');
 }
 function resetWant() {
   if ($('spBrand')) $('spBrand').value='';
