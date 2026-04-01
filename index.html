@@ -279,8 +279,9 @@
 
     /* Comparison table */
     .comp { border-collapse: collapse; width: 100%; font-size: 0.82rem; }
-    .comp th, .comp td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); text-align: right; font-variant-numeric: tabular-nums; }
-    .comp th:first-child, .comp td:first-child { text-align: left; width: 90px; }
+    .comp th, .comp td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); text-align: left; font-variant-numeric: tabular-nums; }
+    .comp th:first-child, .comp td:first-child { text-align: left; width: 90px; font-weight: 600; }
+    .comp td:not(:first-child) { font-family: 'SF Mono', 'Consolas', monospace; }
     .comp th { background: var(--bg); font-weight: 600; text-align: left; }
     .comp th:first-child { width: 80px; }
     .comp .verdict { font-weight: 700; }
@@ -536,6 +537,67 @@
       <!-- Popular searches -->
       <div id="popularSearches" style="margin-top:0.5rem;display:flex;flex-wrap:wrap;align-items:center;gap:0.2rem;"></div>
 
+      <!-- Landing content (shown before search, hidden after) -->
+      <div id="landingContent" style="margin-top:1.5rem;">
+        <!-- Stats banner -->
+        <div style="background:linear-gradient(135deg, var(--primary), #002a75); color:white; padding:1.5rem; border-radius:10px; margin-bottom:1.5rem; text-align:center;">
+          <div style="font-size:1.8rem; font-weight:800; margin-bottom:0.3rem;">Zoek en vergelijk op 15+ marktplaatsen tegelijk</div>
+          <div style="font-size:0.95rem; opacity:0.9;">ForkFlip doorzoekt Mascus, Machineseeker, Machineryline, Troostwijk, Ritchie Bros en meer.</div>
+          <div style="display:flex; justify-content:center; gap:2rem; margin-top:1rem; flex-wrap:wrap;">
+            <div><span style="font-size:1.5rem; font-weight:700;" id="landingTotal">1.659</span><br><span style="font-size:0.75rem; opacity:0.8;">machines in database</span></div>
+            <div><span style="font-size:1.5rem; font-weight:700;">15+</span><br><span style="font-size:0.75rem; opacity:0.8;">marktplaatsen</span></div>
+            <div><span style="font-size:1.5rem; font-weight:700;">5</span><br><span style="font-size:0.75rem; opacity:0.8;">landen (NL/DE/UK/FR/BE)</span></div>
+            <div><span style="font-size:1.5rem; font-weight:700;">Dagelijks</span><br><span style="font-size:0.75rem; opacity:0.8;">automatisch ververst</span></div>
+          </div>
+        </div>
+
+        <!-- Quick category buttons -->
+        <div style="margin-bottom:1.5rem;">
+          <div style="font-size:0.85rem; font-weight:600; color:var(--muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.5px;">Zoek op categorie</div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <button onclick="searchFor('Toyota heftruck')" style="padding:0.5rem 1rem; background:var(--card); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--text);">&#x1F527; Heftrucks</button>
+            <button onclick="searchFor('hoogwerker')" style="padding:0.5rem 1rem; background:var(--card); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--text);">&#x1F3D7; Hoogwerkers</button>
+            <button onclick="searchFor('verreiker')" style="padding:0.5rem 1rem; background:var(--card); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--text);">&#x1F3D8; Verreikers</button>
+            <button onclick="searchFor('schaarhoogwerker')" style="padding:0.5rem 1rem; background:var(--card); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--text);">&#x2702; Schaarhoogwerkers</button>
+            <button onclick="searchFor('palletwagen')" style="padding:0.5rem 1rem; background:var(--card); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--text);">&#x1F4E6; Palletwagens</button>
+          </div>
+        </div>
+
+        <!-- Brand logos / quick search -->
+        <div style="margin-bottom:1.5rem;">
+          <div style="font-size:0.85rem; font-weight:600; color:var(--muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.5px;">Populaire merken</div>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+            <button onclick="searchFor('Toyota')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Toyota</button>
+            <button onclick="searchFor('Linde')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Linde</button>
+            <button onclick="searchFor('Still')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Still</button>
+            <button onclick="searchFor('Jungheinrich')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Jungheinrich</button>
+            <button onclick="searchFor('Manitou')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Manitou</button>
+            <button onclick="searchFor('JLG')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">JLG</button>
+            <button onclick="searchFor('Genie')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Genie</button>
+            <button onclick="searchFor('Haulotte')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Haulotte</button>
+          </div>
+        </div>
+
+        <!-- How it works -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:1rem;">
+          <div style="background:var(--card); padding:1rem; border-radius:8px; border-left:3px solid var(--green); text-align:center;">
+            <div style="font-size:1.5rem; margin-bottom:0.3rem;">&#x1F50D;</div>
+            <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.3rem;">1. Zoek</div>
+            <div style="font-size:0.78rem; color:var(--muted);">Typ een merk, model of type machine</div>
+          </div>
+          <div style="background:var(--card); padding:1rem; border-radius:8px; border-left:3px solid var(--primary); text-align:center;">
+            <div style="font-size:1.5rem; margin-bottom:0.3rem;">&#x1F4CA;</div>
+            <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.3rem;">2. Vergelijk</div>
+            <div style="font-size:0.78rem; color:var(--muted);">Bekijk prijzen, marges en vergelijkbare deals</div>
+          </div>
+          <div style="background:var(--card); padding:1rem; border-radius:8px; border-left:3px solid #9c27b0; text-align:center;">
+            <div style="font-size:1.5rem; margin-bottom:0.3rem;">&#x1F4B0;</div>
+            <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.3rem;">3. Deal</div>
+            <div style="font-size:0.78rem; color:var(--muted);">Klik door naar de bron en sluit de deal</div>
+          </div>
+        </div>
+      </div>
+
       <!-- Search results panel -->
       <div id="equipResults" style="display:none; margin-top:1rem;">
         <!-- Local results -->
@@ -648,10 +710,10 @@
     <div class="m-head">
       <div class="m-photo">
         <img id="mImg" src="" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="placeholder" id="mPhotoPlaceholder" style="display:none; cursor:pointer; text-align:center; padding:1.5rem; background:var(--bg); border-radius:8px;" onclick="openSrc()">
-        <div style="font-size:2rem; margin-bottom:0.4rem;">&#128247;</div>
-        <div id="mPhotoLinkText" style="font-weight:700; color:var(--primary); font-size:0.85rem;">View photos on source</div>
-        <div style="font-size:0.72rem; color:var(--muted); margin-top:0.2rem;">Click to open listing</div>
+        <div class="placeholder" id="mPhotoPlaceholder" style="display:none; cursor:pointer; text-align:center; padding:2rem 1rem; background:linear-gradient(135deg, #f5f5f5, #e8edf5); border-radius:8px; border:2px dashed var(--border); transition:border-color 0.2s;" onclick="openSrc()" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+        <div style="font-size:2.5rem; margin-bottom:0.5rem;">&#128247;</div>
+        <div id="mPhotoLinkText" style="font-weight:700; color:var(--primary); font-size:0.95rem;">Bekijk foto&#39;s op bron</div>
+        <div style="font-size:0.78rem; color:var(--muted); margin-top:0.3rem;">Klik om de originele advertentie te openen</div>
       </div>
       </div>
       <div class="m-title">
@@ -1186,7 +1248,7 @@ function setTab(t) {
   $('tFind').classList.toggle('on', t==='find');
   if ($('tWant')) $('tWant').classList.toggle('on', t==='want');
   $('findPanel').style.display = t==='find' ? 'block' : 'none';
-  if (t==='find') renderPopularSearches();
+  if (t==='find') { renderPopularSearches(); if (!$('findQuery').value.trim()) showLanding(); }
   if ($('wantPanel')) $('wantPanel').style.display = t==='want' ? 'block' : 'none';
   if (t !== 'find') applyFilters();
   // Update search count
@@ -1242,6 +1304,7 @@ function runEquipmentSearch() {
 
   // 2. Show results panel
   $('equipResults').style.display = 'block';
+  if ($('landingContent')) $('landingContent').style.display = 'none';
 
   // Local results summary
   var localEl = $('equipLocal');
@@ -2244,6 +2307,11 @@ function renderPopularSearches() {
     }).join('');
 }
 
+function showLanding() {
+  if ($('landingContent')) $('landingContent').style.display = 'block';
+  if ($('equipResults')) $('equipResults').style.display = 'none';
+  if ($('landingTotal')) $('landingTotal').textContent = all.length.toLocaleString();
+}
 function searchFor(term) {
   $('findQuery').value = term;
   setTab('find');
