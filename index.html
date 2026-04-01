@@ -644,6 +644,9 @@
             <div style="font-size:0.72rem; color:var(--muted);">Toyota, Linde, BT, ...</div>
           </div>
         </div>
+
+        <!-- Recente toevoegingen + Beste deals -->
+        <div id="landingDeals" style="margin-top:1rem;"></div>
       </div>
 
       <!-- Landing results (shown on search page) -->
@@ -1334,6 +1337,13 @@ function showMarketplaceCards(query, containerEl) {
 
 // ===== UNIVERSAL EQUIPMENT SEARCH =====
 function runEquipmentSearch() {
+  // Copy free text to landing panel free text field for unified search
+  var query = ($('findQuery').value || '').trim();
+  if (query && $('landFreeText')) {
+    $('landFreeText').value = query;
+    runLandingSearch();
+    return;
+  }
   var query = ($('findQuery').value || '').trim();
   if (!query) { toast('Enter what you are looking for', 'warn'); return; }
 
@@ -2475,29 +2485,51 @@ function runLandingSearch() {
       '<div style="font-size:0.82rem;color:var(--muted);margin-top:0.25rem;">Zoek hieronder op externe marktplaatsen:</div></div>';
   }
 
-  // ALWAYS show marketplace cards
-  resultsHTML += '<div style="font-size:0.82rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.5rem;">Zoek ook op marktplaatsen</div>';
+  // Marketplace cards — ONE set, Google first, with tooltips
+  resultsHTML += '<div style="font-size:0.82rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin:0.75rem 0 0.5rem;">Zoek op marktplaatsen</div>';
   var eq = encodeURIComponent(searchQuery);
   var qPlus = searchQuery.replace(/\s+/g, '+');
   var qLow = encodeURIComponent(searchQuery.toLowerCase());
 
   var marketplaces = [
-    { name:'Machineseeker', desc:'2.500+ specialist equipment', url:'https://www.machineseeker.nl/main/search/index?search-word=' + qPlus, color:'#333', bg:'#f5f5f5' },
-    { name:'Mascus (4 landen)', desc:'NL+DE+UK+FR', url:'#', color:'#e65100', bg:'#fff3e0', action:'mascus' },
-    { name:'Machineryline', desc:'Zware machines', url:'https://www.machineryline.nl/search_text.php?query=' + eq, color:'#1565c0', bg:'#e3f2fd' },
-    { name:'Troostwijk', desc:'Veilingen', url:'https://www.troostwijkauctions.com/search?searchTerm=' + eq, color:'#7b1fa2', bg:'#f3e5f5' },
-    { name:'Ritchie Bros.', desc:'Grootste veilinghuis', url:'https://www.rbauction.eu/search?freeText=' + eq, color:'#E8600A', bg:'#fff3e0' },
-    { name:'Google', desc:'Alle bronnen', url:'https://www.google.com/search?q=' + eq + '+koop+occasion', color:'#4285f4', bg:'#e8eaf6' },
+    { name:'Google', desc:'Alle bronnen', url:'https://www.google.com/search?q=' + eq + '+koop+occasion', color:'#4285f4', bg:'#e8eaf6', tip:'Zoek op Google — alle bronnen, altijd resultaten' },
+    { name:'Machineseeker', desc:'65.000+ machines', url:'https://www.machineseeker.nl/main/search/index?search-word=' + qPlus, color:'#333', bg:'#f5f5f5', tip:'Machineseeker.nl — grootste Nederlandse platform, 65.000+ tweedehands machines' },
+    { name:'Mascus (4 landen)', desc:'NL+DE+UK+FR', url:'#', color:'#e65100', bg:'#fff3e0', action:'mascus', tip:'Mascus — zoekt in NL, DE, UK en FR tegelijk. Opent 4 tabbladen.' },
+    { name:'Machineryline', desc:'Zware machines', url:'https://www.machineryline.nl/search_text.php?query=' + eq, color:'#1565c0', bg:'#e3f2fd', tip:'Machineryline — gespecialiseerd in zware machines, goed gefilterde resultaten' },
+    { name:'Troostwijk', desc:'Veilingen', url:'https://www.troostwijkauctions.com/search?searchTerm=' + eq, color:'#7b1fa2', bg:'#f3e5f5', tip:'Troostwijk Veilingen — online veilingen met echte marktprijzen en sluitingsdata' },
+    { name:'Ritchie Bros.', desc:'Wereldwijd', url:'https://www.rbauction.eu/search?freeText=' + eq, color:'#E8600A', bg:'#fff3e0', tip:'Ritchie Bros. — \'s werelds grootste veilinghuis, 79.000+ items' },
   ];
 
-  resultsHTML += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.5rem;">';
+  resultsHTML += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.5rem;">';
   marketplaces.forEach(function(mp) {
     var onclick = mp.action === 'mascus' ? 'event.preventDefault();openMascusAll(\'' + eq + '\')' : '';
-    resultsHTML += '<a href="' + mp.url + '" target="_blank" rel="noopener"' + (onclick ? ' onclick="'+onclick+'"' : '') + ' style="display:block;padding:0.6rem;background:'+mp.bg+';border-radius:8px;border-left:3px solid '+mp.color+';text-decoration:none;cursor:pointer;" onmouseenter="this.style.transform=\'translateY(-1px)\'" onmouseleave="this.style.transform=\'none\'">' +
+    resultsHTML += '<a href="' + mp.url + '" target="_blank" rel="noopener" title="' + (mp.tip||'') + '"' + (onclick ? ' onclick="'+onclick+'"' : '') + ' style="display:block;padding:0.6rem;background:'+mp.bg+';border-radius:8px;border-left:3px solid '+mp.color+';text-decoration:none;cursor:pointer;transition:transform 0.1s;" onmouseenter="this.style.transform=\'translateY(-1px)\'" onmouseleave="this.style.transform=\'none\'">' +
       '<div style="font-weight:700;color:'+mp.color+';font-size:0.82rem;">'+mp.name+' \u2192</div>' +
       '<div style="font-size:0.72rem;color:var(--muted);">'+mp.desc+'</div></a>';
   });
   resultsHTML += '</div>';
+
+  // Inline more marketplaces (compact, one line)
+  resultsHTML += '<div style="margin-top:0.5rem;font-size:0.72rem;color:var(--muted);">Meer: ';
+  var moreLinks = [
+    ['Mascus NL', 'https://www.mascus.nl/' + qLow + '/+/1,relevance,search.html'],
+    ['Mascus DE', 'https://www.mascus.de/' + qLow + '/+/1,relevance,search.html'],
+    ['Mascus UK', 'https://www.mascus.co.uk/' + qLow + '/+/1,relevance,search.html'],
+    ['TruckScout24', 'https://www.truckscout24.de/main/search/index?fulltext=' + eq],
+    ['MachineryZone', 'https://www.machineryzone.nl/tweedehands/1/nc/' + eq + '.html'],
+    ['Marktplaats', 'https://www.marktplaats.nl/q/' + qPlus + '/'],
+    ['eBay', 'https://www.ebay.nl/sch/i.html?_nkw=' + eq],
+  ];
+  resultsHTML += moreLinks.map(function(l) {
+    return '<a href="' + l[1] + '" target="_blank" rel="noopener" style="color:var(--primary);text-decoration:none;">' + l[0] + '</a>';
+  }).join(' \u00b7 ') + '</div>';
+
+  // FIX 5: Not found → tip about search profiles
+  if (filtered.length === 0) {
+    resultsHTML += '<div style="margin-top:1rem;padding:0.75rem;background:var(--bg);border-radius:8px;border-left:3px solid #9c27b0;font-size:0.82rem;">' +
+      '<strong style="color:#9c27b0;">Tip:</strong> Deze machine staat niet in onze database van ' + all.length.toLocaleString() + ' listings. ' +
+      'Maak een <a href="#" onclick="event.preventDefault();setTab(\'want\')" style="color:#9c27b0;font-weight:700;">Zoekprofiel</a> aan — dan krijg je een melding zodra er een match binnenkomt.</div>';
+  }
 
   resultsEl.style.display = 'block';
   resultsEl.innerHTML = resultsHTML;
@@ -2549,12 +2581,66 @@ function resetLanding() {
   if (el) el.addEventListener('change', updateLandingCount);
 });
 
+
+// ===== LANDING PAGE DEALS CONTENT =====
+function renderLandingDeals() {
+  var el = $('landingDeals');
+  if (!el || !all.length) return;
+
+  var html = '';
+
+  // Beste deals: highest positive potential (resale - price)
+  var withPotential = all.filter(function(l) {
+    var resale = estResale(l.model, l.year, l.hours);
+    return resale && resale > l.price;
+  }).map(function(l) {
+    var resale = estResale(l.model, l.year, l.hours);
+    return { listing: l, margin: resale - l.price, pct: Math.round(((resale - l.price) / l.price) * 100) };
+  }).sort(function(a,b) { return b.pct - a.pct; }).slice(0, 4);
+
+  if (withPotential.length > 0) {
+    html += '<div style="font-size:0.85rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.5rem;">Beste Deals Vandaag</div>';
+    html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.5rem;margin-bottom:1.25rem;">';
+    withPotential.forEach(function(d) {
+      var it = d.listing;
+      var flag = {'NL':'\uD83C\uDDF3\uD83C\uDDF1','DE':'\uD83C\uDDE9\uD83C\uDDEA','UK':'\uD83C\uDDEC\uD83C\uDDE7'}[it.region]||'';
+      html += '<div onclick="openModalFromAll(\''+it.id+'\')" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem;cursor:pointer;transition:border-color 0.15s;" onmouseenter="this.style.borderColor=\'var(--green)\'" onmouseleave="this.style.borderColor=\'var(--border)\'">' +
+        '<div style="display:flex;justify-content:space-between;">' +
+          '<div><div style="font-weight:700;color:var(--primary);">'+(it.brand||'').charAt(0).toUpperCase()+(it.brand||'').slice(1)+' '+it.model+'</div>' +
+          '<div style="font-size:0.75rem;color:var(--muted);">'+it.year+' \u2022 '+it.hours.toLocaleString()+'h \u2022 '+flag+it.region+'</div></div>' +
+          '<div style="text-align:right;"><div style="font-weight:700;font-size:1rem;color:var(--primary);">\u20ac'+it.price.toLocaleString()+'</div>' +
+          '<div style="font-size:0.75rem;font-weight:700;color:var(--green);">+'+d.pct+'% potentie</div></div>' +
+        '</div></div>';
+    });
+    html += '</div>';
+  }
+
+  // Recent toevoegingen: eerste 4 listings (als proxy voor "nieuw")
+  html += '<div style="font-size:0.85rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.5rem;">Recent in Database</div>';
+  html += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.5rem;">';
+  all.slice(0, 4).forEach(function(it) {
+    var cs = condScore(it.year, it.hours);
+    var flag = {'NL':'\uD83C\uDDF3\uD83C\uDDF1','DE':'\uD83C\uDDE9\uD83C\uDDEA','UK':'\uD83C\uDDEC\uD83C\uDDE7'}[it.region]||'';
+    html += '<div onclick="openModalFromAll(\''+it.id+'\')" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem;cursor:pointer;transition:border-color 0.15s;" onmouseenter="this.style.borderColor=\'var(--primary)\'" onmouseleave="this.style.borderColor=\'var(--border)\'">' +
+      '<div style="display:flex;justify-content:space-between;">' +
+        '<div><div style="font-weight:700;color:var(--primary);">'+(it.brand||'').charAt(0).toUpperCase()+(it.brand||'').slice(1)+' '+it.model+'</div>' +
+        '<div style="font-size:0.75rem;color:var(--muted);">'+it.year+' \u2022 '+it.hours.toLocaleString()+'h \u2022 '+flag+it.region+'</div></div>' +
+        '<div style="font-weight:700;font-size:1rem;color:var(--primary);">\u20ac'+it.price.toLocaleString()+'</div>' +
+      '</div>' +
+      '<div style="font-size:0.72rem;color:var(--muted);margin-top:0.2rem;">'+stars(cs)+' '+condText(cs)+' \u2022 '+it.source+'</div></div>';
+  });
+  html += '</div>';
+
+  el.innerHTML = html;
+}
+
 function showLanding() {
   if ($('landingContent')) $('landingContent').style.display = 'block';
   if ($('equipResults')) $('equipResults').style.display = 'none';
   if ($('landingResults')) $('landingResults').style.display = 'none';
   if ($('landingTotal')) $('landingTotal').textContent = all.length.toLocaleString();
   populateLandingBrands();
+  renderLandingDeals();
 }
 function searchFor(term) {
   $('findQuery').value = term;
