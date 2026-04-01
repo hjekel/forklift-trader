@@ -375,6 +375,9 @@
       <option value="still">Still</option>
       <option value="jungheinrich">Jungheinrich</option>
       <option value="manitou">Manitou</option>
+      <option value="jlg">JLG</option>
+      <option value="genie">Genie</option>
+      <option value="haulotte">Haulotte</option>
     </select>
     <button class="btn-load" onclick="loadMergedData()" data-tip="Refresh embedded data" title="Herlaad data uit de embedded database">Load Data</button>
     <button onclick="loadSampleData()" data-tip="Load 5 test listings" title="Laad 5 test-listings om de app te verkennen">Sample</button>
@@ -622,7 +625,7 @@
             <th onclick="sortBy('year')">Year</th>
             <th onclick="sortBy('hours')">Hours</th>
             <th onclick="sortBy('price')">Price</th>
-            <th onclick="sortBy('resale')">Est. Resale</th>
+            <th onclick="sortBy('resale')" title="Geschatte herverkoopwaarde: marktgemiddelde gecorrigeerd voor uren en bouwjaar. Dit is een schatting, geen garantie.">Est. Resale \u24D8</th>
             <th onclick="sortBy('margin')">Margin</th>
             <th onclick="sortBy('cond')">Cond.</th>
             <th onclick="sortBy('region')">Region</th>
@@ -643,7 +646,11 @@
     <div class="m-head">
       <div class="m-photo">
         <img id="mImg" src="" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <div class="placeholder" style="display:none;"><div style="margin-bottom:0.5rem;">No photo</div><a id="mPhotoLink" href="#" target="_blank" style="color:var(--primary);font-size:0.78rem;text-decoration:underline;">View on source</a></div>
+        <div class="placeholder" id="mPhotoPlaceholder" style="display:none; cursor:pointer; text-align:center; padding:1.5rem; background:var(--bg); border-radius:8px;" onclick="openSrc()">
+        <div style="font-size:2rem; margin-bottom:0.4rem;">&#128247;</div>
+        <div id="mPhotoLinkText" style="font-weight:700; color:var(--primary); font-size:0.85rem;">View photos on source</div>
+        <div style="font-size:0.72rem; color:var(--muted); margin-top:0.2rem;">Click to open listing</div>
+      </div>
       </div>
       <div class="m-title">
         <h2 id="mModel">&mdash;</h2>
@@ -671,7 +678,7 @@
       <div>
         <div class="mcalc">
           <h4>Margin Calculator</h4>
-          <label style="font-size:0.82rem; display:block; margin-bottom:0.35rem;">What would you pay?</label>
+          <label style="font-size:0.82rem; display:block; margin-bottom:0.35rem;">Your budget / resale price?</label>
           <input type="number" id="mOffer" placeholder="e.g. 10000" oninput="calcMargin()">
           <div class="mres" id="mMargin" style="display:none;"></div>
         </div>
@@ -705,8 +712,8 @@
       <button class="btn-a" onclick="searchGoogle()" style="background:#4285f4;color:white;">&#x1F50D; Google</button>
       <button class="btn-a btn-a-p" onclick="searchMascus()" style="background:#e65100;">Search Mascus</button>
       <button class="btn-a btn-a-p" onclick="searchRitchieBros()" style="background:#E8600A;">Ritchie Bros.</button>
-      <button class="btn-a btn-a-p" id="mSrcBtn" onclick="openSrc()">View on Source</button>
-      <button class="btn-a btn-a-s" onclick="copyWA()">WhatsApp</button>
+      <button class="btn-a btn-a-p" id="mSrcBtn" onclick="openSrc()">Bekijk origineel</button>
+      <button class="btn-a btn-a-s" onclick="copyWA()" title="Kopieer listing info naar clipboard">Kopieer Info</button>
       <button class="btn-a btn-a-s" onclick="copyListing()">Copy Info</button>
       <button class="btn-a btn-a-s" id="mWatchBtn" onclick="toggleModalW()">Add to Watchlist</button>
     </div>
@@ -1089,9 +1096,10 @@ function renderTable() {
     const isW = watchlist.has(it.id);
     const isSel = selected.has(it.id);
     const heart = isW ? '\u2764\uFE0F' : '\uD83E\uDD0D';
-    const margin = it.price - offer;
-    const mc = margin>3000?'m-pos':margin>1000?'m-mid':'m-neg';
-    const mTxt = offer>0 ? '\u20AC'+margin.toLocaleString() : '-';
+    var resaleVal = estResale(it.model, it.year, it.hours) || 0;
+    const margin = resaleVal > 0 ? resaleVal - it.price : 0;
+    const mc = margin>1000?'m-pos':margin>0?'m-mid':'m-neg';
+    const mTxt = resaleVal > 0 ? (margin>=0?'+':'') + '\u20AC'+margin.toLocaleString() : '-';
     const cs = condScore(it.year, it.hours);
     const resale = estResale(it.model, it.year, it.hours);
     const resaleTxt = resale ? '\u20AC'+resale.toLocaleString() : '-';
@@ -1110,7 +1118,7 @@ function renderTable() {
       <td style="color:var(--muted)">${resaleTxt}</td>
       <td class="${mc}">${mTxt}</td>
       <td class="cond">${stars(cs)} <small>${condText(cs)}</small></td>
-      <td>${it.region}</td>
+      <td>${{'NL':'\uD83C\uDDF3\uD83C\uDDF1','DE':'\uD83C\uDDE9\uD83C\uDDEA','UK':'\uD83C\uDDEC\uD83C\uDDE7','FR':'\uD83C\uDDEB\uD83C\uDDF7','BE':'\uD83C\uDDE7\uD83C\uDDEA'}[it.region]||'\uD83C\uDF0D'} ${it.region}</td>
       <td><span class="src-badge ${sc}">${it.source}</span></td>
     </tr>`;
   }).join('');
@@ -1395,8 +1403,8 @@ function openModal(idx) {
   $('mSrc').textContent = mItem.source;
   // Photo link
   var photoUrl = mItem.url || getMascusUrl(((mItem.brand||'')+ ' '+mItem.model).trim(), 'www.mascus.nl');
-  var mpl = $('mPhotoLink');
-  if (mpl) { mpl.href = photoUrl; mpl.textContent = (lang==='nl'?'Bekijk op ':'View on ') + mItem.source; }
+  var mpl = $('mPhotoLinkText');
+  if (mpl) { mpl.textContent = (lang==='nl'?'Bekijk foto\'s op ':'View photos on ') + mItem.source; }
 
   // Resale estimate
   if (resale) {
@@ -1495,12 +1503,13 @@ function calcMargin() {
   const offer = parseInt($('mOffer').value);
   const el = $('mMargin');
   if (!offer || !mItem) { el.style.display='none'; return; }
-  const margin = mItem.price - offer;
-  const pct = Math.round((margin/mItem.price)*100);
-  let cls = margin>3000?'pos':margin>1000?'mid':'neg';
+  const margin = offer - mItem.price;
+  const pct = mItem.price > 0 ? Math.round((margin/mItem.price)*100) : 0;
+  let cls = margin>1000?'pos':margin>0?'mid':'neg';
   el.className = 'mres '+cls;
   el.style.display = 'block';
-  el.innerHTML = '\u20AC'+margin.toLocaleString()+' margin ('+pct+'%)<div class="sm">Buy \u20AC'+offer.toLocaleString()+', sell \u20AC'+mItem.price.toLocaleString()+'</div>';
+  var label = lang==='nl' ? (margin>=0?'winst':'verlies') : (margin>=0?'profit':'loss');
+  el.innerHTML = (margin>=0?'+':'') + '\u20AC'+margin.toLocaleString()+' '+label+' ('+pct+'%)<div class="sm">'+(lang==='nl'?'Koop':'Buy')+' \u20AC'+mItem.price.toLocaleString()+', '+(lang==='nl'?'budget':'budget')+' \u20AC'+offer.toLocaleString()+'</div>';
 }
 
 function toggleModalW() { if(!mItem) return; toggleW(mItem.id); updateModalWBtn(); }
@@ -1779,7 +1788,11 @@ function searchGoogle() {
 }
 
 // ===== LANGUAGE TOGGLE =====
-var lang = localStorage.getItem('ff_lang') || 'en';
+var lang = localStorage.getItem('ff_lang');
+if (!lang) {
+  var bl = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+  lang = bl.startsWith('nl') ? 'nl' : 'en';
+}
 // ===== HELP MODAL =====
 function showHelp() {
   $('helpModal').classList.remove('hide');

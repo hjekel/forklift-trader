@@ -40,6 +40,9 @@ BRANDS = {
     'still':        { 'slug_nl': 'still', 'slug_de': 'still', 'slug_uk': 'still', 'slug_fr': 'still', 'slug_ts24': 'still' },
     'jungheinrich': { 'slug_nl': 'jungheinrich', 'slug_de': 'jungheinrich', 'slug_uk': 'jungheinrich', 'slug_fr': 'jungheinrich', 'slug_ts24': 'jungheinrich' },
     'manitou':      { 'slug_nl': 'manitou', 'slug_de': 'manitou', 'slug_uk': 'manitou', 'slug_fr': 'manitou', 'slug_ts24': 'manitou' },
+    'jlg':          { 'slug_nl': 'jlg', 'slug_de': 'jlg', 'slug_uk': 'jlg', 'slug_fr': 'jlg', 'slug_ts24': 'jlg' },
+    'genie':        { 'slug_nl': 'genie', 'slug_de': 'genie', 'slug_uk': 'genie', 'slug_fr': 'genie', 'slug_ts24': 'genie' },
+    'haulotte':     { 'slug_nl': 'haulotte', 'slug_de': 'haulotte', 'slug_uk': 'haulotte', 'slug_fr': 'haulotte', 'slug_ts24': 'haulotte' },
 }
 
 SOURCES = {
