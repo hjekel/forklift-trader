@@ -538,62 +538,110 @@
       <div id="popularSearches" style="margin-top:0.5rem;display:flex;flex-wrap:wrap;align-items:center;gap:0.2rem;"></div>
 
       <!-- Landing content (shown before search, hidden after) -->
-      <div id="landingContent" style="margin-top:1.5rem;">
-        <!-- Stats banner -->
-        <div style="background:linear-gradient(135deg, var(--primary), #002a75); color:white; padding:1.5rem; border-radius:10px; margin-bottom:1.5rem; text-align:center;">
-          <div style="font-size:1.8rem; font-weight:800; margin-bottom:0.3rem;">Zoek en vergelijk op 15+ marktplaatsen tegelijk</div>
-          <div style="font-size:0.95rem; opacity:0.9;">ForkFlip doorzoekt Mascus, Machineseeker, Machineryline, Troostwijk, Ritchie Bros en meer.</div>
-          <div style="display:flex; justify-content:center; gap:2rem; margin-top:1rem; flex-wrap:wrap;">
-            <div><span style="font-size:1.5rem; font-weight:700;" id="landingTotal">1.659</span><br><span style="font-size:0.75rem; opacity:0.8;">machines in database</span></div>
-            <div><span style="font-size:1.5rem; font-weight:700;">15+</span><br><span style="font-size:0.75rem; opacity:0.8;">marktplaatsen</span></div>
-            <div><span style="font-size:1.5rem; font-weight:700;">5</span><br><span style="font-size:0.75rem; opacity:0.8;">landen (NL/DE/UK/FR/BE)</span></div>
-            <div><span style="font-size:1.5rem; font-weight:700;">Dagelijks</span><br><span style="font-size:0.75rem; opacity:0.8;">automatisch ververst</span></div>
+      <div id="landingContent" style="margin-top:1rem;">
+        <!-- GASPEDAAL-STYLE SEARCH PANEL -->
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem;">
+          <div style="font-size:1rem; font-weight:700; color:var(--primary); margin-bottom:1rem;">ForkFlip Database</div>
+
+          <!-- Row 1: Brand + Model + Free text -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:0.6rem; margin-bottom:0.75rem;">
+            <div>
+              <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Merk</label>
+              <select id="landBrand" onchange="updateLandingModels()" style="width:100%; padding:0.45rem; border:1px solid var(--border); border-radius:6px; background:var(--card); color:var(--text); font-size:0.85rem;">
+                <option value="">Alle merken</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Model</label>
+              <select id="landModel" style="width:100%; padding:0.45rem; border:1px solid var(--border); border-radius:6px; background:var(--card); color:var(--text); font-size:0.85rem;">
+                <option value="">Alle modellen</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Of zoek vrij</label>
+              <input type="text" id="landFreeText" placeholder="bijv. 8FBE20T, Toucan..." style="width:100%; padding:0.45rem; border:1px solid var(--border); border-radius:6px; background:var(--card); color:var(--text); font-size:0.85rem;" onkeydown="if(event.key==='Enter')runLandingSearch()">
+            </div>
+          </div>
+
+          <!-- Row 2: Year + Price + Hours + Region -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:0.6rem; margin-bottom:0.75rem;">
+            <div>
+              <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Bouwjaar</label>
+              <div style="display:flex; gap:0.3rem;">
+                <select id="landYearMin" style="flex:1; padding:0.4rem; border:1px solid var(--border); border-radius:6px; font-size:0.82rem; background:var(--card); color:var(--text);">
+                  <option value="0">Min</option>
+                  <option value="2020">2020</option><option value="2018">2018</option><option value="2015">2015</option><option value="2010">2010</option><option value="2005">2005</option>
+                </select>
+                <select id="landYearMax" style="flex:1; padding:0.4rem; border:1px solid var(--border); border-radius:6px; font-size:0.82rem; background:var(--card); color:var(--text);">
+                  <option value="9999">Max</option>
+                  <option value="2026">2026</option><option value="2024">2024</option><option value="2022">2022</option><option value="2020">2020</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Prijs</label>
+              <div style="display:flex; gap:0.3rem;">
+                <select id="landPriceMin" style="flex:1; padding:0.4rem; border:1px solid var(--border); border-radius:6px; font-size:0.82rem; background:var(--card); color:var(--text);">
+                  <option value="0">Min</option>
+                  <option value="5000">&euro;5k</option><option value="10000">&euro;10k</option><option value="15000">&euro;15k</option><option value="20000">&euro;20k</option>
+                </select>
+                <select id="landPriceMax" style="flex:1; padding:0.4rem; border:1px solid var(--border); border-radius:6px; font-size:0.82rem; background:var(--card); color:var(--text);">
+                  <option value="999999">Max</option>
+                  <option value="10000">&euro;10k</option><option value="15000">&euro;15k</option><option value="20000">&euro;20k</option><option value="30000">&euro;30k</option><option value="50000">&euro;50k</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Uren</label>
+              <select id="landHoursMax" style="width:100%; padding:0.4rem; border:1px solid var(--border); border-radius:6px; font-size:0.82rem; background:var(--card); color:var(--text);">
+                <option value="999999">Alle</option>
+                <option value="1000">&le;1.000h</option><option value="3000">&le;3.000h</option><option value="5000">&le;5.000h</option><option value="10000">&le;10.000h</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.68rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.2rem;">Regio</label>
+              <div style="display:flex; gap:0.4rem; flex-wrap:wrap; padding-top:0.2rem;">
+                <label style="font-size:0.78rem;"><input type="checkbox" id="landNL" checked> NL</label>
+                <label style="font-size:0.78rem;"><input type="checkbox" id="landDE" checked> DE</label>
+                <label style="font-size:0.78rem;"><input type="checkbox" id="landUK" checked> UK</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Action buttons -->
+          <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+            <button onclick="runLandingSearch()" style="padding:0.55rem 2rem; background:var(--green); color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.95rem;" id="landSearchBtn">Vinden (1.659)</button>
+            <button onclick="resetLanding()" style="padding:0.55rem 1rem; background:var(--bg); border:1px solid var(--border); border-radius:6px; cursor:pointer; font-size:0.85rem; color:var(--text);">Wis alles</button>
+            <span style="font-size:0.78rem; color:var(--muted); margin-left:0.5rem;">Wij doorzoeken: <strong>15+</strong> marktplaatsen &bull; <strong id="landingTotal">1.659</strong> machines &bull; Dagelijks ververst</span>
           </div>
         </div>
 
-        <!-- Quick category buttons -->
-        <div style="margin-bottom:1.5rem;">
-          <div style="font-size:0.85rem; font-weight:600; color:var(--muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.5px;">Zoek op categorie</div>
-          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-            <button onclick="searchFor('Toyota heftruck')" style="padding:0.5rem 1rem; background:var(--card); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--text);">&#x1F527; Heftrucks</button>
-            <button onclick="searchFor('hoogwerker')" style="padding:0.5rem 1rem; background:var(--card); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--text);">&#x1F3D7; Hoogwerkers</button>
-            <button onclick="searchFor('verreiker')" style="padding:0.5rem 1rem; background:var(--card); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--text);">&#x1F3D8; Verreikers</button>
-            <button onclick="searchFor('schaarhoogwerker')" style="padding:0.5rem 1rem; background:var(--card); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--text);">&#x2702; Schaarhoogwerkers</button>
-            <button onclick="searchFor('palletwagen')" style="padding:0.5rem 1rem; background:var(--card); border:1px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.85rem; color:var(--text);">&#x1F4E6; Palletwagens</button>
+        <!-- How it works + quick categories -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.75rem; margin-bottom:1rem;">
+          <div onclick="searchFor('Toyota heftruck')" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:1.3rem;">&#x1F527;</div>
+            <div style="font-weight:700; font-size:0.85rem;">Heftrucks</div>
+            <div style="font-size:0.72rem; color:var(--muted);">Toyota, Linde, Still, ...</div>
           </div>
-        </div>
-
-        <!-- Brand logos / quick search -->
-        <div style="margin-bottom:1.5rem;">
-          <div style="font-size:0.85rem; font-weight:600; color:var(--muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.5px;">Populaire merken</div>
-          <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-            <button onclick="searchFor('Toyota')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Toyota</button>
-            <button onclick="searchFor('Linde')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Linde</button>
-            <button onclick="searchFor('Still')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Still</button>
-            <button onclick="searchFor('Jungheinrich')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Jungheinrich</button>
-            <button onclick="searchFor('Manitou')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Manitou</button>
-            <button onclick="searchFor('JLG')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">JLG</button>
-            <button onclick="searchFor('Genie')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Genie</button>
-            <button onclick="searchFor('Haulotte')" style="padding:0.5rem 1.2rem; background:var(--card); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; font-weight:700; color:var(--primary);">Haulotte</button>
+          <div onclick="searchFor('hoogwerker')" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:1.3rem;">&#x1F3D7;</div>
+            <div style="font-weight:700; font-size:0.85rem;">Hoogwerkers</div>
+            <div style="font-size:0.72rem; color:var(--muted);">JLG, Genie, Haulotte, ...</div>
           </div>
-        </div>
-
-        <!-- How it works -->
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:1rem;">
-          <div style="background:var(--card); padding:1rem; border-radius:8px; border-left:3px solid var(--green); text-align:center;">
-            <div style="font-size:1.5rem; margin-bottom:0.3rem;">&#x1F50D;</div>
-            <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.3rem;">1. Zoek</div>
-            <div style="font-size:0.78rem; color:var(--muted);">Typ een merk, model of type machine</div>
+          <div onclick="searchFor('verreiker')" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:1.3rem;">&#x1F3D8;</div>
+            <div style="font-weight:700; font-size:0.85rem;">Verreikers</div>
+            <div style="font-size:0.72rem; color:var(--muted);">Manitou, JCB, Merlo, ...</div>
           </div>
-          <div style="background:var(--card); padding:1rem; border-radius:8px; border-left:3px solid var(--primary); text-align:center;">
-            <div style="font-size:1.5rem; margin-bottom:0.3rem;">&#x1F4CA;</div>
-            <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.3rem;">2. Vergelijk</div>
-            <div style="font-size:0.78rem; color:var(--muted);">Bekijk prijzen, marges en vergelijkbare deals</div>
+          <div onclick="searchFor('schaarhoogwerker')" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:1.3rem;">&#x2702;</div>
+            <div style="font-weight:700; font-size:0.85rem;">Schaarhoogwerkers</div>
+            <div style="font-size:0.72rem; color:var(--muted);">JLG, Genie, Skyjack, ...</div>
           </div>
-          <div style="background:var(--card); padding:1rem; border-radius:8px; border-left:3px solid #9c27b0; text-align:center;">
-            <div style="font-size:1.5rem; margin-bottom:0.3rem;">&#x1F4B0;</div>
-            <div style="font-weight:700; font-size:0.85rem; margin-bottom:0.3rem;">3. Deal</div>
-            <div style="font-size:0.78rem; color:var(--muted);">Klik door naar de bron en sluit de deal</div>
+          <div onclick="searchFor('palletwagen')" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+            <div style="font-size:1.3rem;">&#x1F4E6;</div>
+            <div style="font-weight:700; font-size:0.85rem;">Palletwagens</div>
+            <div style="font-size:0.72rem; color:var(--muted);">Toyota, Linde, BT, ...</div>
           </div>
         </div>
       </div>
@@ -2307,10 +2355,122 @@ function renderPopularSearches() {
     }).join('');
 }
 
+
+// ===== LANDING SEARCH PANEL (Gaspedaal-style) =====
+function populateLandingBrands() {
+  var sel = $('landBrand');
+  if (!sel) return;
+  var brands = {};
+  all.forEach(function(l) { if(l.brand) brands[l.brand] = (brands[l.brand]||0) + 1; });
+  sel.innerHTML = '<option value="">Alle merken</option>';
+  Object.keys(brands).sort().forEach(function(b) {
+    sel.innerHTML += '<option value="'+b+'">'+b.charAt(0).toUpperCase()+b.slice(1)+' ('+brands[b]+')</option>';
+  });
+  updateLandingCount();
+}
+
+function updateLandingModels() {
+  var brand = ($('landBrand')||{}).value || '';
+  var sel = $('landModel');
+  if (!sel) return;
+  var subset = brand ? all.filter(function(l){return (l.brand||'')===brand;}) : all;
+  var freq = {};
+  subset.forEach(function(l) { if(l.model) freq[l.model] = (freq[l.model]||0) + 1; });
+  var models = Object.keys(freq).sort(function(a,b){return freq[b]-freq[a];});
+  sel.innerHTML = '<option value="">Alle modellen</option>' +
+    models.map(function(m) { return '<option value="'+m+'">'+m+' ('+freq[m]+')</option>'; }).join('');
+  updateLandingCount();
+}
+
+function updateLandingCount() {
+  var count = getLandingFiltered().length;
+  var btn = $('landSearchBtn');
+  if (btn) btn.textContent = 'Vinden (' + count.toLocaleString() + ')';
+}
+
+function getLandingFiltered() {
+  var brand = ($('landBrand')||{}).value || '';
+  var model = ($('landModel')||{}).value || '';
+  var freeText = (($('landFreeText')||{}).value || '').trim().toLowerCase();
+  var yMin = +($('landYearMin')||{}).value || 0;
+  var yMax = +($('landYearMax')||{}).value || 9999;
+  var pMin = +($('landPriceMin')||{}).value || 0;
+  var pMax = +($('landPriceMax')||{}).value || 999999;
+  var hMax = +($('landHoursMax')||{}).value || 999999;
+  var regions = [];
+  if ($('landNL') && $('landNL').checked) regions.push('NL');
+  if ($('landDE') && $('landDE').checked) regions.push('DE');
+  if ($('landUK') && $('landUK').checked) regions.push('UK');
+
+  return all.filter(function(l) {
+    if (brand && (l.brand||'') !== brand) return false;
+    if (model && l.model !== model) return false;
+    if (freeText && !((l.brand||'')+' '+l.model+' '+l.id).toLowerCase().includes(freeText)) return false;
+    if (l.year > 0 && l.year < yMin) return false;
+    if (l.year > 0 && l.year > yMax) return false;
+    if (l.price < pMin || l.price > pMax) return false;
+    if (l.hours > hMax) return false;
+    if (regions.length > 0 && !regions.includes(l.region)) return false;
+    return true;
+  });
+}
+
+function runLandingSearch() {
+  filtered = getLandingFiltered();
+  filtered.sort(function(a,b){return a.price-b.price;});
+
+  // Switch to All Listings tab to show results
+  activeTab = 'all';
+  $('tAll').classList.add('on'); $('tFind').classList.remove('on');
+  if ($('tWatch')) $('tWatch').classList.remove('on');
+  if ($('tWant')) $('tWant').classList.remove('on');
+  if ($('findPanel')) $('findPanel').style.display = 'none';
+  if ($('wantPanel')) $('wantPanel').style.display = 'none';
+
+  // Show sidebar + table
+  var sidebar = document.querySelector('.side');
+  if (sidebar) sidebar.style.display = 'block';
+  var tscroll = document.querySelector('.tscroll');
+  if (tscroll) tscroll.style.display = '';
+
+  renderTable();
+  updateInsights();
+  var msg = filtered.length + (lang==='nl'?' resultaten gevonden':' results found');
+  toast(msg, filtered.length > 0 ? 'ok' : 'warn');
+  showFilterTag('Zoekresultaat: ' + filtered.length + ' listings');
+}
+
+function resetLanding() {
+  if ($('landBrand')) $('landBrand').value = '';
+  if ($('landModel')) { $('landModel').innerHTML = '<option value="">Alle modellen</option>'; }
+  if ($('landFreeText')) $('landFreeText').value = '';
+  if ($('landYearMin')) $('landYearMin').value = '0';
+  if ($('landYearMax')) $('landYearMax').value = '9999';
+  if ($('landPriceMin')) $('landPriceMin').value = '0';
+  if ($('landPriceMax')) $('landPriceMax').value = '999999';
+  if ($('landHoursMax')) $('landHoursMax').value = '999999';
+  if ($('landNL')) $('landNL').checked = true;
+  if ($('landDE')) $('landDE').checked = true;
+  if ($('landUK')) $('landUK').checked = true;
+  updateLandingModels();
+  updateLandingCount();
+}
+
+// Update count on any change
+['landBrand','landModel','landYearMin','landYearMax','landPriceMin','landPriceMax','landHoursMax'].forEach(function(id) {
+  var el = $(id);
+  if (el) el.addEventListener('change', updateLandingCount);
+});
+['landNL','landDE','landUK'].forEach(function(id) {
+  var el = $(id);
+  if (el) el.addEventListener('change', updateLandingCount);
+});
+
 function showLanding() {
   if ($('landingContent')) $('landingContent').style.display = 'block';
   if ($('equipResults')) $('equipResults').style.display = 'none';
   if ($('landingTotal')) $('landingTotal').textContent = all.length.toLocaleString();
+  populateLandingBrands();
 }
 function searchFor(term) {
   $('findQuery').value = term;
