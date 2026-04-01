@@ -1178,12 +1178,13 @@ function runEquipmentSearch() {
     { name:'TruckScout24', url:'https://www.truckscout24.de/main/search/index?fulltext=' + eq },
     { name:'Ritchie Bros. EU', url:'https://www.rbauction.eu/search?freeText=' + eq },
     { name:'Machineryline DE', url:'https://www.machineryline.de/search_text.php?query=' + eq },
+    { name:'MachineryZone', url:'https://www.machineryzone.nl/tweedehands/1/nc/' + eq + '.html' },
     { name:'Forklift-Intl', url:'https://www.forklift-international.com/en/search?q=' + eq },
     { name:'Marktplaats', url:'https://www.marktplaats.nl/q/' + qPlus + '/' },
     { name:'eBay', url:'https://www.ebay.nl/sch/i.html?_nkw=' + eq },
   ];
 
-  var moreHtml = '<div style="margin-bottom:0.4rem;"><button onclick="var g=this.nextElementSibling;g.style.display=g.style.display===\'none\'?\'flex\':\'none\';this.textContent=g.style.display===\'none\'?\'+  8 meer marktplaatsen\':\'-  Verberg extra marktplaatsen\'" style="background:none;border:none;color:var(--primary);cursor:pointer;font-size:0.8rem;font-weight:700;padding:0;">+ 10 meer marktplaatsen</button>' +
+  var moreHtml = '<div style="margin-bottom:0.4rem;"><button onclick="var g=this.nextElementSibling;g.style.display=g.style.display===\'none\'?\'flex\':\'none\';this.textContent=g.style.display===\'none\'?\'+  8 meer marktplaatsen\':\'-  Verberg extra marktplaatsen\'" style="background:none;border:none;color:var(--primary);cursor:pointer;font-size:0.8rem;font-weight:700;padding:0;">+ 11 meer marktplaatsen</button>' +
     '<div style="display:none;flex-wrap:wrap;gap:0.35rem;margin-top:0.4rem;">' +
     moreLinks.map(function(l) {
       return '<a href="' + l.url + '" target="_blank" rel="noopener" style="padding:0.3rem 0.6rem;background:var(--bg);border:1px solid var(--border);border-radius:4px;text-decoration:none;color:var(--primary);font-size:0.78rem;font-weight:600;">' + l.name + '</a>';

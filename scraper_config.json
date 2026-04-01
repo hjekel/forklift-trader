@@ -27,7 +27,10 @@
       "Hyster forklift",
       "Yale forklift"
     ],
-    "user_requested": []
+    "user_requested": [
+      "MachineryZone hoogwerker",
+      "MachineryZone heftruck"
+    ]
   },
   "category_id": 133,
   "max_pages_per_search": 3,
