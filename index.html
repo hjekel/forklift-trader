@@ -483,8 +483,8 @@
     </div>
     <div class="fg">
       <label>Source</label>
-      <div class="cb-row"><input type="checkbox" id="sMascus" checked> Mascus (NL/DE/UK/FR)</div>
-      <div class="cb-row"><input type="checkbox" id="sTruck" checked> TruckScout24 (DE/NL)</div>
+      <div class="cb-row"><input type="checkbox" id="sMascus" checked> Mascus <span id="sMascusCount" style="color:var(--muted);font-size:0.75rem;"></span></div>
+      <div class="cb-row"><input type="checkbox" id="sTruck" checked> TruckScout24 <span id="sTruckCount" style="color:var(--muted);font-size:0.75rem;"></span></div>
     </div>
     <input type="hidden" id="defOffer" value="12000">
     <button class="btn-s btn-s-g" style="width:100%;" onclick="clearFilters()">Clear All</button>
@@ -655,7 +655,7 @@
       <div class="m-title">
         <h2 id="mModel">&mdash;</h2>
         <div class="sub" id="mSub">&mdash;</div>
-        <div class="resale-est" id="mResale">&mdash;</div>
+        <div class="resale-est" id="mResale" title="Geschatte herverkoopwaarde gebaseerd op marktgemiddelde, gecorrigeerd voor uren en bouwjaar. Groen = onder marktwaarde (goede koop). Rood = boven marktwaarde.">&mdash;</div>
       </div>
     </div>
 
@@ -678,7 +678,8 @@
       <div>
         <div class="mcalc">
           <h4>Margin Calculator</h4>
-          <label style="font-size:0.82rem; display:block; margin-bottom:0.35rem;">Your budget / resale price?</label>
+          <p style="font-size:0.72rem; color:var(--muted); margin-bottom:0.4rem;">Vul je budget of verwachte verkoopprijs in. Groen = winst, Rood = verlies.</p>
+          <label style="font-size:0.82rem; display:block; margin-bottom:0.35rem;">Budget / verkoopprijs</label>
           <input type="number" id="mOffer" placeholder="e.g. 10000" oninput="calcMargin()">
           <div class="mres" id="mMargin" style="display:none;"></div>
         </div>
@@ -692,7 +693,7 @@
       <div class="m-body-full">
         <h4 style="font-size:0.85rem; margin-bottom:0.4rem;">How It Compares</h4>
         <table class="comp">
-          <tr><th></th><th>This Deal</th><th>Market Avg</th><th>Best Available</th></tr>
+          <tr><th></th><th>This Deal</th><th>Market Avg</th><th><a href="#" onclick="event.preventDefault();openCheapest()" style="color:var(--primary);text-decoration:underline;" title="Klik om de goedkoopste te bekijken">Best Available</a></th></tr>
           <tr><td><strong>Price</strong></td><td id="cP1"></td><td id="cP2"></td><td id="cP3"></td></tr>
           <tr><td><strong>Year</strong></td><td id="cY1"></td><td id="cY2"></td><td id="cY3"></td></tr>
           <tr><td><strong>Hours</strong></td><td id="cH1"></td><td id="cH2"></td><td id="cH3"></td></tr>
@@ -713,8 +714,8 @@
       <button class="btn-a btn-a-p" onclick="searchMascus()" style="background:#e65100;">Search Mascus</button>
       <button class="btn-a btn-a-p" onclick="searchRitchieBros()" style="background:#E8600A;">Ritchie Bros.</button>
       <button class="btn-a btn-a-p" id="mSrcBtn" onclick="openSrc()">Bekijk origineel</button>
-      <button class="btn-a btn-a-s" onclick="copyWA()" title="Kopieer listing info naar clipboard">Kopieer Info</button>
-      <button class="btn-a btn-a-s" onclick="copyListing()">Copy Info</button>
+      <button class="btn-a btn-a-s" onclick="copyWA()" title="Kopieer een reactie-template naar clipboard">Reactie Template</button>
+      <button class="btn-a btn-a-s" onclick="copyListing()" title="Kopieer listing details als tekst">Details</button>
       <button class="btn-a btn-a-s" id="mWatchBtn" onclick="toggleModalW()">Add to Watchlist</button>
     </div>
   </div>
@@ -827,6 +828,8 @@ async function loadMergedData() {
 }
 
 function loadSampleData() {
+  if ($('brandSel')) $('brandSel').value = 'all';
+  if ($('sBrand')) $('sBrand').value = '';
   all = [
     {id:'S1',model:'8FBE15T',year:2020,hours:2500,price:18500,source:'sample',region:'NL',url:'',photo:''},
     {id:'S2',model:'8FD25',year:2019,hours:4200,price:22000,source:'sample',region:'NL',url:'',photo:''},
@@ -1118,7 +1121,7 @@ function renderTable() {
       <td style="color:var(--muted)">${resaleTxt}</td>
       <td class="${mc}">${mTxt}</td>
       <td class="cond">${stars(cs)} <small>${condText(cs)}</small></td>
-      <td>${{'NL':'\uD83C\uDDF3\uD83C\uDDF1','DE':'\uD83C\uDDE9\uD83C\uDDEA','UK':'\uD83C\uDDEC\uD83C\uDDE7','FR':'\uD83C\uDDEB\uD83C\uDDF7','BE':'\uD83C\uDDE7\uD83C\uDDEA'}[it.region]||'\uD83C\uDF0D'} ${it.region}</td>
+      <td><span onclick="event.stopPropagation();filterByRegion('${it.region}')" style="cursor:pointer;" title="Filter op ${it.region}">${{'NL':'\uD83C\uDDF3\uD83C\uDDF1','DE':'\uD83C\uDDE9\uD83C\uDDEA','UK':'\uD83C\uDDEC\uD83C\uDDE7','FR':'\uD83C\uDDEB\uD83C\uDDF7','BE':'\uD83C\uDDE7\uD83C\uDDEA'}[it.region]||'\uD83C\uDF0D'} ${it.region}</span></td>
       <td><span class="src-badge ${sc}">${it.source}</span></td>
     </tr>`;
   }).join('');
@@ -1627,7 +1630,7 @@ function sortBy(col) {
     else if (col === 'hours') { va = a.hours; vb = b.hours; }
     else if (col === 'price') { va = a.price; vb = b.price; }
     else if (col === 'resale') { va = estResale(a.model,a.year,a.hours)||0; vb = estResale(b.model,b.year,b.hours)||0; }
-    else if (col === 'margin') { va = a.price - offer; vb = b.price - offer; }
+    else if (col === 'margin') { va = (estResale(a.model,a.year,a.hours)||0) - a.price; vb = (estResale(b.model,b.year,b.hours)||0) - b.price; }
     else if (col === 'cond') { va = condScore(a.year,a.hours); vb = condScore(b.year,b.hours); }
     else if (col === 'region') { va = a.region; vb = b.region; }
     else if (col === 'source') { va = a.source; vb = b.source; }
@@ -1742,6 +1745,13 @@ function openMascusAll(rawQuery) {
 }
 
 
+
+// ===== FILTER BY REGION (click on flag) =====
+function filterByRegion(region) {
+  $('fSearch').value = region;
+  applyFilters();
+  toast((lang==='nl'?'Gefilterd op ':'Filtered by ') + region, 'ok');
+}
 // ===== ACTIVE FILTER TAG =====
 function showFilterTag(text) {
   var el = $('activeFilter');
@@ -1755,6 +1765,18 @@ function clearFilterTag() {
   cardClick('total');
 }
 
+
+// ===== SOURCE COUNTS IN SIDEBAR =====
+function updateSourceCounts() {
+  var mascus = 0, truck = 0, other = 0;
+  all.forEach(function(l) {
+    if (l.source === 'mascus') mascus++;
+    else if (l.source === 'truckscout24') truck++;
+    else other++;
+  });
+  if ($('sMascusCount')) $('sMascusCount').textContent = '(' + mascus + ')';
+  if ($('sTruckCount')) $('sTruckCount').textContent = '(' + truck + ')';
+}
 // ===== RESET ALL =====
 function resetAll() {
   $('brandSel').value = 'all';
@@ -1763,6 +1785,19 @@ function resetAll() {
   toast('Reset - showing all ' + all.length + ' listings', 'ok');
 }
 
+
+// ===== FIND CHEAPEST LISTING =====
+function openCheapest() {
+  if (!mItem) return;
+  var cheapest = all.filter(function(l) { return l.model === mItem.model; })
+    .sort(function(a,b) { return a.price - b.price; })[0];
+  if (cheapest) {
+    var idx = filtered.indexOf(cheapest);
+    if (idx < 0) { filtered = all.filter(function(l){return l.model===mItem.model;}); idx = 0; }
+    closeModal();
+    openModal(idx);
+  }
+}
 // ===== HOT MODEL DRILL DOWN =====
 function cardClickModel(model) {
   filtered = all.filter(function(l) { return l.model === model; });
