@@ -234,6 +234,14 @@ class ForkFlipScraper:
                     if price == 0:
                         continue
 
+                    # Extract image URL
+                    img_el = item.find('img')
+                    image_url = ''
+                    if img_el:
+                        image_url = img_el.get('src', '') or img_el.get('data-src', '') or ''
+                        if image_url.startswith('//'):
+                            image_url = 'https:' + image_url
+
                     self.counter += 1
                     listing = {
                         'id': f'{prefix}-{self.counter}',
@@ -244,6 +252,7 @@ class ForkFlipScraper:
                         'price': price,
                         'source': src['source'],
                         'region': region,
+                        'image_url': image_url,
                     }
                     self.all_listings.append(listing)
                     page_count += 1
@@ -351,7 +360,7 @@ class ForkFlipScraper:
             log.warning('No listings to save')
             return None
 
-        fieldnames = ['id', 'model', 'brand', 'year', 'hours', 'price', 'source', 'region']
+        fieldnames = ['id', 'model', 'brand', 'year', 'hours', 'price', 'source', 'region', 'image_url']
         with open(filepath, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
