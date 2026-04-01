@@ -11,6 +11,7 @@ Usage:
 import requests
 from bs4 import BeautifulSoup
 import csv
+import json
 import time
 import random
 import re
@@ -242,18 +243,34 @@ class MachineseekerScraper:
         return self.listings
 
     def run_daily(self, max_pages=3):
-        """Run all pre-configured daily searches."""
+        """Run searches from scraper_config.json if it exists, else use DAILY_SEARCHES."""
+        config_path = Path(__file__).parent.parent / 'scraper_config.json'
+
+        if config_path.exists():
+            log.info(f'Loading searches from {config_path}')
+            with open(config_path) as f:
+                config = json.load(f)
+            category_id = config.get('category_id', 133)
+            max_pages = config.get('max_pages_per_search', max_pages)
+            searches = []
+            for cat, terms in config.get('searches', {}).items():
+                for term in terms:
+                    brand = term.split()[0] if term else 'unknown'
+                    searches.append({'query': term, 'category': category_id, 'brand': brand, 'equipment': cat})
+        else:
+            searches = [{'query': c['query'], 'category': c['category'], 'brand': c['brand'], 'equipment': c['equipment']} for c in DAILY_SEARCHES]
+
         log.info(f'\n{"="*60}')
-        log.info(f'MACHINESEEKER DAILY SCRAPE — {len(DAILY_SEARCHES)} categories')
+        log.info(f'MACHINESEEKER DAILY SCRAPE — {len(searches)} searches')
         log.info(f'{"="*60}')
 
-        for config in DAILY_SEARCHES:
-            log.info(f'\n--- {config["name"]} ---')
+        for s in searches:
+            log.info(f'\n--- {s["query"]} ---')
             self.search(
-                query=config['query'],
-                category_id=config['category'],
-                brand=config['brand'],
-                equipment_type=config['equipment'],
+                query=s['query'],
+                category_id=s['category'],
+                brand=s['brand'],
+                equipment_type=s['equipment'],
                 max_pages=max_pages
             )
             self._delay()

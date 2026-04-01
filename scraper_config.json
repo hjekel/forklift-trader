@@ -1,0 +1,35 @@
+{
+  "version": "2026-04-01",
+  "searches": {
+    "aerial_lifts": [
+      "JLG Toucan",
+      "JLG boom lift",
+      "Genie hoogwerker",
+      "Haulotte hoogwerker",
+      "Niftylift",
+      "Skyjack hoogwerker",
+      "Dingli hoogwerker"
+    ],
+    "scissor_lifts": [
+      "JLG schaarhoogwerker",
+      "Genie schaarhoogwerker"
+    ],
+    "telehandlers": [
+      "Manitou verreiker",
+      "JCB telehandler",
+      "Merlo verreiker",
+      "Bobcat telehandler"
+    ],
+    "forklifts": [
+      "Toyota forklift",
+      "Linde forklift",
+      "Still forklift",
+      "Hyster forklift",
+      "Yale forklift"
+    ],
+    "user_requested": []
+  },
+  "category_id": 133,
+  "max_pages_per_search": 3,
+  "notes": "user_requested wordt gevuld op basis van search analytics"
+}

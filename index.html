@@ -431,7 +431,7 @@
     </div>
     <div class="fg">
       <label>Model</label>
-      <select id="fModel" multiple size="5"></select>
+      <select id="fModel" multiple size="10"></select>
     </div>
     <div class="fg">
       <label>Newer than</label>
@@ -517,6 +517,9 @@
           <button onclick="runEquipmentSearch()" style="padding:0.6rem 1.5rem; background:var(--green); color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.95rem; white-space:nowrap;">SEARCH</button>
         </div>
       </div>
+
+      <!-- Popular searches -->
+      <div id="popularSearches" style="margin-top:0.5rem;display:flex;flex-wrap:wrap;align-items:center;gap:0.2rem;"></div>
 
       <!-- Search results panel -->
       <div id="equipResults" style="display:none; margin-top:1rem;">
@@ -936,6 +939,9 @@ function applyFilters() {
   renderTable();
   updateInsights();
   updateURL();
+  // Log sidebar searches
+  var sq = ($('fSearch')||{}).value;
+  if (sq && sq.trim().length > 2) logSearch(sq.trim(), 'sidebar', filtered.length > 0);
 }
 
 function clearFilters() {
@@ -1067,6 +1073,7 @@ function setTab(t) {
   $('tFind').classList.toggle('on', t==='find');
   if ($('tWant')) $('tWant').classList.toggle('on', t==='want');
   $('findPanel').style.display = t==='find' ? 'block' : 'none';
+  if (t==='find') renderPopularSearches();
   if ($('wantPanel')) $('wantPanel').style.display = t==='want' ? 'block' : 'none';
   if (t !== 'find') applyFilters();
   // Update search count
@@ -1184,6 +1191,7 @@ function runEquipmentSearch() {
 
   $('equipExtLinks').innerHTML = moreHtml;
 
+  logSearch(query, 'find_equipment', filtered.length > 0);
   toast(filtered.length > 0 ? filtered.length + ' found locally + marketplace links below' : 'Not in local data \u2014 check marketplace links below', filtered.length > 0 ? 'ok' : 'warn');
 }
 
@@ -2038,6 +2046,109 @@ function saveWantSpec() { saveProfile(); } // Redirect
 function populateWantBrands() { populateProfileBrands(); } // Redirect
 
 
+// ===== SEARCH ANALYTICS (V7) =====
+function logSearch(term, source, hadLocalResults) {
+  var log = JSON.parse(localStorage.getItem('forkflip_search_log') || '[]');
+  log.push({
+    term: term.trim(),
+    timestamp: new Date().toISOString(),
+    source: source,
+    hadLocalResults: hadLocalResults
+  });
+  if (log.length > 500) log.splice(0, log.length - 500);
+  localStorage.setItem('forkflip_search_log', JSON.stringify(log));
+}
+
+// ===== POPULAR SEARCHES =====
+function getPopularSearches(max) {
+  max = max || 6;
+  var log = JSON.parse(localStorage.getItem('forkflip_search_log') || '[]');
+  var freq = {};
+  log.forEach(function(e) { var k = e.term.toLowerCase(); freq[k] = (freq[k]||0) + 1; });
+  var sorted = Object.keys(freq).sort(function(a,b){return freq[b]-freq[a];}).slice(0, max);
+  var defaults = ['Toyota 8FBE20T','JLG Toucan 8E-L','Linde E16','Genie GS-2632','Manitou MT1440','Still RX20','Jungheinrich EFG 216','Haulotte Star 10'];
+  var i = 0;
+  while (sorted.length < max && i < defaults.length) {
+    if (sorted.indexOf(defaults[i].toLowerCase()) < 0) sorted.push(defaults[i]);
+    i++;
+  }
+  return sorted;
+}
+
+function renderPopularSearches() {
+  var el = $('popularSearches');
+  if (!el) return;
+  var searches = getPopularSearches(6);
+  el.innerHTML = '<span style="font-size:0.72rem;color:var(--muted);margin-right:0.3rem;">' + (lang==='nl'?'Populair:':'Popular:') + '</span>' +
+    searches.map(function(s) {
+      return '<button onclick="searchFor(\''+s.replace(/'/g,"\\'")+'\')" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:0.15rem 0.5rem;font-size:0.72rem;cursor:pointer;color:var(--primary);margin:0.1rem;">' + s + '</button>';
+    }).join('');
+}
+
+function searchFor(term) {
+  $('findQuery').value = term;
+  setTab('find');
+  runEquipmentSearch();
+}
+
+// ===== ADMIN PANEL =====
+function checkAdmin() {
+  if (location.search.includes('admin=true') || sessionStorage.getItem('ff_admin')) {
+    sessionStorage.setItem('ff_admin', '1');
+    showAdminPanel();
+  }
+}
+
+function showAdminPanel() {
+  var existing = $('adminPanel');
+  if (existing) { existing.style.display = existing.style.display === 'none' ? 'block' : 'none'; return; }
+
+  var log = JSON.parse(localStorage.getItem('forkflip_search_log') || '[]');
+  var freq = {};
+  var missing = {};
+  log.forEach(function(e) {
+    var k = e.term.toLowerCase();
+    freq[k] = (freq[k]||0) + 1;
+    if (!e.hadLocalResults) missing[k] = (missing[k]||0) + 1;
+  });
+
+  var topAll = Object.keys(freq).sort(function(a,b){return freq[b]-freq[a];}).slice(0,10);
+  var topMissing = Object.keys(missing).sort(function(a,b){return missing[b]-missing[a];}).slice(0,10);
+
+  var panel = document.createElement('div');
+  panel.id = 'adminPanel';
+  panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card);border:2px solid var(--primary);border-radius:12px;padding:1.5rem;z-index:2000;max-width:600px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.3);';
+
+  var uniqueTerms = Object.keys(freq).length;
+  var missingCount = Object.keys(missing).length;
+
+  panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">' +
+    '<h3 style="color:var(--primary);">Search Analytics</h3>' +
+    '<button onclick="$(\' adminPanel\').style.display=\'none\'" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--muted);">x</button></div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;margin-bottom:1rem;">' +
+      '<div style="background:var(--bg);padding:0.5rem;border-radius:6px;text-align:center;"><div style="font-size:1.3rem;font-weight:700;color:var(--primary);">' + log.length + '</div><div style="font-size:0.72rem;color:var(--muted);">Total searches</div></div>' +
+      '<div style="background:var(--bg);padding:0.5rem;border-radius:6px;text-align:center;"><div style="font-size:1.3rem;font-weight:700;color:var(--primary);">' + uniqueTerms + '</div><div style="font-size:0.72rem;color:var(--muted);">Unique terms</div></div>' +
+      '<div style="background:var(--bg);padding:0.5rem;border-radius:6px;text-align:center;"><div style="font-size:1.3rem;font-weight:700;color:var(--red);">' + missingCount + '</div><div style="font-size:0.72rem;color:var(--muted);">Not in database</div></div>' +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">' +
+      '<div><h4 style="font-size:0.82rem;color:var(--muted);margin-bottom:0.5rem;">Top Searches</h4>' +
+        topAll.map(function(t,i){return '<div style="font-size:0.8rem;padding:0.2rem 0;border-bottom:1px solid var(--border);">'+(i+1)+'. '+t+' <span style="color:var(--primary);font-weight:700;">('+freq[t]+'x)</span></div>';}).join('') +
+      '</div>' +
+      '<div><h4 style="font-size:0.82rem;color:var(--red);margin-bottom:0.5rem;">Not Found (add to scraper)</h4>' +
+        (topMissing.length > 0 ? topMissing.map(function(t,i){return '<div style="font-size:0.8rem;padding:0.2rem 0;border-bottom:1px solid var(--border);">'+(i+1)+'. '+t+' <span style="color:var(--red);font-weight:700;">('+missing[t]+'x)</span> <button onclick="navigator.clipboard.writeText(\''+t+'\');toast(\'Copied: '+t+'\',\'ok\')" style="background:none;border:none;color:var(--primary);cursor:pointer;font-size:0.7rem;">copy</button></div>';}).join('') : '<p style="font-size:0.8rem;color:var(--muted);">All searches had local results!</p>') +
+      '</div>' +
+    '</div>' +
+    '<div style="margin-top:1rem;text-align:center;"><button onclick="localStorage.removeItem(\'forkflip_search_log\');$(\' adminPanel\').style.display=\'none\';toast(\'Search log cleared\',\'ok\')" style="background:var(--red);color:white;border:none;border-radius:5px;padding:0.4rem 1rem;cursor:pointer;font-size:0.78rem;">Clear Search Log</button></div>';
+
+  document.body.appendChild(panel);
+}
+
+// Keyboard shortcut: Ctrl+Shift+A for admin panel
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === 'A') { e.preventDefault(); showAdminPanel(); }
+});
+
+
 document.addEventListener('DOMContentLoaded', ()=>{
   loadLS();
   updateWantedUI();
@@ -2045,6 +2156,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   updateInsights();
   updateDarkBtn();
   applyLang();
+  checkAdmin();
   if(all.length) afterLoad();
   populateWantBrands();
   renderSavedSpecs();
