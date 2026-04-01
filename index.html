@@ -368,12 +368,13 @@
   </div>
   <div class="top-bar-actions">
     <select id="brandSel" onchange="switchBrand()">
-      <option value="all">All Brands</option>
-      <option value="toyota" selected>Toyota</option>
+      <option value="all" selected>All Brands</option>
+      <option value="toyota">Toyota</option>
       <option value="nissan">Nissan</option>
       <option value="linde">Linde</option>
       <option value="still">Still</option>
       <option value="jungheinrich">Jungheinrich</option>
+      <option value="manitou">Manitou</option>
     </select>
     <button class="btn-load" onclick="loadMergedData()" data-tip="Refresh embedded data" title="Herlaad data uit de embedded database">Load Data</button>
     <button onclick="loadSampleData()" data-tip="Load 5 test listings" title="Laad 5 test-listings om de app te verkennen">Sample</button>
@@ -987,7 +988,10 @@ function handleCustomModel(value) {
 
 function applyFilters() {
   const yearAfter = +$('fYearAfter').value;
-  const brandFilter = $('sBrand') && $('sBrand').value ? $('sBrand').value : $('brandSel').value;
+  // Sidebar brand takes priority, then top-bar, "all" means no filter
+  var sbBrand = $('sBrand') ? $('sBrand').value : '';
+  var tbBrand = $('brandSel') ? $('brandSel').value : 'all';
+  const brandFilter = sbBrand || (tbBrand !== 'all' ? tbBrand : '');
   const priceMax = +$('fPriceMax').value;
   const hoursMax = +$('fHoursMax').value;
   const selM = [...$('fModel').selectedOptions].map(o=>o.value);
@@ -997,7 +1001,7 @@ function applyFilters() {
   let base = activeTab === 'watchlist' ? all.filter(l=>watchlist.has(l.id)) : all;
 
   filtered = base.filter(l => {
-    if (brandFilter !== 'all' && (l.brand||'toyota') !== brandFilter) return false;
+    if (brandFilter && brandFilter !== 'all' && (l.brand||'') !== brandFilter) return false;
     if (selM.length && !selM.includes(l.model)) return false;
     if (yearAfter > 0 && l.year < yearAfter) return false;
     if (l.price > priceMax) return false;
