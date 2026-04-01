@@ -111,7 +111,8 @@
     .insight-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
 
     /* ÔöÇÔöÇ APP LAYOUT ÔöÇÔöÇ */
-    .app { display: grid; grid-template-columns: 250px 1fr; min-height: calc(100vh - 140px); }
+    .app { display: grid; grid-template-columns: auto 1fr; min-height: calc(100vh - 140px); }
+    
 
     /* ÔöÇÔöÇ SIDEBAR ÔöÇÔöÇ */
     .side {
@@ -278,7 +279,8 @@
 
     /* Comparison table */
     .comp { border-collapse: collapse; width: 100%; font-size: 0.82rem; }
-    .comp th, .comp td { padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--border); text-align: center; }
+    .comp th, .comp td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); text-align: right; font-variant-numeric: tabular-nums; }
+    .comp th:first-child, .comp td:first-child { text-align: left; width: 90px; }
     .comp th { background: var(--bg); font-weight: 600; text-align: left; }
     .comp th:first-child { width: 80px; }
     .comp .verdict { font-weight: 700; }
@@ -626,7 +628,7 @@
             <th onclick="sortBy('hours')">Hours</th>
             <th onclick="sortBy('price')">Price</th>
             <th onclick="sortBy('resale')" title="Geschatte herverkoopwaarde: marktgemiddelde gecorrigeerd voor uren en bouwjaar. Dit is een schatting, geen garantie.">Est. Resale \u24D8</th>
-            <th onclick="sortBy('margin')">Margin</th>
+            <th onclick="sortBy('margin')" title="Verschil tussen geschatte herverkoop en vraagprijs">Potentie</th>
             <th onclick="sortBy('cond')">Cond.</th>
             <th onclick="sortBy('region')">Region</th>
             <th onclick="sortBy('source')">Source</th>
@@ -693,7 +695,7 @@
       <div class="m-body-full">
         <h4 style="font-size:0.85rem; margin-bottom:0.4rem;">How It Compares</h4>
         <table class="comp">
-          <tr><th></th><th>This Deal</th><th>Market Avg</th><th><a href="#" onclick="event.preventDefault();openCheapest()" style="color:var(--primary);text-decoration:underline;" title="Klik om de goedkoopste te bekijken">Best Available</a></th></tr>
+          <tr><th></th><th title="Dit specifieke aanbod">Dit Aanbod</th><th title="Gemiddelde van alle listings voor dit model">Markt Gem.</th><th><a href="#" onclick="event.preventDefault();openCheapest()" style="color:var(--primary);text-decoration:underline;" title="Klik om de goedkoopste te bekijken">Best Available</a></th></tr>
           <tr><td><strong>Price</strong></td><td id="cP1"></td><td id="cP2"></td><td id="cP3"></td></tr>
           <tr><td><strong>Year</strong></td><td id="cY1"></td><td id="cY2"></td><td id="cY3"></td></tr>
           <tr><td><strong>Hours</strong></td><td id="cH1"></td><td id="cH2"></td><td id="cH3"></td></tr>
@@ -1168,7 +1170,17 @@ function updateInsights() {
 // TABS
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function setTab(t) {
-  activeTab = t === 'find' ? 'all' : t;
+  activeTab = (t === 'find' || t === 'want') ? 'all' : t;
+  // V10: Sidebar only visible on Database tab
+  var sidebar = document.querySelector('.side');
+  if (sidebar) sidebar.style.display = (t === 'all') ? 'block' : 'none';
+  // V10: Table scroll area only visible on Database/Watchlist tabs
+  var tscroll = document.querySelector('.tscroll');
+  if (tscroll) tscroll.style.display = (t === 'all' || t === 'watchlist') ? '' : 'none';
+  var toolbar = document.querySelector('.toolbar .info');
+  // Adjust main content area
+  var mainArea = document.querySelector('.main');
+  if (mainArea) mainArea.style.gridColumn = (t === 'all') ? '' : '1 / -1';
   $('tAll').classList.toggle('on', t==='all');
   $('tWatch').classList.toggle('on', t==='watchlist');
   $('tFind').classList.toggle('on', t==='find');
@@ -1511,7 +1523,7 @@ function calcMargin() {
   let cls = margin>1000?'pos':margin>0?'mid':'neg';
   el.className = 'mres '+cls;
   el.style.display = 'block';
-  var label = lang==='nl' ? (margin>=0?'winst':'verlies') : (margin>=0?'profit':'loss');
+  var label = lang==='nl' ? (margin>=0?'over':'tekort') : (margin>=0?'remaining':'short');
   el.innerHTML = (margin>=0?'+':'') + '\u20AC'+margin.toLocaleString()+' '+label+' ('+pct+'%)<div class="sm">'+(lang==='nl'?'Koop':'Buy')+' \u20AC'+mItem.price.toLocaleString()+', '+(lang==='nl'?'budget':'budget')+' \u20AC'+offer.toLocaleString()+'</div>';
 }
 
@@ -1792,10 +1804,10 @@ function openCheapest() {
   var cheapest = all.filter(function(l) { return l.model === mItem.model; })
     .sort(function(a,b) { return a.price - b.price; })[0];
   if (cheapest) {
-    var idx = filtered.indexOf(cheapest);
-    if (idx < 0) { filtered = all.filter(function(l){return l.model===mItem.model;}); idx = 0; }
-    closeModal();
-    openModal(idx);
+    // Open on source website
+    var q = ((cheapest.brand||'') + ' ' + cheapest.model).trim();
+    window.open(getMascusUrl(q, 'www.mascus.nl'), '_blank');
+    toast((lang==='nl'?'Goedkoopste ':'Cheapest ') + cheapest.model + ': \u20ac' + cheapest.price.toLocaleString(), 'ok');
   }
 }
 // ===== HOT MODEL DRILL DOWN =====
@@ -2305,6 +2317,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
   applyLang();
   checkAdmin();
   if(all.length) afterLoad();
+  // V10: Default to search tab + URL param support
+  var urlQ = new URLSearchParams(location.search).get('q');
+  var urlTab = new URLSearchParams(location.search).get('tab');
+  if (urlTab === 'database') { setTab('all'); }
+  else if (urlTab === 'profiles') { setTab('want'); }
+  else if (urlTab === 'watchlist') { setTab('watchlist'); }
+  else { setTab('find'); }
+  if (urlQ && $('findQuery')) {
+    $('findQuery').value = urlQ;
+    setTimeout(function() { runEquipmentSearch(); }, 500);
+  }
   if (typeof populateProfileBrands === 'function') populateProfileBrands();
   if (typeof renderProfiles === 'function') renderProfiles();
   if (typeof updateSidebarProfiles === 'function') updateSidebarProfiles();
