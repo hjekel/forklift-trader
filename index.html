@@ -969,9 +969,9 @@ function handleCustomBrand(value) {
     var nf = $('modelNotFound');
     if (nf) {
       nf.style.display = 'block';
-      nf.innerHTML = '<span style="color:var(--yellow);">' + (lang==='nl'?'"'+value+'" staat niet in de database.':'"'+value+'" is not in the database.') + '</span><br>' +
-        '<a href="#" onclick="event.preventDefault();searchFor(\\'' + value.replace(/'/g,"\\\\'") + '\\')" style="color:var(--primary);font-size:0.75rem;">' +
-        (lang==='nl'?'\\u2192 Zoek '+value+' in Find Equipment':'\\u2192 Search '+value+' in Find Equipment') + '</a>';
+      var msg = lang==='nl' ? '"'+value+'" niet in database.' : '"'+value+'" not in database.';
+      var linkText = lang==='nl' ? 'Zoek in Find Equipment' : 'Search in Find Equipment';
+      nf.innerHTML = '<span style="color:var(--yellow);">' + msg + '</span> <a href="#" onclick="event.preventDefault();$(' + "'findQuery'" + ').value=' + "'" + value + "'" + ';setTab(' + "'find'" + ');runEquipmentSearch();" style="color:var(--primary);font-size:0.75rem;">\u2192 ' + linkText + '</a>';
     }
     // Still update model list (will be empty for unknown brand)
     var sel = $('fModel');
@@ -2257,8 +2257,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
   applyLang();
   checkAdmin();
   if(all.length) afterLoad();
-  populateWantBrands();
-  renderSavedSpecs();
+  if (typeof populateProfileBrands === 'function') populateProfileBrands();
+  if (typeof renderProfiles === 'function') renderProfiles();
+  if (typeof updateSidebarProfiles === 'function') updateSidebarProfiles();
+  if (typeof updateWantBadge === 'function') updateWantBadge();
 });
 </script>
 </body>
