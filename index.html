@@ -1326,7 +1326,7 @@ function setTab(t) {
   if ($('wantPanel')) $('wantPanel').style.display = t==='want' ? 'block' : 'none';
   if (t !== 'find') applyFilters();
   // Update search count
-  if (t === 'find') $('findPanel').querySelector('button[onclick="runFind()"]').textContent = 'Search ' + all.length + ' listings';
+  if (t === 'find' && typeof updateLandingCount === 'function') try { updateLandingCount(); } catch(e) {}
 }
 
 // ===== FIND MACHINE =====
@@ -1579,9 +1579,8 @@ function openModal(idx) {
       '<div class="stock-link">\uD83D\uDCF7 ' + (lang==='nl'?'Bekijk foto\'s op ':'View photos on ') + mItem.source + ' \u2192</div></div>';
   }
 
-  // Price bar
+  // Price bar (reuse 'same' from above)
   var resaleVal = estResale(mItem.model, mItem.year, mItem.hours);
-  var same = all.filter(function(l){return l.model===mItem.model;});
   var avgPrc = same.length > 1 ? Math.round(same.reduce(function(s,l){return s+l.price;},0)/same.length) : 0;
   var budgetVal = parseInt($('mOffer').value) || 0;
   renderPriceBar(mItem.price, resaleVal, avgPrc, budgetVal);
