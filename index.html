@@ -430,8 +430,17 @@
       <input type="text" id="fSearch" placeholder="Search model, region..." oninput="applyFilters()">
     </div>
     <div class="fg">
-      <label>Model</label>
+      <label id="lBrand">Brand</label>
+      <select id="sBrand" onchange="updateModelList(); applyFilters();" style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:5px; font-size:0.82rem; background:var(--card); color:var(--text); margin-bottom:0.3rem;">
+        <option value="">All brands</option>
+      </select>
+      <input type="text" id="customBrand" placeholder="Or type a brand..." oninput="handleCustomBrand(this.value)" style="width:100%; padding:0.3rem 0.5rem; border:1px solid var(--border); border-radius:5px; font-size:0.78rem; background:var(--card); color:var(--text);">
+    </div>
+    <div class="fg">
+      <label id="lModel">Model</label>
       <select id="fModel" multiple size="10"></select>
+      <div id="modelNotFound" style="display:none; font-size:0.78rem; padding:0.4rem; margin-top:0.3rem; background:var(--yellow-bg); border-radius:5px; border-left:3px solid var(--yellow);"></div>
+      <input type="text" id="customModel" placeholder="Or type a model..." oninput="handleCustomModel(this.value)" style="width:100%; padding:0.3rem 0.5rem; border:1px solid var(--border); border-radius:5px; font-size:0.78rem; margin-top:0.3rem; background:var(--card); color:var(--text);">
     </div>
     <div class="fg">
       <label>Newer than</label>
@@ -900,13 +909,85 @@ function updateDarkBtn() {
 // FILTERS
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function populateModels() {
-  const models = [...new Set(all.map(l => l.model))].sort();
-  document.getElementById('fModel').innerHTML = models.map(m => '<option value="'+m+'">'+m+'</option>').join('');
+  populateSidebarBrands();
+  updateModelList();
+}
+
+function populateSidebarBrands() {
+  var sel = $('sBrand');
+  if (!sel) return;
+  var brands = {};
+  all.forEach(function(l) { if (l.brand) brands[l.brand] = (brands[l.brand]||0) + 1; });
+  var sorted = Object.keys(brands).sort();
+  sel.innerHTML = '<option value="">' + (lang==='nl'?'Alle merken':'All brands') + '</option>' +
+    sorted.map(function(b) {
+      return '<option value="' + b + '">' + b.charAt(0).toUpperCase() + b.slice(1) + ' (' + brands[b] + ')</option>';
+    }).join('');
+}
+
+function updateModelList() {
+  var brand = ($('sBrand') ? $('sBrand').value : '');
+  var customBrand = ($('customBrand') ? $('customBrand').value.trim().toLowerCase() : '');
+  var activeBrand = brand || customBrand;
+
+  // Filter listings by brand
+  var subset = activeBrand ? all.filter(function(l) { return (l.brand||'').toLowerCase() === activeBrand.toLowerCase(); }) : all;
+
+  // Count per model
+  var freq = {};
+  subset.forEach(function(l) { if (l.model) freq[l.model] = (freq[l.model]||0) + 1; });
+
+  // Sort by frequency (highest first)
+  var models = Object.keys(freq).sort(function(a,b) { return freq[b] - freq[a]; });
+
+  var sel = $('fModel');
+  if (sel) {
+    sel.innerHTML = models.map(function(m) {
+      return '<option value="' + m + '">' + m + ' (' + freq[m] + ')</option>';
+    }).join('');
+  }
+
+  // Hide "not found" message
+  var nf = $('modelNotFound');
+  if (nf) nf.style.display = 'none';
+}
+
+function handleCustomBrand(value) {
+  if (!value || value.length < 2) { updateModelList(); return; }
+  var v = value.trim().toLowerCase();
+  var knownBrands = [];
+  all.forEach(function(l) { if (l.brand && knownBrands.indexOf(l.brand.toLowerCase()) < 0) knownBrands.push(l.brand.toLowerCase()); });
+
+  if (knownBrands.indexOf(v) >= 0) {
+    // Found: select in dropdown, clear custom field
+    $('sBrand').value = v;
+    updateModelList();
+    applyFilters();
+  } else {
+    // Not found: show message
+    var nf = $('modelNotFound');
+    if (nf) {
+      nf.style.display = 'block';
+      nf.innerHTML = '<span style="color:var(--yellow);">' + (lang==='nl'?'"'+value+'" staat niet in de database.':'"'+value+'" is not in the database.') + '</span><br>' +
+        '<a href="#" onclick="event.preventDefault();searchFor(\\'' + value.replace(/'/g,"\\\\'") + '\\')" style="color:var(--primary);font-size:0.75rem;">' +
+        (lang==='nl'?'\\u2192 Zoek '+value+' in Find Equipment':'\\u2192 Search '+value+' in Find Equipment') + '</a>';
+    }
+    // Still update model list (will be empty for unknown brand)
+    var sel = $('fModel');
+    if (sel) sel.innerHTML = '';
+  }
+}
+
+function handleCustomModel(value) {
+  if (!value || value.length < 2) return;
+  // Apply as text search filter
+  $('fSearch').value = value;
+  applyFilters();
 }
 
 function applyFilters() {
   const yearAfter = +$('fYearAfter').value;
-  const brandFilter = $('brandSel').value;
+  const brandFilter = $('sBrand') && $('sBrand').value ? $('sBrand').value : $('brandSel').value;
   const priceMax = +$('fPriceMax').value;
   const hoursMax = +$('fHoursMax').value;
   const selM = [...$('fModel').selectedOptions].map(o=>o.value);
@@ -945,12 +1026,17 @@ function applyFilters() {
 }
 
 function clearFilters() {
+  if ($('sBrand')) $('sBrand').value='';
+  if ($('customBrand')) $('customBrand').value='';
+  if ($('customModel')) $('customModel').value='';
   $('fYearAfter').value='0';
   $('fPriceMax').value='999999';
   $('fHoursMax').value='999999';
   $('sMascus').checked=true; $('sTruck').checked=true;
   $('fSearch').value='';
+  updateModelList();
   [...$('fModel').options].forEach(o=>o.selected=false);
+  if ($('modelNotFound')) $('modelNotFound').style.display='none';
   applyFilters();
 }
 
@@ -1821,6 +1907,14 @@ function applyLang() {
   if (spNameLbl) spNameLbl.textContent = isNL ? 'Profiel Naam' : 'Profile Name';
   var spSaveBtn = $('spSaveBtn');
   if (spSaveBtn) spSaveBtn.textContent = isNL ? 'PROFIEL OPSLAAN' : 'SAVE PROFILE';
+
+  // Sidebar brand/model labels
+  if ($('lBrand')) $('lBrand').textContent = isNL ? 'Merk' : 'Brand';
+  if ($('lModel')) $('lModel').textContent = isNL ? 'Model' : 'Model';
+  if ($('customBrand')) $('customBrand').placeholder = isNL ? 'Of typ een merk...' : 'Or type a brand...';
+  if ($('customModel')) $('customModel').placeholder = isNL ? 'Of typ een model...' : 'Or type a model...';
+  // Re-populate brand dropdown with translated "Alle merken"
+  populateSidebarBrands();
 
   // Dark mode button
   if ($('darkBtn')) $('darkBtn').textContent = document.body.classList.contains('dark') ? (isNL ? 'Licht' : 'Light') : (isNL ? 'Donker' : 'Dark');
