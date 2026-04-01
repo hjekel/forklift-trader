@@ -618,33 +618,36 @@
 
         <!-- How it works + quick categories -->
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.75rem; margin-bottom:1rem;">
-          <div onclick="searchFor('Toyota heftruck')" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+          <div onclick="$('landFreeText').value='Toyota heftruck';runLandingSearch()" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
             <div style="font-size:1.3rem;">&#x1F527;</div>
             <div style="font-weight:700; font-size:0.85rem;">Heftrucks</div>
             <div style="font-size:0.72rem; color:var(--muted);">Toyota, Linde, Still, ...</div>
           </div>
-          <div onclick="searchFor('hoogwerker')" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+          <div onclick="$('landFreeText').value='hoogwerker';runLandingSearch()" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
             <div style="font-size:1.3rem;">&#x1F3D7;</div>
             <div style="font-weight:700; font-size:0.85rem;">Hoogwerkers</div>
             <div style="font-size:0.72rem; color:var(--muted);">JLG, Genie, Haulotte, ...</div>
           </div>
-          <div onclick="searchFor('verreiker')" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+          <div onclick="$('landFreeText').value='verreiker';runLandingSearch()" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
             <div style="font-size:1.3rem;">&#x1F3D8;</div>
             <div style="font-weight:700; font-size:0.85rem;">Verreikers</div>
             <div style="font-size:0.72rem; color:var(--muted);">Manitou, JCB, Merlo, ...</div>
           </div>
-          <div onclick="searchFor('schaarhoogwerker')" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+          <div onclick="$('landFreeText').value='schaarhoogwerker';runLandingSearch()" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
             <div style="font-size:1.3rem;">&#x2702;</div>
             <div style="font-weight:700; font-size:0.85rem;">Schaarhoogwerkers</div>
             <div style="font-size:0.72rem; color:var(--muted);">JLG, Genie, Skyjack, ...</div>
           </div>
-          <div onclick="searchFor('palletwagen')" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
+          <div onclick="$('landFreeText').value='palletwagen';runLandingSearch()" style="background:var(--card); padding:0.75rem; border-radius:8px; border:1px solid var(--border); cursor:pointer; text-align:center;" onmouseenter="this.style.borderColor='var(--primary)'" onmouseleave="this.style.borderColor='var(--border)'">
             <div style="font-size:1.3rem;">&#x1F4E6;</div>
             <div style="font-weight:700; font-size:0.85rem;">Palletwagens</div>
             <div style="font-size:0.72rem; color:var(--muted);">Toyota, Linde, BT, ...</div>
           </div>
         </div>
       </div>
+
+      <!-- Landing results (shown on search page) -->
+      <div id="landingResults" style="display:none;margin-top:1rem;"></div>
 
       <!-- Search results panel -->
       <div id="equipResults" style="display:none; margin-top:1rem;">
@@ -2419,28 +2422,108 @@ function runLandingSearch() {
   filtered = getLandingFiltered();
   filtered.sort(function(a,b){return a.price-b.price;});
 
-  // Switch to All Listings tab to show results
-  activeTab = 'all';
-  $('tAll').classList.add('on'); $('tFind').classList.remove('on');
-  if ($('tWatch')) $('tWatch').classList.remove('on');
-  if ($('tWant')) $('tWant').classList.remove('on');
-  if ($('findPanel')) $('findPanel').style.display = 'none';
-  if ($('wantPanel')) $('wantPanel').style.display = 'none';
+  // Build query string for marketplace links
+  var brand = ($('landBrand')||{}).value || '';
+  var model = ($('landModel')||{}).value || '';
+  var freeText = (($('landFreeText')||{}).value || '').trim();
+  var searchQuery = (brand + ' ' + model + ' ' + freeText).trim() || 'forklift';
 
-  // Show sidebar + table
-  var sidebar = document.querySelector('.side');
-  if (sidebar) sidebar.style.display = 'block';
-  var tscroll = document.querySelector('.tscroll');
-  if (tscroll) tscroll.style.display = '';
+  // Hide landing content
+  if ($('landingContent')) $('landingContent').style.display = 'none';
 
+  // Show results container (inside the find panel)
+  var resultsEl = $('landingResults');
+  if (!resultsEl) {
+    // Create results container if not exists
+    var container = document.createElement('div');
+    container.id = 'landingResults';
+    container.style.cssText = 'margin-top:1rem;';
+    var landingContent = $('landingContent');
+    if (landingContent) landingContent.parentNode.insertBefore(container, landingContent.nextSibling);
+    resultsEl = container;
+  }
+
+  var resultsHTML = '';
+
+  if (filtered.length > 0) {
+    // Show results summary + top 10 as cards
+    resultsHTML += '<div style="padding:0.5rem 0.75rem;background:var(--green-bg);border-radius:6px;border-left:3px solid var(--green);margin-bottom:0.75rem;">' +
+      '<strong style="color:var(--green);">' + filtered.length + ' gevonden in ForkFlip database</strong></div>';
+
+    // Show top results as clickable cards
+    resultsHTML += '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0.5rem;margin-bottom:1rem;">';
+    filtered.slice(0, 12).forEach(function(item, i) {
+      var cs = condScore(item.year, item.hours);
+      var flag = {'NL':'\uD83C\uDDF3\uD83C\uDDF1','DE':'\uD83C\uDDE9\uD83C\uDDEA','UK':'\uD83C\uDDEC\uD83C\uDDE7'}[item.region] || '';
+      resultsHTML += '<div onclick="openModalFromAll(\'' + item.id + '\')" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem;cursor:pointer;transition:border-color 0.15s;" onmouseenter="this.style.borderColor=\'var(--primary)\'" onmouseleave="this.style.borderColor=\'var(--border)\'">' +
+        '<div style="display:flex;justify-content:space-between;align-items:start;">' +
+          '<div><div style="font-weight:700;color:var(--primary);">' + (item.brand||'').charAt(0).toUpperCase()+(item.brand||'').slice(1) + ' ' + item.model + '</div>' +
+          '<div style="font-size:0.78rem;color:var(--muted);">' + item.year + ' \u2022 ' + item.hours.toLocaleString() + 'h \u2022 ' + flag + ' ' + item.region + '</div></div>' +
+          '<div style="font-weight:700;font-size:1.1rem;color:var(--primary);">\u20ac' + item.price.toLocaleString() + '</div>' +
+        '</div>' +
+        '<div style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">' + stars(cs) + ' ' + condText(cs) + ' \u2022 ' + item.source + '</div>' +
+      '</div>';
+    });
+    resultsHTML += '</div>';
+
+    if (filtered.length > 12) {
+      resultsHTML += '<div style="text-align:center;margin-bottom:1rem;"><button onclick="switchToDatabase()" style="padding:0.5rem 1.5rem;background:var(--primary);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;">Bekijk alle ' + filtered.length + ' resultaten in Database</button></div>';
+    }
+  } else {
+    resultsHTML += '<div style="padding:0.75rem;background:var(--yellow-bg);border-radius:6px;border-left:3px solid var(--yellow);margin-bottom:0.75rem;">' +
+      '<strong style="color:var(--yellow);">\"' + searchQuery + '\" niet gevonden in ForkFlip database (' + all.length + ' listings)</strong>' +
+      '<div style="font-size:0.82rem;color:var(--muted);margin-top:0.25rem;">Zoek hieronder op externe marktplaatsen:</div></div>';
+  }
+
+  // ALWAYS show marketplace cards
+  resultsHTML += '<div style="font-size:0.82rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.5rem;">Zoek ook op marktplaatsen</div>';
+  var eq = encodeURIComponent(searchQuery);
+  var qPlus = searchQuery.replace(/\s+/g, '+');
+  var qLow = encodeURIComponent(searchQuery.toLowerCase());
+
+  var marketplaces = [
+    { name:'Machineseeker', desc:'2.500+ specialist equipment', url:'https://www.machineseeker.nl/main/search/index?search-word=' + qPlus, color:'#333', bg:'#f5f5f5' },
+    { name:'Mascus (4 landen)', desc:'NL+DE+UK+FR', url:'#', color:'#e65100', bg:'#fff3e0', action:'mascus' },
+    { name:'Machineryline', desc:'Zware machines', url:'https://www.machineryline.nl/search_text.php?query=' + eq, color:'#1565c0', bg:'#e3f2fd' },
+    { name:'Troostwijk', desc:'Veilingen', url:'https://www.troostwijkauctions.com/search?searchTerm=' + eq, color:'#7b1fa2', bg:'#f3e5f5' },
+    { name:'Ritchie Bros.', desc:'Grootste veilinghuis', url:'https://www.rbauction.eu/search?freeText=' + eq, color:'#E8600A', bg:'#fff3e0' },
+    { name:'Google', desc:'Alle bronnen', url:'https://www.google.com/search?q=' + eq + '+koop+occasion', color:'#4285f4', bg:'#e8eaf6' },
+  ];
+
+  resultsHTML += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0.5rem;">';
+  marketplaces.forEach(function(mp) {
+    var onclick = mp.action === 'mascus' ? 'event.preventDefault();openMascusAll(\'' + eq + '\')' : '';
+    resultsHTML += '<a href="' + mp.url + '" target="_blank" rel="noopener"' + (onclick ? ' onclick="'+onclick+'"' : '') + ' style="display:block;padding:0.6rem;background:'+mp.bg+';border-radius:8px;border-left:3px solid '+mp.color+';text-decoration:none;cursor:pointer;" onmouseenter="this.style.transform=\'translateY(-1px)\'" onmouseleave="this.style.transform=\'none\'">' +
+      '<div style="font-weight:700;color:'+mp.color+';font-size:0.82rem;">'+mp.name+' \u2192</div>' +
+      '<div style="font-size:0.72rem;color:var(--muted);">'+mp.desc+'</div></a>';
+  });
+  resultsHTML += '</div>';
+
+  resultsEl.style.display = 'block';
+  resultsEl.innerHTML = resultsHTML;
+
+  updateInsights();
+  toast(filtered.length > 0 ? filtered.length + ' gevonden' : 'Zoek op externe marktplaatsen', filtered.length > 0 ? 'ok' : 'warn');
+}
+
+function switchToDatabase() {
+  setTab('all');
   renderTable();
   updateInsights();
-  var msg = filtered.length + (lang==='nl'?' resultaten gevonden':' results found');
-  toast(msg, filtered.length > 0 ? 'ok' : 'warn');
-  showFilterTag('Zoekresultaat: ' + filtered.length + ' listings');
+}
+
+function openModalFromAll(id) {
+  var idx = filtered.findIndex(function(l){return l.id===id;});
+  if (idx < 0) idx = all.findIndex(function(l){return l.id===id;});
+  if (idx >= 0) {
+    if (filtered.indexOf(all[idx]) < 0) filtered = all.slice();
+    openModal(filtered.indexOf(all.find(function(l){return l.id===id;})));
+  }
 }
 
 function resetLanding() {
+  if ($('landingResults')) $('landingResults').style.display = 'none';
+  if ($('landingContent')) $('landingContent').style.display = 'block';
   if ($('landBrand')) $('landBrand').value = '';
   if ($('landModel')) { $('landModel').innerHTML = '<option value="">Alle modellen</option>'; }
   if ($('landFreeText')) $('landFreeText').value = '';
@@ -2469,6 +2552,7 @@ function resetLanding() {
 function showLanding() {
   if ($('landingContent')) $('landingContent').style.display = 'block';
   if ($('equipResults')) $('equipResults').style.display = 'none';
+  if ($('landingResults')) $('landingResults').style.display = 'none';
   if ($('landingTotal')) $('landingTotal').textContent = all.length.toLocaleString();
   populateLandingBrands();
 }
