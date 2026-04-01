@@ -345,6 +345,22 @@
     .stock-type { font-weight:700; font-size:0.9rem; color:var(--text); }
     .stock-link { margin-top:0.5rem; color:var(--primary); font-size:0.78rem; }
     body.dark .stock-card { background:linear-gradient(135deg,#1e2030 0%,#2a2d45 100%); }
+
+    /* Detail popup sections */
+    .dsec {
+      background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 0.75rem; margin-bottom: 0.75rem;
+    }
+    .dsec h4 {
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--muted); margin-bottom: 0.5rem; padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .info-2col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 1rem; font-size: 0.85rem;
+    }
+    .info-2col dt { color: var(--muted); font-weight: 500; }
+    .info-2col dd { font-weight: 600; }
     .hidden { display: none; }
     [data-tip] { position: relative; }
     [data-tip]:hover::after {
@@ -797,6 +813,8 @@
     <div class="m-body">
       <!-- Left col -->
       <div>
+        <div class="dsec">
+        <h4>Machine Info</h4>
         <dl class="dl">
           <dt>Price</dt>     <dd class="big" id="mPrice">&mdash;</dd>
           <dt>Year</dt>      <dd id="mYear">&mdash;</dd>
@@ -807,21 +825,22 @@
           <dt>Avg (model)</dt> <dd id="mAvg">&mdash;</dd>
           <dt>Supply</dt>    <dd id="mSupply">&mdash;</dd>
         </dl>
+        </div>
       </div>
 
       <!-- Right col: margin calc -->
       <div>
         <!-- Price bar visualization -->
-        <div id="mPriceBar" class="mcalc" style="margin-bottom:0.75rem;"></div>
+        <div id="mPriceBar" class="dsec" style="margin-bottom:0.75rem;"></div>
 
-        <div class="mcalc">
+        <div class="dsec">
           <h4>Margin Calculator</h4>
           <p style="font-size:0.72rem; color:var(--muted); margin-bottom:0.4rem;">Vul je budget of verwachte verkoopprijs in. Groen = winst, Rood = verlies.</p>
           <label style="font-size:0.82rem; display:block; margin-bottom:0.35rem;">Budget / verkoopprijs</label>
           <input type="number" id="mOffer" placeholder="e.g. 10000" oninput="calcMargin()">
           <div class="mres" id="mMargin" style="display:none;"></div>
         </div>
-        <div class="mcalc" style="margin-top:0.75rem;">
+        <div class="dsec">
           <h4>Model Insights</h4>
           <div id="mInsights" style="font-size:0.82rem; color:var(--muted);">Load data first.</div>
         </div>
@@ -829,7 +848,8 @@
 
       <!-- Comparison table (full width) -->
       <div class="m-body-full">
-        <h4 style="font-size:0.85rem; margin-bottom:0.4rem;">How It Compares</h4>
+        <div class="dsec">
+        <h4>Vergelijking</h4>
         <table class="comp">
           <tr><th></th><th title="Dit specifieke aanbod">Dit Aanbod</th><th title="Gemiddelde van alle listings voor dit model">Markt Gem.</th><th><a href="#" onclick="event.preventDefault();openCheapest()" style="color:var(--primary);text-decoration:underline;" title="Klik om de goedkoopste te bekijken">Best Available</a></th></tr>
           <tr><td><strong>Price</strong></td><td id="cP1"></td><td id="cP2"></td><td id="cP3"></td></tr>
@@ -840,10 +860,14 @@
         </table>
       </div>
 
+        </div>
+
       <!-- Similar listings (full width) -->
       <div class="m-body-full">
-        <h4 style="font-size:0.85rem; margin-bottom:0.4rem;" id="simTitle">Similar Listings</h4>
+        <div class="dsec">
+        <h4 id="simTitle">Vergelijkbaar Aanbod</h4>
         <div id="simList"></div>
+        </div>
       </div>
     </div>
 
@@ -1967,39 +1991,50 @@ function renderPriceBar(price, resale, avgPrice, budget) {
   if (!el) return;
   if (!price) { el.innerHTML = ''; return; }
 
-  var values = [price];
-  if (resale && resale > 0) values.push(resale);
-  if (avgPrice && avgPrice > 0) values.push(avgPrice);
-  if (budget && budget > 0) values.push(budget);
-  var maxVal = Math.max.apply(null, values) * 1.15;
+  var h = '<h4 style="font-size:0.82rem;margin-bottom:0.75rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);">Prijsoverzicht</h4>';
 
-  var pPct = Math.round((price / maxVal) * 100);
-  var rPct = resale ? Math.round((resale / maxVal) * 100) : 0;
-  var aPct = avgPrice ? Math.round((avgPrice / maxVal) * 100) : 0;
-  var bPct = budget ? Math.round((budget / maxVal) * 100) : 0;
+  // Row function
+  function row(dot, label, amount, diff, diffColor) {
+    var r = '<div style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0;border-bottom:1px solid var(--border);">';
+    r += '<div style="display:flex;align-items:center;gap:0.5rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+dot+';flex-shrink:0;"></span><span style="font-size:0.82rem;color:var(--muted);">'+label+'</span></div>';
+    r += '<div style="text-align:right;"><span style="font-weight:700;font-size:0.9rem;">\u20ac'+amount.toLocaleString()+'</span>';
+    if (diff !== null && diff !== 0) {
+      r += ' <span style="font-size:0.78rem;font-weight:600;color:'+diffColor+';">'+(diff>0?'+':'')+diff.toLocaleString()+'</span>';
+    }
+    r += '</div></div>';
+    return r;
+  }
 
-  var h = '<h4 style="font-size:0.82rem;margin-bottom:0.4rem;">Prijsoverzicht</h4>';
-  h += '<div class="pbar"><div class="pbar-fill" style="width:100%"></div>';
-  h += '<div class="pbar-mk" style="left:'+pPct+'%"><span class="dot" style="background:#3498db"></span><span class="lbl" style="color:#3498db">\u20ac'+price.toLocaleString()+'</span></div>';
-  if (rPct > 0) h += '<div class="pbar-mk" style="left:'+rPct+'%"><span class="dot" style="background:#27ae60"></span><span class="lbl" style="color:#27ae60">\u20ac'+resale.toLocaleString()+'</span></div>';
-  if (aPct > 0) h += '<div class="pbar-mk" style="left:'+aPct+'%"><span class="dot" style="background:#95a5a6"></span><span class="lbl" style="color:#95a5a6">\u20ac'+avgPrice.toLocaleString()+'</span></div>';
-  if (bPct > 0) h += '<div class="pbar-mk" style="left:'+bPct+'%"><span class="dot" style="background:#e67e22"></span><span class="lbl" style="color:#e67e22">\u20ac'+budget.toLocaleString()+'</span></div>';
-  h += '</div>';
+  h += row('#3498db', lang==='nl'?'Vraagprijs':'Asking price', price, null, '');
+  if (resale && resale > 0) {
+    var rDiff = resale - price;
+    h += row('#27ae60', lang==='nl'?'Gesch. herverkoop':'Est. resale', resale, rDiff, rDiff>=0?'var(--green)':'var(--red)');
+  }
+  if (budget && budget > 0) {
+    var bDiff = budget - price;
+    h += row('#e67e22', lang==='nl'?'Jouw bod':'Your bid', budget, bDiff, bDiff>=0?'var(--green)':'var(--red)');
+  }
+  if (avgPrice && avgPrice > 0) {
+    h += row('#95a5a6', lang==='nl'?'Marktgemiddelde':'Market avg', avgPrice, null, '');
+  }
 
-  // Legend
-  h += '<div class="pbar-legend">';
-  h += '<div><span class="dl" style="background:#3498db"></span>'+(lang==='nl'?'Vraagprijs':'Asking')+'</div>';
-  if (rPct > 0) h += '<div><span class="dl" style="background:#27ae60"></span>'+(lang==='nl'?'Gesch. herverkoop':'Est. resale')+'</div>';
-  if (aPct > 0) h += '<div><span class="dl" style="background:#95a5a6"></span>'+(lang==='nl'?'Marktgemiddelde':'Market avg')+'</div>';
-  if (bPct > 0) h += '<div><span class="dl" style="background:#e67e22"></span>'+(lang==='nl'?'Jouw bod':'Your bid')+'</div>';
-  h += '</div>';
+  // Compact bar (decorative)
+  if (avgPrice > 0) {
+    var maxV = Math.max(price, resale||0, avgPrice, budget||0) * 1.1;
+    var barH = '<div style="height:8px;background:linear-gradient(to right,var(--green),var(--yellow),var(--red));border-radius:4px;margin:0.75rem 0 0.25rem;position:relative;opacity:0.5;">';
+    barH += '<div style="position:absolute;top:-3px;left:'+Math.round(price/maxV*100)+'%;width:14px;height:14px;background:#3498db;border-radius:50%;border:2px solid white;transform:translateX(-50%);"></div>';
+    if (resale) barH += '<div style="position:absolute;top:-3px;left:'+Math.round(resale/maxV*100)+'%;width:14px;height:14px;background:#27ae60;border-radius:50%;border:2px solid white;transform:translateX(-50%);"></div>';
+    if (budget) barH += '<div style="position:absolute;top:-3px;left:'+Math.round(budget/maxV*100)+'%;width:14px;height:14px;background:#e67e22;border-radius:50%;border:2px solid white;transform:translateX(-50%);"></div>';
+    barH += '</div>';
+    h += barH;
+  }
 
   // Verdict
   if (resale && resale > price) {
     var potPct = Math.round(((resale - price) / price) * 100);
-    h += '<div style="margin-top:0.5rem;padding:0.4rem;background:var(--green-bg);border-radius:6px;font-size:0.8rem;font-weight:600;color:var(--green);">\uD83D\uDFE2 '+(lang==='nl'?'Onder geschatte herverkoopwaarde — +'+potPct+'% potentie':'Below est. resale — +'+potPct+'% potential')+'</div>';
+    h += '<div style="margin-top:0.5rem;padding:0.5rem;background:var(--green-bg);border-radius:6px;font-size:0.82rem;font-weight:600;color:var(--green);">\u2705 '+(lang==='nl'?'Onder herverkoopwaarde \u2014 +'+potPct+'% potentie':'Below resale \u2014 +'+potPct+'% potential')+'</div>';
   } else if (resale && resale < price) {
-    h += '<div style="margin-top:0.5rem;padding:0.4rem;background:var(--red-bg);border-radius:6px;font-size:0.8rem;font-weight:600;color:var(--red);">\uD83D\uDD34 '+(lang==='nl'?'Boven geschatte herverkoopwaarde':'Above est. resale value')+'</div>';
+    h += '<div style="margin-top:0.5rem;padding:0.5rem;background:var(--red-bg);border-radius:6px;font-size:0.82rem;font-weight:600;color:var(--red);">\u26A0\uFE0F '+(lang==='nl'?'Boven herverkoopwaarde':'Above resale value')+'</div>';
   }
 
   el.innerHTML = h;
@@ -2824,6 +2859,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
   applyLang();
   checkAdmin();
   if(all.length) afterLoad();
+  // QA: Warn if data is empty
+  if (all.length === 0) {
+    var warn = document.createElement('div');
+    warn.style.cssText = 'background:#e74c3c;color:white;padding:10px;text-align:center;font-weight:bold;font-size:0.9rem;';
+    warn.innerHTML = '\u26A0\uFE0F Geen data geladen! Klik <strong>Load Data</strong> of <strong>Alle Listings</strong> om listings te laden.';
+    document.body.prepend(warn);
+  }
   // V10: Default to search tab + URL param support
   var urlQ = new URLSearchParams(location.search).get('q');
   var urlTab = new URLSearchParams(location.search).get('tab');
