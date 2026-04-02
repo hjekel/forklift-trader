@@ -37,7 +37,7 @@ jobs:
           import csv, os, glob
           # Merge all CSV files from output/
           all_rows = []
-          fieldnames = ['id', 'model', 'brand', 'year', 'hours', 'price', 'source', 'region']
+          fieldnames = ['id', 'model', 'brand', 'year', 'hours', 'price', 'source', 'region', 'url', 'image_url']
           for f in glob.glob('output/*_listings.csv'):
               try:
                   with open(f, 'r') as fh:

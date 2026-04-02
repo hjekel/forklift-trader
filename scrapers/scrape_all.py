@@ -174,11 +174,30 @@ class ForkFlipScraper:
         return 0
 
     def _extract_year(self, text):
+        # First try specific patterns like "Bouwjaar: 2015" or "2015 •"
+        for pattern in [r'(?:Bouwjaar|Baujahr|Year)[:\s]*(\d{4})', r'(\d{4})\s*[•·]']:
+            match = re.search(pattern, text)
+            if match:
+                y = int(match.group(1))
+                if 1990 <= y <= 2026:
+                    return y
+        # Fallback: any 4-digit year
         match = re.search(r'\b(20[0-2]\d|199\d)\b', text)
-        return int(match.group(1)) if match else 0
+        if match:
+            y = int(match.group(1))
+            if 1990 <= y <= 2026:
+                return y
+        return 0
 
     def _extract_hours(self, text):
-        for pattern in [r'(\d[\d.]*)\s*[hu](?:our|uur|r)?s?', r'(\d[\d.]*)\s*Std']:
+        # Specific patterns first
+        for pattern in [
+            r'(\d[\d.]*)\s*h\b',           # "690 h" or "690h"
+            r'(\d[\d.]*)\s*uur',            # Dutch
+            r'(\d[\d.]*)\s*Std',            # German
+            r'(\d[\d.]*)\s*hours?',         # English
+            r'(?:Betriebsstunden|uren|hours?)[:\s]*(\d[\d.]*)',  # Labeled
+        ]:
             match = re.search(pattern, text, re.IGNORECASE)
             if match:
                 h = int(match.group(1).replace('.', ''))
@@ -226,7 +245,15 @@ class ForkFlipScraper:
                     self.known_urls.add(href)
 
                     text = item.get_text()
-                    model = self._extract_model(title)
+                    # Use full title as model, strip brand name
+                    model_full = title.strip()
+                    # Remove brand prefix if present (case-insensitive)
+                    for b in [brand, brand.upper(), brand.capitalize()]:
+                        if model_full.startswith(b + ' '):
+                            model_full = model_full[len(b)+1:].strip()
+                            break
+                    # Also try regex extraction as fallback
+                    model = model_full if len(model_full) >= 2 else self._extract_model(title)
                     if not model:
                         continue
 
@@ -366,7 +393,7 @@ class ForkFlipScraper:
             log.warning('No listings to save')
             return None
 
-        fieldnames = ['id', 'model', 'brand', 'year', 'hours', 'price', 'source', 'region', 'image_url']
+        fieldnames = ['id', 'model', 'brand', 'year', 'hours', 'price', 'source', 'region', 'url', 'image_url']
         with open(filepath, 'w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
