@@ -518,9 +518,13 @@
       </select>
     </div>
     <div class="fg">
-      <label>Source</label>
-      <div class="cb-row"><input type="checkbox" id="sMascus" checked> Mascus <span id="sMascusCount" style="color:var(--muted);font-size:0.75rem;"></span></div>
-      <div class="cb-row"><input type="checkbox" id="sTruck" checked> TruckScout24 <span id="sTruckCount" style="color:var(--muted);font-size:0.75rem;"></span></div>
+      <label>Bronnen</label>
+      <div style="font-size:0.78rem;color:var(--muted);">
+        <input type="checkbox" id="sMascus" checked style="display:none"><input type="checkbox" id="sTruck" checked style="display:none">
+        Mascus NL/DE/UK <span id="sMascusCount"></span><br>
+        TruckScout24 <span id="sTruckCount"></span><br>
+        <span style="font-size:0.72rem;">Dagelijks ververst om 07:00 CET</span>
+      </div>
     </div>
     <input type="hidden" id="defOffer" value="12000">
     <button class="btn-s btn-s-g" style="width:100%;" onclick="clearFilters()">Clear All</button>
@@ -1992,8 +1996,8 @@ function renderPriceBar(price, resale, avgPrice, budget) {
   if (!el) return;
   if (!price) { el.innerHTML = ''; return; }
 
-  var h = '<h4 style="font-size:0.82rem;margin-bottom:0.3rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);">Prijsoverzicht</h4>
-    <p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.5rem;">Vergelijk de vraagprijs met de geschatte herverkoopwaarde en het marktgemiddelde.</p>';
+  var h = '<h4 style="font-size:0.82rem;margin-bottom:0.3rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);">Prijsoverzicht</h4>' +
+    '<p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.5rem;">Vergelijk de vraagprijs met de geschatte herverkoopwaarde en het marktgemiddelde.</p>';
 
   // Row function
   function row(dot, label, amount, diff, diffColor) {
