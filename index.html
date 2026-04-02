@@ -527,20 +527,25 @@
     <button class="btn-s btn-s-g" style="width:100%;" onclick="clearFilters()">Clear All</button>
 
     <div class="side-sep">
-      <h3>Search Profiles</h3>
-      <div id="sidebarProfiles" style="font-size:0.8rem;"></div>
-      <button class="btn-s btn-s-p" onclick="setTab('want')" style="width:100%; margin-top:0.4rem;">+ New Profile</button>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <button class="btn-s btn-s-g" onclick="exportFiltered()" style="font-size:0.72rem;">Export CSV</button>
+        <button class="btn-s btn-s-g" onclick="exportWatch()" style="font-size:0.72rem;">Export watchlist</button>
+      </div>
     </div>
-
-    <div class="side-btns">
-      <button class="btn-s btn-s-g" onclick="exportFiltered()">Export filtered CSV</button>
-      <button class="btn-s btn-s-g" onclick="exportWatch()">Export watchlist CSV</button>
-    </div>
+    <div id="sidebarProfiles" style="display:none;"></div>
   </aside>
 
   <!-- MAIN -->
   <div class="main">
     <div id="backToSearch" style="display:none;padding:0.4rem 0.75rem;"><a href="#" onclick="event.preventDefault();setTab('find')" style="color:#E8600A;font-weight:700;font-size:0.85rem;text-decoration:none;">← Terug naar zoeken</a></div>
+    <!-- V18: ZOEKBALK BOVEN TABEL -->
+    <div id="tableSearchBar" style="padding:10px 12px;background:#f0f4ff;border:1px solid #003DA5;border-radius:8px;margin:0 0 8px 0;display:flex;gap:8px;align-items:center;">
+      <span style="font-weight:bold;color:#003DA5;white-space:nowrap;font-size:13px;">WAT ZOEK JE?</span>
+      <input type="text" id="tableSearchInput" placeholder="bijv. Toyota 8FBE20T, JLG Toucan, Linde E16..." style="flex:1;padding:8px 12px;border:2px solid #003DA5;border-radius:6px;font-size:13px;outline:none;background:var(--card);color:var(--text);" onkeydown="if(event.key==='Enter')searchFromTable()">
+      <button onclick="searchFromTable()" style="padding:8px 18px;background:#003DA5;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:bold;font-size:13px;white-space:nowrap;">ZOEK</button>
+      <button onclick="clearTableSearch2()" style="padding:8px 10px;background:#ccc;color:#333;border:none;border-radius:6px;cursor:pointer;font-size:12px;" title="Wis filter">\u2715</button>
+    </div>
+    <div id="noResultsMarketplace" style="display:none;"></div>
     <div class="toolbar">
       <div class="info">
         Toont <strong id="showN">0</strong> van <strong id="totalN">0</strong>
@@ -552,6 +557,7 @@
         <button class="tab" id="tWant" title="Opgeslagen zoekprofielen" onclick="setTab('want')">Zoekprofiel</button>
         <button class="tab" id="tWatch" title="Je opgeslagen favorieten" onclick="setTab('watchlist')">Watchlist (<span id="wBadge">0</span>)</button>
         <span id="tFind" style="display:none;"></span>
+        <span id="findPanel" style="display:none;"></span>
       </div>
     </div>
 
@@ -1563,7 +1569,10 @@ function updateWantedUI() {
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function openModal(idx) {
   mItem = filtered[idx]; if (!mItem) return;
-  const same = all.filter(l=>l.model===mItem.model);
+  var same = all.filter(function(l){return l.model===mItem.model;});
+  // V18: prefer same-region comparisons (GBP vs EUR fix)
+  var sameRegion = same.filter(function(l){return l.region===mItem.region;});
+  if (sameRegion.length >= 2) same = sameRegion;
   const avgP = same.length>1 ? Math.round(same.reduce((s,l)=>s+l.price,0)/same.length) : mItem.price;
   const avgY = same.length>1 ? Math.round(same.reduce((s,l)=>s+l.year,0)/same.length) : mItem.year;
   const avgH = same.length>1 ? Math.round(same.reduce((s,l)=>s+l.hours,0)/same.length) : mItem.hours;
@@ -2214,6 +2223,54 @@ function cleanModel(m) {
     .trim();
   if (c.length > 28) c = c.substring(0, 28) + '\u2026';
   return c || m.substring(0, 28);
+}
+
+
+// ===== V18: TABLE SEARCH BAR =====
+function searchFromTable() {
+  var query = ($('tableSearchInput')||{}).value;
+  if (!query || query.trim().length < 2) { clearTableSearch2(); return; }
+  var q = query.trim().toLowerCase();
+  filtered = all.filter(function(l) {
+    var hay = ((l.brand||'')+' '+l.model+' '+l.region+' '+(l.source||'')).toLowerCase();
+    return hay.includes(q);
+  });
+  filtered.sort(function(a,b){return a.price-b.price;});
+  renderTable();
+  updateInsights();
+  logSearch(query.trim(), 'table_search', filtered.length > 0);
+  // Show marketplace if 0 results
+  var mp = $('noResultsMarketplace');
+  if (mp) {
+    if (filtered.length === 0) {
+      var eq = encodeURIComponent(query.trim());
+      var qLow = encodeURIComponent(query.trim().toLowerCase());
+      mp.style.display = 'block';
+      mp.innerHTML = '<div style="padding:16px;text-align:center;background:#fff8f0;border:1px solid #e67e22;border-radius:8px;margin-bottom:8px;">' +
+        '<p style="color:#e8600a;font-weight:bold;font-size:14px;margin:0 0 8px;">\"'+query.trim()+'\" niet gevonden in ForkFlip ('+all.length.toLocaleString()+' listings)</p>' +
+        '<p style="color:#666;font-size:12px;margin:0 0 10px;">Zoek op externe marktplaatsen:</p>' +
+        '<div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">' +
+        '<a href="https://www.google.com/search?q='+eq+'+koop+occasion" target="_blank" style="padding:7px 12px;background:#4285F4;color:white;border-radius:5px;text-decoration:none;font-size:12px;font-weight:bold;">Google</a>' +
+        '<a href="https://www.machineseeker.nl/main/search/index?search-word='+eq+'" target="_blank" style="padding:7px 12px;background:#333;color:white;border-radius:5px;text-decoration:none;font-size:12px;font-weight:bold;">Machineseeker</a>' +
+        '<a href="https://www.mascus.nl/'+qLow+'/+/1,relevance,search.html" target="_blank" style="padding:7px 12px;background:#e65100;color:white;border-radius:5px;text-decoration:none;font-size:12px;font-weight:bold;">Mascus NL</a>' +
+        '<a href="https://www.machineryline.nl/search_text.php?query='+eq+'" target="_blank" style="padding:7px 12px;background:#1565c0;color:white;border-radius:5px;text-decoration:none;font-size:12px;font-weight:bold;">Machineryline</a>' +
+        '<a href="https://www.troostwijkauctions.com/search?searchTerm='+eq+'" target="_blank" style="padding:7px 12px;background:#7b1fa2;color:white;border-radius:5px;text-decoration:none;font-size:12px;font-weight:bold;">Troostwijk</a>' +
+        '<a href="https://www.rbauction.eu/search?freeText='+eq+'" target="_blank" style="padding:7px 12px;background:#E8600A;color:white;border-radius:5px;text-decoration:none;font-size:12px;font-weight:bold;">Ritchie Bros.</a>' +
+        '</div></div>';
+    } else {
+      mp.style.display = 'none';
+    }
+  }
+  toast(filtered.length > 0 ? filtered.length + ' gevonden' : 'Niet gevonden \u2014 zoek extern', filtered.length > 0 ? 'ok' : 'warn');
+}
+
+function clearTableSearch2() {
+  if ($('tableSearchInput')) $('tableSearchInput').value = '';
+  var mp = $('noResultsMarketplace');
+  if (mp) mp.style.display = 'none';
+  filtered = all.slice();
+  renderTable();
+  updateInsights();
 }
 
 // ===== RESET ALL =====
