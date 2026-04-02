@@ -539,7 +539,7 @@
 
   <!-- MAIN -->
   <div class="main">
-    <div id="backToSearch" style="display:none;padding:0.4rem 0.75rem;"><a href="#" onclick="event.preventDefault();setTab('find')" style="color:#E8600A;font-weight:700;font-size:0.85rem;text-decoration:none;">\u2190 Terug naar zoeken</a></div>
+    <div id="backToSearch" style="display:none;padding:0.4rem 0.75rem;"><a href="#" onclick="event.preventDefault();setTab('find')" style="color:#E8600A;font-weight:700;font-size:0.85rem;text-decoration:none;">← Terug naar zoeken</a></div>
     <div class="toolbar">
       <div class="info">
         Showing <strong id="showN">0</strong> of <strong id="totalN">0</strong>
@@ -899,17 +899,17 @@
 
         <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--primary);">
           <strong>Database (alle listings)</strong><br>
-          Bekijk alle {TOTAL} listings met sidebar filters. Sorteer op elke <b>kolomkop</b>. Klik op een rij om het detailvenster te openen. Gebruik <b>\u2190 Terug naar zoeken</b> om terug te gaan.
+          Bekijk alle 1.670 listings met sidebar filters. Sorteer op elke <b>kolomkop</b>. Klik op een rij om het detailvenster te openen. Gebruik <b>← Terug naar zoeken</b> om terug te gaan.
         </div>
 
         <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--yellow);">
           <strong>Detail Popup</strong><br>
           Klik op een listing voor details met:<br>
-          \u2022 <b>Prijsoverzicht</b> \u2014 visuele vergelijking van vraagprijs, herverkoop en marktgemiddelde<br>
-          \u2022 <b>Margin Calculator</b> \u2014 vul je budget in, zie hoeveel er over/tekort is<br>
-          \u2022 <b>Vergelijkingstabel</b> \u2014 dit aanbod vs marktgemiddelde vs goedkoopste<br>
-          \u2022 <b>Google / Mascus / Ritchie Bros.</b> \u2014 zoek op externe marktplaatsen<br>
-          \u2022 <b>Reactie Template</b> \u2014 kopieer een contactbericht naar clipboard
+          • <b>Prijsoverzicht</b> — visuele vergelijking van vraagprijs, herverkoop en marktgemiddelde<br>
+          • <b>Margin Calculator</b> — vul je budget in, zie hoeveel er over/tekort is<br>
+          • <b>Vergelijkingstabel</b> — dit aanbod vs marktgemiddelde vs goedkoopste<br>
+          • <b>Google / Mascus / Ritchie Bros.</b> — zoek op externe marktplaatsen<br>
+          • <b>Reactie Template</b> — kopieer een contactbericht naar clipboard
         </div>
 
         <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid #9c27b0;">
@@ -920,23 +920,23 @@
         <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--primary);">
           <strong>Stat Cards (bovenin)</strong><br>
           Klik op de kaarten voor snelle acties:<br>
-          \u2022 <b>Listings</b> = reset filters \u2022 <b>Beste Deals</b> = top 30 onder modelgemiddelde<br>
-          \u2022 <b>Populaire Modellen</b> = overzicht van modellen met 5+ listings<br>
-          \u2022 <b>Onder \u20ac10K</b> = budgetmachines \u2022 <b>Volglijst</b> = je favorieten
+          • <b>Listings</b> = reset filters • <b>Beste Deals</b> = top 30 onder modelgemiddelde<br>
+          • <b>Populaire Modellen</b> = overzicht van modellen met 5+ listings<br>
+          • <b>Onder €10K</b> = budgetmachines • <b>Volglijst</b> = je favorieten
         </div>
 
         <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--primary);">
           <strong>Overig</strong><br>
-          \u2022 <b>NL/EN</b> = wissel taal \u2022 <b>Donker/Licht</b> = thema<br>
-          \u2022 <b>Watchlist</b> = klik het hartje om favorieten op te slaan<br>
-          \u2022 <b>Export</b> = download als CSV \u2022 Wildcard zoeken: <b>8FB*20</b><br>
-          \u2022 Data wordt dagelijks ververst om 07:00 CET
+          • <b>NL/EN</b> = wissel taal • <b>Donker/Licht</b> = thema<br>
+          • <b>Watchlist</b> = klik het hartje om favorieten op te slaan<br>
+          • <b>Export</b> = download als CSV • Wildcard zoeken: <b>8FB*20</b><br>
+          • Data wordt dagelijks ververst om 07:00 CET
         </div>
       </div>
 
       <div style="margin-top:1rem; text-align:center; color:var(--muted); font-size:0.8rem;">
         ForkFlip v0.5 &mdash; Data: Mascus.nl + TruckScout24.de<br>
-        Klik het <b>logo</b> of de <b>?</b> knop om deze handleiding te openen.
+        Klik het <b>logo</b> of de <b>Handleiding</b> knop om dit venster te openen.
       </div>
     </div>
   </div>
@@ -1470,7 +1470,7 @@ function runEquipmentSearch() {
   $('equipExtLinks').innerHTML = moreHtml;
 
   logSearch(query, 'find_equipment', filtered.length > 0);
-  toast(filtered.length > 0 ? filtered.length + ' found locally + marketplace links below' : 'Not in local data \u2014 check marketplace links below', filtered.length > 0 ? 'ok' : 'warn');
+  toast(filtered.length > 0 ? filtered.length + ' found locally + marketplace links below' : 'Not in local data — check marketplace links below', filtered.length > 0 ? 'ok' : 'warn');
 }
 
 // Legacy compatibility
@@ -1573,7 +1573,7 @@ function openModal(idx) {
   else { img.src='https://placehold.co/400x300/e8edf5/1a3d7c?text='+encodeURIComponent(mItem.model); img.style.display='block'; ph.style.display='none'; }
 
   $('mModel').textContent = ((mItem.brand||'').charAt(0).toUpperCase()+(mItem.brand||'').slice(1)) + ' ' + mItem.model;
-  $('mSub').textContent = mItem.year+' \u2022 '+mItem.source+' \u2022 '+mItem.region;
+  $('mSub').textContent = mItem.year+' • '+mItem.source+' • '+mItem.region;
   $('mPrice').textContent = '\u20AC'+mItem.price.toLocaleString();
   $('mYear').textContent = mItem.year;
   $('mHours').textContent = mItem.hours.toLocaleString()+'h';
@@ -1618,9 +1618,9 @@ function openModal(idx) {
     $('mAvg').textContent = '\u20AC'+avgP.toLocaleString()+' ('+same.length+' listings)';
   } else { $('mAvg').textContent = 'Only listing'; }
   if (same.length >= 5) {
-    $('mSupply').innerHTML = '<span style="color:var(--green)">High supply ('+same.length+') \u2014 negotiate</span>';
+    $('mSupply').innerHTML = '<span style="color:var(--green)">High supply ('+same.length+') — negotiate</span>';
   } else if (same.length <= 2) {
-    $('mSupply').innerHTML = '<span style="color:var(--red)">Scarce ('+same.length+') \u2014 act fast</span>';
+    $('mSupply').innerHTML = '<span style="color:var(--red)">Scarce ('+same.length+') — act fast</span>';
   } else { $('mSupply').textContent = same.length+' listings'; }
 
   // Insights
@@ -1660,8 +1660,8 @@ function openModal(idx) {
   const pDiff = mItem.price - avgP;
   const pPct = avgP ? ((pDiff/avgP)*100).toFixed(1) : 0;
   const v = $('cVerdict');
-  if (pDiff <= 0) { v.innerHTML = '<span class="verdict good">\uD83D\uDC4D Good deal \u2014 '+Math.abs(pPct)+'% below avg</span>'; }
-  else { v.innerHTML = '<span class="verdict bad">\u26A0\uFE0F Above average \u2014 '+pPct+'% markup</span>'; }
+  if (pDiff <= 0) { v.innerHTML = '<span class="verdict good">\uD83D\uDC4D Good deal — '+Math.abs(pPct)+'% below avg</span>'; }
+  else { v.innerHTML = '<span class="verdict bad">\u26A0\uFE0F Above average — '+pPct+'% markup</span>'; }
 
   // Similar listings
   $('simTitle').textContent = 'Other '+mItem.model+'s';
@@ -1671,7 +1671,7 @@ function openModal(idx) {
       const d = l.price - mItem.price;
       const dc = d>0?'sim-diff-neg':'sim-diff-pos';
       return `<div class="sim-item" onclick="event.stopPropagation(); openModalById('${l.id}')">
-        <span><strong>${l.model}</strong> ${l.year} \u2022 ${l.hours.toLocaleString()}h</span>
+        <span><strong>${l.model}</strong> ${l.year} • ${l.hours.toLocaleString()}h</span>
         <span>\u20AC${l.price.toLocaleString()} <span class="${dc}">(${d>=0?'+':''}${d.toLocaleString()})</span></span>
       </div>`;
     }).join('');
@@ -1747,7 +1747,7 @@ function copyWA() {
     `\ud83d\udd27 ${(mItem.brand||'').charAt(0).toUpperCase()+(mItem.brand||'').slice(1)} ${mItem.model}\n` +
     `\ud83d\udcc5 Jaar: ${mItem.year}\n` +
     `\u23f1\ufe0f Uren: ${mItem.hours.toLocaleString()}h\n` +
-    `\ud83d\udcb0 Prijs: \u20ac${mItem.price.toLocaleString()}\n` +
+    `\ud83d\udcb0 Prijs: €${mItem.price.toLocaleString()}\n` +
     `\ud83d\udccd Regio: ${mItem.region}\n` +
     `\ud83c\udfe2 Bron: ${mItem.source}\n\n` +
     `Gevonden via ForkFlip\n\n` +
@@ -1930,7 +1930,7 @@ function cardClick(type) {
     filtered = all.filter(function(l) { return l.price < 10000; });
     filtered.sort(function(a,b) { return a.price - b.price; });
     renderTable(); updateInsights();
-    showFilterTag((lang==='nl'?'Filter: Onder \u20ac10.000 (':'Filter: Under \u20ac10k (') + filtered.length + ' listings)');
+    showFilterTag((lang==='nl'?'Filter: Onder €10.000 (':'Filter: Under €10k (') + filtered.length + ' listings)');
     toast(filtered.length + ' machines under \u20AC10.000','ok');
   }
 }
@@ -1996,7 +1996,7 @@ function renderPriceBar(price, resale, avgPrice, budget) {
   function row(dot, label, amount, diff, diffColor) {
     var r = '<div style="display:flex;justify-content:space-between;align-items:center;padding:0.35rem 0;border-bottom:1px solid var(--border);">';
     r += '<div style="display:flex;align-items:center;gap:0.5rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+dot+';flex-shrink:0;"></span><span style="font-size:0.82rem;color:var(--muted);">'+label+'</span></div>';
-    r += '<div style="text-align:right;"><span style="font-weight:700;font-size:0.9rem;">\u20ac'+amount.toLocaleString()+'</span>';
+    r += '<div style="text-align:right;"><span style="font-weight:700;font-size:0.9rem;">€'+amount.toLocaleString()+'</span>';
     if (diff !== null && diff !== 0) {
       r += ' <span style="font-size:0.78rem;font-weight:600;color:'+diffColor+';">'+(diff>0?'+':'')+diff.toLocaleString()+'</span>';
     }
@@ -2031,7 +2031,7 @@ function renderPriceBar(price, resale, avgPrice, budget) {
   // Verdict
   if (resale && resale > price) {
     var potPct = Math.round(((resale - price) / price) * 100);
-    h += '<div style="margin-top:0.5rem;padding:0.5rem;background:var(--green-bg);border-radius:6px;font-size:0.82rem;font-weight:600;color:var(--green);">\u2705 '+(lang==='nl'?'Onder herverkoopwaarde \u2014 +'+potPct+'% potentie':'Below resale \u2014 +'+potPct+'% potential')+'</div>';
+    h += '<div style="margin-top:0.5rem;padding:0.5rem;background:var(--green-bg);border-radius:6px;font-size:0.82rem;font-weight:600;color:var(--green);">\u2705 '+(lang==='nl'?'Onder herverkoopwaarde — +'+potPct+'% potentie':'Below resale — +'+potPct+'% potential')+'</div>';
   } else if (resale && resale < price) {
     h += '<div style="margin-top:0.5rem;padding:0.5rem;background:var(--red-bg);border-radius:6px;font-size:0.82rem;font-weight:600;color:var(--red);">\u26A0\uFE0F '+(lang==='nl'?'Boven herverkoopwaarde':'Above resale value')+'</div>';
   }
@@ -2085,7 +2085,7 @@ function openCheapest() {
     // Open on source website
     var q = ((cheapest.brand||'') + ' ' + cheapest.model).trim();
     window.open(getMascusUrl(q, 'www.mascus.nl'), '_blank');
-    toast((lang==='nl'?'Goedkoopste ':'Cheapest ') + cheapest.model + ': \u20ac' + cheapest.price.toLocaleString(), 'ok');
+    toast((lang==='nl'?'Goedkoopste ':'Cheapest ') + cheapest.model + ': €' + cheapest.price.toLocaleString(), 'ok');
   }
 }
 // ===== HOT MODEL DRILL DOWN =====
@@ -2182,7 +2182,7 @@ function applyLang() {
       if (t.startsWith(key) || t === key) {
         // Keep the €10k part for Under card
         if (key === 'Under' && t.includes('10k')) {
-          el.textContent = icMap[key] + ' \u20ac10k';
+          el.textContent = icMap[key] + ' €10k';
         } else {
           el.textContent = icMap[key];
         }
@@ -2389,7 +2389,7 @@ function renderProfiles() {
       return '<div style="display:flex; justify-content:space-between; align-items:center; padding:0.5rem; background:var(--bg); border-radius:6px; margin:0.35rem 0; border-left:3px solid ' + color + ';">' +
         '<div style="flex:1; cursor:pointer;" onclick="viewProfileMatches(\'' + p.id + '\')">' +
           '<div style="font-weight:700; font-size:0.85rem;"><span style="color:' + color + '; font-size:0.7rem;">' + dot + '</span> ' + p.name + '</div>' +
-          '<div style="font-size:0.75rem; color:var(--muted);">' + details.join(' \u2022 ') + '</div>' +
+          '<div style="font-size:0.75rem; color:var(--muted);">' + details.join(' • ') + '</div>' +
           '<div style="font-size:0.78rem; font-weight:600; color:' + color + ';">' + matches.length + ' matches</div>' +
         '</div>' +
         '<div style="display:flex; gap:0.3rem;">' +
@@ -2628,10 +2628,10 @@ function runLandingSearch() {
       resultsHTML += '<div onclick="openModalFromAll(\'' + item.id + '\')" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem;cursor:pointer;transition:border-color 0.15s;" onmouseenter="this.style.borderColor=\'var(--primary)\'" onmouseleave="this.style.borderColor=\'var(--border)\'">' +
         '<div style="display:flex;justify-content:space-between;align-items:start;">' +
           '<div><div style="font-weight:700;color:var(--primary);">' + (item.brand||'').charAt(0).toUpperCase()+(item.brand||'').slice(1) + ' ' + item.model + '</div>' +
-          '<div style="font-size:0.78rem;color:var(--muted);">' + item.year + ' \u2022 ' + item.hours.toLocaleString() + 'h \u2022 ' + flag + ' ' + item.region + '</div></div>' +
-          '<div style="font-weight:700;font-size:1.1rem;color:var(--primary);">\u20ac' + item.price.toLocaleString() + '</div>' +
+          '<div style="font-size:0.78rem;color:var(--muted);">' + item.year + ' • ' + item.hours.toLocaleString() + 'h • ' + flag + ' ' + item.region + '</div></div>' +
+          '<div style="font-weight:700;font-size:1.1rem;color:var(--primary);">€' + item.price.toLocaleString() + '</div>' +
         '</div>' +
-        '<div style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">' + stars(cs) + ' ' + condText(cs) + ' \u2022 ' + item.source + '</div>' +
+        '<div style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">' + stars(cs) + ' ' + condText(cs) + ' • ' + item.source + '</div>' +
       '</div>';
     });
     resultsHTML += '</div>';
@@ -2767,8 +2767,8 @@ function renderLandingDeals() {
       html += '<div onclick="openModalFromAll(\''+it.id+'\')" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem;cursor:pointer;transition:border-color 0.15s;" onmouseenter="this.style.borderColor=\'var(--green)\'" onmouseleave="this.style.borderColor=\'var(--border)\'">' +
         '<div style="display:flex;justify-content:space-between;">' +
           '<div><div style="font-weight:700;color:var(--primary);">'+(it.brand||'').charAt(0).toUpperCase()+(it.brand||'').slice(1)+' '+it.model+'</div>' +
-          '<div style="font-size:0.75rem;color:var(--muted);">'+it.year+' \u2022 '+it.hours.toLocaleString()+'h \u2022 '+flag+it.region+'</div></div>' +
-          '<div style="text-align:right;"><div style="font-weight:700;font-size:1rem;color:var(--primary);">\u20ac'+it.price.toLocaleString()+'</div>' +
+          '<div style="font-size:0.75rem;color:var(--muted);">'+it.year+' • '+it.hours.toLocaleString()+'h • '+flag+it.region+'</div></div>' +
+          '<div style="text-align:right;"><div style="font-weight:700;font-size:1rem;color:var(--primary);">€'+it.price.toLocaleString()+'</div>' +
           '<div style="font-size:0.75rem;font-weight:700;color:var(--green);">+'+d.pct+'% potentie</div></div>' +
         '</div></div>';
     });
@@ -2784,10 +2784,10 @@ function renderLandingDeals() {
     html += '<div onclick="openModalFromAll(\''+it.id+'\')" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.75rem;cursor:pointer;transition:border-color 0.15s;" onmouseenter="this.style.borderColor=\'var(--primary)\'" onmouseleave="this.style.borderColor=\'var(--border)\'">' +
       '<div style="display:flex;justify-content:space-between;">' +
         '<div><div style="font-weight:700;color:var(--primary);">'+(it.brand||'').charAt(0).toUpperCase()+(it.brand||'').slice(1)+' '+it.model+'</div>' +
-        '<div style="font-size:0.75rem;color:var(--muted);">'+it.year+' \u2022 '+it.hours.toLocaleString()+'h \u2022 '+flag+it.region+'</div></div>' +
-        '<div style="font-weight:700;font-size:1rem;color:var(--primary);">\u20ac'+it.price.toLocaleString()+'</div>' +
+        '<div style="font-size:0.75rem;color:var(--muted);">'+it.year+' • '+it.hours.toLocaleString()+'h • '+flag+it.region+'</div></div>' +
+        '<div style="font-weight:700;font-size:1rem;color:var(--primary);">€'+it.price.toLocaleString()+'</div>' +
       '</div>' +
-      '<div style="font-size:0.72rem;color:var(--muted);margin-top:0.2rem;">'+stars(cs)+' '+condText(cs)+' \u2022 '+it.source+'</div></div>';
+      '<div style="font-size:0.72rem;color:var(--muted);margin-top:0.2rem;">'+stars(cs)+' '+condText(cs)+' • '+it.source+'</div></div>';
   });
   html += '</div>';
 
