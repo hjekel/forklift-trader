@@ -242,6 +242,11 @@ class ForkFlipScraper:
                         if image_url.startswith('//'):
                             image_url = 'https:' + image_url
 
+                    # Make URL absolute
+                    listing_url = href
+                    if listing_url and listing_url.startswith('/'):
+                        listing_url = src['base'].split('/')[0] + '//' + src['base'].split('/')[2] + listing_url
+
                     self.counter += 1
                     listing = {
                         'id': f'{prefix}-{self.counter}',
@@ -252,6 +257,7 @@ class ForkFlipScraper:
                         'price': price,
                         'source': src['source'],
                         'region': region,
+                        'url': listing_url,
                         'image_url': image_url,
                     }
                     self.all_listings.append(listing)

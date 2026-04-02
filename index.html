@@ -547,8 +547,8 @@
       </div>
       <div class="tabs">
         <button class="tab" id="tFind" title="Zoek elk type equipment" onclick="setTab('find')" style="font-weight:700;">Zoek</button>
-        <button class="tab" id="tAll" title="Bekijk alle listings" onclick="setTab('all')">Database</button>
-        <button class="tab" id="tWant" title="Opgeslagen zoekprofielen" onclick="setTab('want')" style="font-weight:700;">Profielen</button>
+        <button class="tab" id="tAll" title="Bekijk alle listings" onclick="setTab('all')">Alle Listings</button>
+        <button class="tab" id="tWant" title="Opgeslagen zoekprofielen" onclick="setTab('want')" style="font-weight:700;">Mijn Zoekopdrachten</button>
         <button class="tab" id="tWatch" title="Je opgeslagen favorieten" onclick="setTab('watchlist')">Watchlist (<span id="wBadge">0</span>)</button>
       </div>
     </div>
@@ -2084,12 +2084,17 @@ function openCheapest() {
   if (!mItem) return;
   var cheapest = all.filter(function(l) { return l.model === mItem.model; })
     .sort(function(a,b) { return a.price - b.price; })[0];
-  if (cheapest) {
-    // Open on source website
-    var q = ((cheapest.brand||'') + ' ' + cheapest.model).trim();
+  if (!cheapest) return;
+
+  // If listing has direct URL, use it
+  if (cheapest.url) {
+    window.open(cheapest.url, '_blank');
+  } else {
+    // Search with brand + model + year for more specific results
+    var q = ((cheapest.brand||'') + ' ' + cheapest.model + ' ' + (cheapest.year||'')).trim();
     window.open(getMascusUrl(q, 'www.mascus.nl'), '_blank');
-    toast((lang==='nl'?'Goedkoopste ':'Cheapest ') + cheapest.model + ': €' + cheapest.price.toLocaleString(), 'ok');
   }
+  toast((lang==='nl'?'Goedkoopste ':'Cheapest ') + cheapest.model + ' (' + cheapest.year + '): \u20ac' + cheapest.price.toLocaleString(), 'ok');
 }
 // ===== HOT MODEL DRILL DOWN =====
 function cardClickModel(model) {
