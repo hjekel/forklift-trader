@@ -466,8 +466,8 @@
   <aside class="side">
     <h3>Filters</h3>
     <div class="fg">
-      <label>Search</label>
-      <input type="text" id="fSearch" placeholder="Search model, region..." oninput="applyFilters()">
+      <label>Zoeken</label>
+      <input type="text" id="fSearch" placeholder="Zoek model, regio..." oninput="applyFilters()">
     </div>
     <div class="fg">
       <label id="lBrand">Brand</label>
@@ -559,16 +559,16 @@
 
     <!-- FIND ANY EQUIPMENT PANEL -->
     <div id="findPanel" style="display:none; padding:1rem; background:var(--card); border-bottom:2px solid var(--green);">
-      <h4 style="color:var(--green); margin-bottom:0.5rem;">Find Any Equipment</h4>
-      <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.75rem;">Search forklifts, aerial lifts, telehandlers — anything. One-time search across ForkFlip data + 12 external marketplaces.</p>
+      <h4 style="color:var(--green); margin-bottom:0.5rem;" id="findPanelTitle">Zoek Elk Type Equipment</h4>
+      <p style="font-size:0.8rem; color:var(--muted); margin-bottom:0.75rem;" id="findPanelDesc">Zoek heftrucks, hoogwerkers, verreikers — alles. Doorzoekt ForkFlip + externe marktplaatsen.</p>
 
       <div style="display:flex; gap:0.5rem; align-items:end; flex-wrap:wrap;">
         <div style="flex:1; min-width:250px;">
-          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;" id="findLabel">What are you looking for?</label>
-          <input type="text" id="findQuery" placeholder="e.g. JLG Toucan 8E-L, Toyota 8FB*15, Genie S-65... (* = wildcard)" style="width:100%; padding:0.6rem 0.75rem; border:2px solid var(--green); border-radius:6px; background:var(--card); color:var(--text); font-size:0.95rem;" onkeydown="if(event.key==='Enter')runEquipmentSearch()">
+          <label style="font-size:0.72rem; font-weight:600; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.25rem;" id="findLabel">Wat zoek je?</label>
+          <input type="text" id="findQuery" placeholder="bijv. JLG Toucan 8E-L, Toyota 8FBE15T, Genie S-65... (* = wildcard)" style="width:100%; padding:0.6rem 0.75rem; border:2px solid var(--green); border-radius:6px; background:var(--card); color:var(--text); font-size:0.95rem;" onkeydown="if(event.key==='Enter')runEquipmentSearch()">
         </div>
         <div>
-          <button onclick="runEquipmentSearch()" style="padding:0.6rem 1.5rem; background:var(--green); color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.95rem; white-space:nowrap;">SEARCH</button>
+          <button onclick="runEquipmentSearch()" style="padding:0.6rem 1.5rem; background:var(--green); color:white; border:none; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.95rem; white-space:nowrap;" id="searchBtn">ZOEK</button>
         </div>
       </div>
 
@@ -900,7 +900,7 @@
       <div style="display:grid; gap:0.75rem; font-size:0.88rem;">
         <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--green);">
           <strong>Zoek Equipment (hoofdpagina)</strong><br>
-          Gebruik het zoekpanel met Merk, Model, Bouwjaar, Prijs en Regio filters. Klik <b>Vinden</b> om in de database te zoeken. Of typ een vrije zoekopdracht in het veld bovenaan en klik <b>SEARCH</b> om ook op externe marktplaatsen te zoeken.
+          Gebruik het zoekpanel met Merk, Model, Bouwjaar, Prijs en Regio filters. Klik <b>Vinden</b> om in de database te zoeken. Of typ een vrije zoekopdracht in het veld bovenaan en klik <b>ZOEK</b> om ook op externe marktplaatsen te zoeken.
         </div>
 
         <div style="background:var(--bg); padding:0.75rem; border-radius:8px; border-left:3px solid var(--primary);">
@@ -1143,7 +1143,7 @@ function handleCustomBrand(value) {
     if (nf) {
       nf.style.display = 'block';
       var msg = lang==='nl' ? '"'+value+'" niet in database.' : '"'+value+'" not in database.';
-      var linkText = lang==='nl' ? 'Zoek in Find Equipment' : 'Search in Find Equipment';
+      var linkText = lang==='nl' ? 'Zoek op Home pagina' : 'Search on Home page';
       nf.innerHTML = '<span style="color:var(--yellow);">' + msg + '</span> <a href="#" onclick="event.preventDefault();$(' + "'findQuery'" + ').value=' + "'" + value + "'" + ';setTab(' + "'find'" + ');runEquipmentSearch();" style="color:var(--primary);font-size:0.75rem;">\u2192 ' + linkText + '</a>';
     }
     // Still update model list (will be empty for unknown brand)
