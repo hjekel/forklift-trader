@@ -550,7 +550,7 @@
         <button onclick="resetAll()" style="margin-left:0.5rem; padding:0.2rem 0.6rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text); cursor:pointer; font-size:0.78rem;">Reset</button>
       </div>
       <div class="tabs">
-        <button class="tab" id="tFind" title="Zoek elk type equipment" onclick="setTab('find')" style="font-weight:700;">Zoek</button>
+        <button class="tab" id="tFind" title="Terug naar de zoekpagina" onclick="setTab('find')" style="font-weight:700;">\u2302 Home</button>
         <button class="tab" id="tAll" title="Bekijk alle listings" onclick="setTab('all')">Alle Listings</button>
         <button class="tab" id="tWant" title="Opgeslagen zoekprofielen" onclick="setTab('want')" style="font-weight:700;">Mijn Zoekopdrachten</button>
         <button class="tab" id="tWatch" title="Je opgeslagen favorieten" onclick="setTab('watchlist')">Watchlist (<span id="wBadge">0</span>)</button>
@@ -2537,7 +2537,8 @@ function renderPopularSearches() {
   el.innerHTML = '<span style="font-size:0.72rem;color:var(--muted);margin-right:0.3rem;">' + label + '</span>' +
     searches.map(function(s) {
       return '<button onclick="searchFor(\''+s.replace(/'/g,"\\'")+'\')" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:0.15rem 0.5rem;font-size:0.72rem;cursor:pointer;color:var(--primary);margin:0.1rem;">' + s + '</button>';
-    }).join('');
+    }).join('') +
+    (hasHistory ? ' <button onclick="clearSearchHistory()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.68rem;margin-left:0.3rem;" title="Wis zoekgeschiedenis">\u2715 wis</button>' : '');
 }
 
 
@@ -2652,13 +2653,13 @@ function runLandingSearch() {
       resultsHTML += '<div style="text-align:center;margin-bottom:1rem;"><button onclick="switchToDatabase()" style="padding:0.5rem 1.5rem;background:var(--primary);color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;">Bekijk alle ' + filtered.length + ' resultaten in Database</button></div>';
     }
   } else {
-    resultsHTML += '<div style="padding:0.75rem;background:var(--yellow-bg);border-radius:6px;border-left:3px solid var(--yellow);margin-bottom:0.75rem;">' +
-      '<strong style="color:var(--yellow);">\"' + searchQuery + '\" niet gevonden in ForkFlip database (' + all.length + ' listings)</strong>' +
-      '<div style="font-size:0.82rem;color:var(--muted);margin-top:0.25rem;">Zoek hieronder op externe marktplaatsen:</div></div>';
+    resultsHTML += '<div style="padding:1rem;background:var(--yellow-bg);border-radius:8px;border-left:4px solid var(--yellow);margin-bottom:1rem;">' +
+      '<strong style="color:var(--yellow);font-size:1rem;">\"' + searchQuery + '\" niet in ForkFlip database</strong>' +
+      '<div style="font-size:0.85rem;color:var(--text);margin-top:0.4rem;">Geen probleem! Klik op een van de marktplaatsen hieronder om direct te zoeken op <strong>' + searchQuery + '</strong>. Elke knop opent de zoekresultaten op die website.</div></div>';
   }
 
   // Marketplace cards — ONE set, Google first, with tooltips
-  resultsHTML += '<div style="font-size:0.82rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin:0.75rem 0 0.5rem;">Zoek op marktplaatsen</div>';
+  resultsHTML += '<div style="font-size:0.9rem;font-weight:700;color:var(--primary);margin:0.75rem 0 0.5rem;">\uD83D\uDD0D Zoek \"' + searchQuery + '\" op marktplaatsen:</div>';
   var eq = encodeURIComponent(searchQuery);
   var qPlus = searchQuery.replace(/\s+/g, '+');
   var qLow = encodeURIComponent(searchQuery.toLowerCase());
@@ -2814,6 +2815,12 @@ function showLanding() {
   populateLandingBrands();
   renderLandingDeals();
 }
+function clearSearchHistory() {
+  localStorage.removeItem('forkflip_search_log');
+  renderPopularSearches();
+  toast(lang==='nl'?'Zoekgeschiedenis gewist':'Search history cleared', 'ok');
+}
+
 function searchFor(term) {
   $('findQuery').value = term;
   setTab('find');
