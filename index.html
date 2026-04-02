@@ -111,7 +111,7 @@
     .insight-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
 
     /* ÔöÇÔöÇ APP LAYOUT ÔöÇÔöÇ */
-    .app { display: grid; grid-template-columns: auto 1fr; min-height: calc(100vh - 140px); }
+    .app { display: grid; grid-template-columns: 200px 1fr; min-height: calc(100vh - 140px); }
     
 
     /* ÔöÇÔöÇ SIDEBAR ÔöÇÔöÇ */
@@ -124,7 +124,7 @@
       position: sticky; top: 0;
       font-size: 0.85rem;
     }
-    .side h3 { font-size: 0.8rem; color: var(--primary); margin-bottom: 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--primary); }
+    .side h3 { font-size: 0.75rem; color: var(--primary); margin-bottom: 0.75rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--primary); }
     .fg { margin-bottom: 1rem; }
     .fg label {
       display: block; font-weight: 600; font-size: 0.72rem;
@@ -465,10 +465,7 @@
   <!-- SIDEBAR -->
   <aside class="side">
     <h3>Filters</h3>
-    <div class="fg">
-      <label>Zoeken</label>
-      <input type="text" id="fSearch" placeholder="Zoek model, regio..." oninput="applyFilters()">
-    </div>
+    <!-- sidebar search removed in V17 -->
     <div class="fg">
       <label id="lBrand">Brand</label>
       <select id="sBrand" onchange="updateModelList(); applyFilters();" style="width:100%; padding:0.35rem; border:1px solid var(--border); border-radius:5px; font-size:0.82rem; background:var(--card); color:var(--text); margin-bottom:0.3rem;">
@@ -478,7 +475,7 @@
     </div>
     <div class="fg">
       <label id="lModel">Model</label>
-      <select id="fModel" multiple size="10"></select>
+      <select id="fModel" multiple size="8" style="font-size:0.78rem;"></select>
       <div id="modelNotFound" style="display:none; font-size:0.78rem; padding:0.4rem; margin-top:0.3rem; background:var(--yellow-bg); border-radius:5px; border-left:3px solid var(--yellow);"></div>
       <input type="text" id="customModel" placeholder="Or type a model..." oninput="handleCustomModel(this.value)" style="width:100%; padding:0.3rem 0.5rem; border:1px solid var(--border); border-radius:5px; font-size:0.78rem; margin-top:0.3rem; background:var(--card); color:var(--text);">
     </div>
@@ -546,8 +543,9 @@
     <div id="backToSearch" style="display:none;padding:0.4rem 0.75rem;"><a href="#" onclick="event.preventDefault();setTab('find')" style="color:#E8600A;font-weight:700;font-size:0.85rem;text-decoration:none;">← Terug naar zoeken</a></div>
     <div class="toolbar">
       <div class="info">
-        Showing <strong id="showN">0</strong> of <strong id="totalN">0</strong>
+        Toont <strong id="showN">0</strong> van <strong id="totalN">0</strong>
         <button onclick="resetAll()" style="margin-left:0.5rem; padding:0.2rem 0.6rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text); cursor:pointer; font-size:0.78rem;">Reset</button>
+        <label style="display:inline-flex;align-items:center;gap:3px;font-size:0.75rem;cursor:pointer;margin-left:0.75rem;"><input type="checkbox" id="nlOnly" onchange="toggleNL()"> \uD83C\uDDF3\uD83C\uDDF1 Alleen NL</label>
       </div>
       <div class="tabs">
         <button class="tab on" id="tAll" title="Alle listings met zoekbalk" onclick="setTab('all')">Alle Listings</button>
@@ -1169,7 +1167,7 @@ function applyFilters() {
   const hoursMax = +$('fHoursMax').value;
   const selM = [...$('fModel').selectedOptions].map(o=>o.value);
   const sM=$('sMascus').checked, sT=$('sTruck').checked;
-  const q = $('fSearch').value.trim().toLowerCase();
+  const q = ($('fSearch') ? $('fSearch').value : ($('tableSearch') ? $('tableSearch').value : '')).trim().toLowerCase();
 
   let base = activeTab === 'watchlist' ? all.filter(l=>watchlist.has(l.id)) : all;
 
@@ -1277,9 +1275,9 @@ function renderTable() {
       <td class="chk-cell" onclick="event.stopPropagation()"><input type="checkbox" ${isSel?'checked':''} onchange="toggleSel('${it.id}')"></td>
       <td><button class="heart" onclick="event.stopPropagation();toggleW('${it.id}')">${heart}</button></td>
       <td style="font-size:0.78rem;text-transform:capitalize;">${it.brand||'toyota'}</td>
-      <td><strong>${it.model}</strong></td>
-      <td>${it.year}</td>
-      <td>${it.hours.toLocaleString()}</td>
+      <td><strong>${cleanModel(it.model)}</strong></td>
+      <td>${it.year > 1900 && it.year <= 2026 ? it.year : "\u2014"}</td>
+      <td>${it.hours > 0 ? it.hours.toLocaleString() : "\u2014"}</td>
       <td style="font-weight:700">\u20AC${it.price.toLocaleString()}</td>
       <td style="color:var(--muted)">${resaleTxt}</td>
       <td class="${mc}">${mTxt}</td>
@@ -1766,10 +1764,10 @@ function copyWA() {
 function updateURL() {
   const p = new URLSearchParams();
   if (currentBrand!=='toyota') p.set('brand', currentBrand);
-  if ($('fYearAfter').value!=='0') p.set('year', $('fYearAfter').value);
-  if ($('fPriceMax').value!=='999999') p.set('budget', $('fPriceMax').value);
-  if ($('fHoursMax').value!=='999999') p.set('hours', $('fHoursMax').value);
-  const q = $('fSearch').value.trim();
+  if ($('fYearAfter') && $('fYearAfter').value!=='0') p.set('year', $('fYearAfter').value);
+  if ($('fPriceMax') && $('fPriceMax').value!=='999999') p.set('budget', $('fPriceMax').value);
+  if ($('fHoursMax') && $('fHoursMax').value!=='999999') p.set('hours', $('fHoursMax').value);
+  const q = ($('fSearch') || $('tableSearch') || {value:''}).value.trim();
   if (q) p.set('q', q);
   const s = p.toString();
   history.replaceState({}, '', s ? '?'+s : location.pathname);
@@ -2202,7 +2200,34 @@ function showTableMarketplace(query, localCount) {
     '<a href="https://www.ebay.nl/sch/i.html?_nkw='+eq+'" target="_blank" style="color:var(--primary);">eBay</a></div>';
 }
 
+
+// ===== V17: CLEAN MODEL NAMES =====
+function cleanModel(m) {
+  if (!m) return '\u2014';
+  var c = m
+    .replace(/\d+(\.\d+)?\s*ton\s*(lifting\s*)?capacity/gi, '')
+    .replace(/\d+(\.\d+)?\s*t\s+(diesel|elektrisch|elektrische|lpg)/gi, '')
+    .replace(/sideshift\s*[+\/]?\s*cabine/gi, '')
+    .replace(/elektrische\s+heftruck/gi, '')
+    .replace(/\s*\/\s*vorkheftruck/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (c.length > 28) c = c.substring(0, 28) + '\u2026';
+  return c || m.substring(0, 28);
+}
+
 // ===== RESET ALL =====
+function toggleNL() {
+  var nl = $('nlOnly') && $('nlOnly').checked;
+  if (nl) {
+    filtered = all.filter(function(l){return l.region==='NL';});
+    renderTable(); updateInsights();
+    toast(filtered.length + ' NL listings', 'ok');
+  } else {
+    applyFilters();
+  }
+}
+
 function resetAll() {
   $('brandSel').value = 'all';
   clearFilters();
