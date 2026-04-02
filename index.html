@@ -546,10 +546,10 @@
         <button onclick="resetAll()" style="margin-left:0.5rem; padding:0.2rem 0.6rem; border:1px solid var(--border); border-radius:4px; background:var(--bg); color:var(--text); cursor:pointer; font-size:0.78rem;">Reset</button>
       </div>
       <div class="tabs">
-        <button class="tab on" id="tAll" title="Toon alle listings in de ForkFlip database" onclick="setTab('all')" data-tip="Show all 1.692 listings in ForkFlip database">All Listings</button>
-        <button class="tab" id="tWatch" title="Je opgeslagen favorieten — klik het hartje bij een listing" onclick="setTab('watchlist')" title="Je opgeslagen favorieten" data-tip="Your saved/favorite listings">Watchlist (<span id="wBadge">0</span>)</button>
-        <button class="tab" id="tFind" title="Zoek elk type equipment — eenmalige zoekopdracht in ForkFlip + 12 marktplaatsen" onclick="setTab('find')" style="border-color:var(--green);color:var(--green);font-weight:700;" data-tip="Search any equipment type across ForkFlip + 10 external marketplaces">Find Equipment</button>
-        <button class="tab" id="tWant" title="Maak een zoekprofiel — ForkFlip matcht automatisch bij elke data refresh" onclick="setTab('want')" style="border-color:#9c27b0;color:#9c27b0;font-weight:700;" data-tip="Define specs you need, save searches, track matches">Want to Buy</button>
+        <button class="tab" id="tFind" title="Zoek elk type equipment" onclick="setTab('find')" style="font-weight:700;">Zoek</button>
+        <button class="tab" id="tAll" title="Bekijk alle listings" onclick="setTab('all')">Database</button>
+        <button class="tab" id="tWant" title="Opgeslagen zoekprofielen" onclick="setTab('want')" style="font-weight:700;">Profielen</button>
+        <button class="tab" id="tWatch" title="Je opgeslagen favorieten" onclick="setTab('watchlist')">Watchlist (<span id="wBadge">0</span>)</button>
       </div>
     </div>
 
@@ -2159,7 +2159,7 @@ function applyLang() {
   // Find Equipment + Want to Buy
   if ($('tFind')) {
     var findText = $('tFind').childNodes[0];
-    if (findText) findText.textContent = isNL ? 'Zoek Equipment' : 'Find Equipment';
+    if (findText) findText.textContent = isNL ? 'Zoek' : 'Search';
   }
   if ($('tWant')) {
     var wantText = $('tWant').childNodes[0];
