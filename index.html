@@ -816,6 +816,7 @@
       <div>
         <div class="dsec">
         <h4>Machine Info</h4>
+        <p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.4rem;">Gegevens uit de Mascus advertentie.</p>
         <dl class="dl">
           <dt>Price</dt>     <dd class="big" id="mPrice">&mdash;</dd>
           <dt>Year</dt>      <dd id="mYear">&mdash;</dd>
@@ -835,14 +836,15 @@
         <div id="mPriceBar" class="dsec" style="margin-bottom:0.75rem;"></div>
 
         <div class="dsec">
-          <h4>Margin Calculator</h4>
-          <p style="font-size:0.72rem; color:var(--muted); margin-bottom:0.4rem;">Vul je budget of verwachte verkoopprijs in. Groen = winst, Rood = verlies.</p>
-          <label style="font-size:0.82rem; display:block; margin-bottom:0.35rem;">Budget / verkoopprijs</label>
+          <h4>Marge Berekening</h4>
+          <p style="font-size:0.72rem; color:var(--muted); margin-bottom:0.4rem;">Waarvoor verkoop jij deze machine door? Vul je verkoopprijs in.</p>
+          <label style="font-size:0.82rem; display:block; margin-bottom:0.35rem;">Jouw verkoopprijs (€)</label>
           <input type="number" id="mOffer" placeholder="e.g. 10000" oninput="calcMargin()">
           <div class="mres" id="mMargin" style="display:none;"></div>
         </div>
         <div class="dsec">
           <h4>Model Insights</h4>
+          <p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.4rem;">Hoe verhoudt deze machine zich tot het aanbod van dit model?</p>
           <div id="mInsights" style="font-size:0.82rem; color:var(--muted);">Load data first.</div>
         </div>
       </div>
@@ -1707,7 +1709,7 @@ function calcMargin() {
   let cls = margin>1000?'pos':margin>0?'mid':'neg';
   el.className = 'mres '+cls;
   el.style.display = 'block';
-  var label = lang==='nl' ? (margin>=0?'over':'tekort') : (margin>=0?'remaining':'short');
+  var label = lang==='nl' ? (margin>=0?'marge':'verlies') : (margin>=0?'margin':'loss');
   // Update price bar with new budget
   if (mItem) {
     var rv = estResale(mItem.model, mItem.year, mItem.hours);
@@ -1715,7 +1717,7 @@ function calcMargin() {
     var ap = sm.length > 1 ? Math.round(sm.reduce(function(s,l){return s+l.price;},0)/sm.length) : 0;
     renderPriceBar(mItem.price, rv, ap, offer);
   }
-  el.innerHTML = (margin>=0?'+':'') + '\u20AC'+margin.toLocaleString()+' '+label+' ('+pct+'%)<div class="sm">'+(lang==='nl'?'Koop':'Buy')+' \u20AC'+mItem.price.toLocaleString()+', '+(lang==='nl'?'budget':'budget')+' \u20AC'+offer.toLocaleString()+'</div>';
+  el.innerHTML = (margin>=0?'+':'') + '\u20AC'+margin.toLocaleString()+' '+label+' ('+pct+'%)<div class="sm">'+(lang==='nl'?'Koopprijs':'Buy at')+' \u20AC'+mItem.price.toLocaleString()+', '+(lang==='nl'?'verkoopprijs':'sell at')+' \u20AC'+offer.toLocaleString()+'</div>';
 }
 
 function toggleModalW() { if(!mItem) return; toggleW(mItem.id); updateModalWBtn(); }
@@ -1990,7 +1992,8 @@ function renderPriceBar(price, resale, avgPrice, budget) {
   if (!el) return;
   if (!price) { el.innerHTML = ''; return; }
 
-  var h = '<h4 style="font-size:0.82rem;margin-bottom:0.75rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);">Prijsoverzicht</h4>';
+  var h = '<h4 style="font-size:0.82rem;margin-bottom:0.3rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);">Prijsoverzicht</h4>
+    <p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.5rem;">Vergelijk de vraagprijs met de geschatte herverkoopwaarde en het marktgemiddelde.</p>';
 
   // Row function
   function row(dot, label, amount, diff, diffColor) {
@@ -2007,11 +2010,11 @@ function renderPriceBar(price, resale, avgPrice, budget) {
   h += row('#3498db', lang==='nl'?'Vraagprijs':'Asking price', price, null, '');
   if (resale && resale > 0) {
     var rDiff = resale - price;
-    h += row('#27ae60', lang==='nl'?'Gesch. herverkoop':'Est. resale', resale, rDiff, rDiff>=0?'var(--green)':'var(--red)');
+    h += row('#27ae60', lang==='nl'?'Geschatte herverkoop':'Est. resale', resale, rDiff, rDiff>=0?'var(--green)':'var(--red)');
   }
   if (budget && budget > 0) {
     var bDiff = budget - price;
-    h += row('#e67e22', lang==='nl'?'Jouw bod':'Your bid', budget, bDiff, bDiff>=0?'var(--green)':'var(--red)');
+    h += row('#e67e22', lang==='nl'?'Jouw verkoopprijs':'Your sell price', budget, bDiff, bDiff>=0?'var(--green)':'var(--red)');
   }
   if (avgPrice && avgPrice > 0) {
     h += row('#95a5a6', lang==='nl'?'Marktgemiddelde':'Market avg', avgPrice, null, '');
@@ -2056,12 +2059,12 @@ function getStockInfo(brand, model) {
   var c = colors[type] || '#3498db';
 
   var svgs = {
-    forklift: '<svg viewBox="0 0 80 70" fill="none"><rect x="15" y="15" width="30" height="28" rx="3" fill="'+c+'" opacity="0.15" stroke="'+c+'" stroke-width="2"/><rect x="45" y="8" width="3" height="40" fill="'+c+'"/><rect x="43" y="6" width="7" height="3" rx="1" fill="'+c+'"/><rect x="48" y="30" width="14" height="2.5" fill="'+c+'"/><rect x="48" y="36" width="14" height="2.5" fill="'+c+'"/><circle cx="22" cy="50" r="6" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/><circle cx="38" cy="50" r="4.5" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/></svg>',
-    diesel: '<svg viewBox="0 0 80 70" fill="none"><rect x="15" y="15" width="30" height="28" rx="3" fill="'+c+'" opacity="0.15" stroke="'+c+'" stroke-width="2"/><rect x="45" y="8" width="3" height="40" fill="'+c+'"/><rect x="43" y="6" width="7" height="3" rx="1" fill="'+c+'"/><rect x="48" y="30" width="14" height="2.5" fill="'+c+'"/><rect x="48" y="36" width="14" height="2.5" fill="'+c+'"/><circle cx="22" cy="50" r="6" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/><circle cx="38" cy="50" r="4.5" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/><path d="M12 12 L12 6 L14 4" stroke="'+c+'" stroke-width="1.5" stroke-linecap="round"/></svg>',
-    boomlift: '<svg viewBox="0 0 80 70" fill="none"><rect x="18" y="42" width="35" height="10" rx="3" fill="'+c+'" opacity="0.15" stroke="'+c+'" stroke-width="2"/><line x1="30" y1="42" x2="52" y2="12" stroke="'+c+'" stroke-width="3" stroke-linecap="round"/><rect x="49" y="6" width="10" height="8" rx="2" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/><circle cx="24" cy="57" r="4.5" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/><circle cx="47" cy="57" r="4.5" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/></svg>',
-    scissorlift: '<svg viewBox="0 0 80 70" fill="none"><rect x="15" y="8" width="42" height="7" rx="2" fill="'+c+'" opacity="0.15" stroke="'+c+'" stroke-width="2"/><line x1="20" y1="15" x2="52" y2="38" stroke="'+c+'" stroke-width="2"/><line x1="52" y1="15" x2="20" y2="38" stroke="'+c+'" stroke-width="2"/><line x1="20" y1="30" x2="52" y2="48" stroke="'+c+'" stroke-width="2"/><line x1="52" y1="30" x2="20" y2="48" stroke="'+c+'" stroke-width="2"/><rect x="15" y="48" width="42" height="7" rx="2" fill="'+c+'" opacity="0.15" stroke="'+c+'" stroke-width="2"/><circle cx="22" cy="60" r="4" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/><circle cx="50" cy="60" r="4" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/></svg>',
-    telehandler: '<svg viewBox="0 0 80 70" fill="none"><rect x="10" y="35" width="25" height="18" rx="3" fill="'+c+'" opacity="0.15" stroke="'+c+'" stroke-width="2"/><line x1="28" y1="40" x2="65" y2="12" stroke="'+c+'" stroke-width="3" stroke-linecap="round"/><rect x="63" y="8" width="3" height="12" fill="'+c+'"/><rect x="61" y="7" width="7" height="3" fill="'+c+'"/><circle cx="16" cy="58" r="5" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/><circle cx="30" cy="58" r="5" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/></svg>',
-    palletjack: '<svg viewBox="0 0 80 70" fill="none"><rect x="10" y="25" width="12" height="22" rx="2" fill="'+c+'" opacity="0.15" stroke="'+c+'" stroke-width="2"/><rect x="22" y="38" width="42" height="3.5" fill="'+c+'"/><rect x="22" y="44" width="42" height="3.5" fill="'+c+'"/><circle cx="14" cy="52" r="3.5" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/><circle cx="62" cy="44" r="2.5" fill="'+c+'" opacity="0.2" stroke="'+c+'" stroke-width="2"/></svg>'
+    forklift: '<svg viewBox="0 0 80 70" fill="none"><rect x="15" y="15" width="30" height="28" rx="3" stroke="'+c+'" stroke-width="1.5"/><rect x="45" y="8" width="2.5" height="40" stroke="'+c+'" stroke-width="1.5"/><rect x="48" y="30" width="14" height="2" stroke="'+c+'" stroke-width="1"/><rect x="48" y="37" width="14" height="2" stroke="'+c+'" stroke-width="1"/><circle cx="22" cy="50" r="5.5" stroke="'+c+'" stroke-width="1.5"/><circle cx="38" cy="50" r="4" stroke="'+c+'" stroke-width="1.5"/></svg>',
+    diesel: '<svg viewBox="0 0 80 70" fill="none"><rect x="15" y="15" width="30" height="28" rx="3" stroke="'+c+'" stroke-width="1.5"/><rect x="45" y="8" width="2.5" height="40" stroke="'+c+'" stroke-width="1.5"/><rect x="48" y="30" width="14" height="2" stroke="'+c+'" stroke-width="1"/><rect x="48" y="37" width="14" height="2" stroke="'+c+'" stroke-width="1"/><circle cx="22" cy="50" r="5.5" stroke="'+c+'" stroke-width="1.5"/><circle cx="38" cy="50" r="4" stroke="'+c+'" stroke-width="1.5"/><path d="M12 14 L12 6 L15 3" stroke="'+c+'" stroke-width="1.2" stroke-linecap="round"/></svg>',
+    boomlift: '<svg viewBox="0 0 80 70" fill="none"><rect x="18" y="42" width="35" height="10" rx="3" stroke="'+c+'" stroke-width="1.5"/><line x1="30" y1="42" x2="52" y2="12" stroke="'+c+'" stroke-width="2" stroke-linecap="round"/><rect x="49" y="6" width="10" height="8" rx="2" stroke="'+c+'" stroke-width="1.5"/><circle cx="24" cy="57" r="4" stroke="'+c+'" stroke-width="1.5"/><circle cx="47" cy="57" r="4" stroke="'+c+'" stroke-width="1.5"/></svg>',
+    scissorlift: '<svg viewBox="0 0 80 70" fill="none"><rect x="15" y="8" width="42" height="7" rx="2" stroke="'+c+'" stroke-width="1.5"/><line x1="20" y1="15" x2="52" y2="38" stroke="'+c+'" stroke-width="1.2"/><line x1="52" y1="15" x2="20" y2="38" stroke="'+c+'" stroke-width="1.2"/><line x1="20" y1="30" x2="52" y2="48" stroke="'+c+'" stroke-width="1.2"/><line x1="52" y1="30" x2="20" y2="48" stroke="'+c+'" stroke-width="1.2"/><rect x="15" y="48" width="42" height="7" rx="2" stroke="'+c+'" stroke-width="1.5"/><circle cx="22" cy="60" r="3.5" stroke="'+c+'" stroke-width="1.5"/><circle cx="50" cy="60" r="3.5" stroke="'+c+'" stroke-width="1.5"/></svg>',
+    telehandler: '<svg viewBox="0 0 80 70" fill="none"><rect x="10" y="35" width="25" height="18" rx="3" stroke="'+c+'" stroke-width="1.5"/><line x1="28" y1="40" x2="65" y2="12" stroke="'+c+'" stroke-width="2" stroke-linecap="round"/><rect x="63" y="8" width="2.5" height="12" stroke="'+c+'" stroke-width="1"/><rect x="61" y="7" width="7" height="2.5" stroke="'+c+'" stroke-width="1"/><circle cx="16" cy="58" r="4.5" stroke="'+c+'" stroke-width="1.5"/><circle cx="30" cy="58" r="4.5" stroke="'+c+'" stroke-width="1.5"/></svg>',
+    palletjack: '<svg viewBox="0 0 80 70" fill="none"><rect x="10" y="25" width="12" height="22" rx="2" stroke="'+c+'" stroke-width="1.5"/><rect x="22" y="38" width="42" height="2.5" stroke="'+c+'" stroke-width="1"/><rect x="22" y="44" width="42" height="2.5" stroke="'+c+'" stroke-width="1"/><circle cx="14" cy="52" r="3" stroke="'+c+'" stroke-width="1.5"/><circle cx="62" cy="44" r="2" stroke="'+c+'" stroke-width="1.5"/></svg>'
   };
 
   return { svg: svgs[type] || svgs.forklift, type: labels[type] || 'Machine', color: c };
