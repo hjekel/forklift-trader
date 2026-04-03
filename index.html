@@ -1580,6 +1580,13 @@ function updateWantedUI() {
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function openModal(idx) {
   mItem = filtered[idx]; if (!mItem) return;
+
+  // V21: Externe listings (live search) — vereenvoudigde popup
+  if (mItem.liveResult || mItem.external) {
+    showExternalPopup(mItem);
+    return;
+  }
+
   var same = all.filter(function(l){return l.model===mItem.model;});
   // V18: prefer same-region comparisons (GBP vs EUR fix)
   var sameRegion = same.filter(function(l){return l.region===mItem.region;});
@@ -1716,6 +1723,54 @@ function openModalById(id) {
   const idx = filtered.findIndex(l=>l.id===id);
   if (idx>=0) openModal(idx);
   else { const ai = all.findIndex(l=>l.id===id); if(ai>=0){ filtered=[all[ai]]; openModal(0); } }
+}
+
+// V21: Vereenvoudigde popup voor externe (live search) listings
+function showExternalPopup(item) {
+  var m = $('modal');
+  if (!m) return;
+  var box = m.querySelector('.mbox');
+  if (!box) return;
+
+  var stock = getStockInfo(item.brand, item.model);
+  var priceText = item.price > 0 ? '\u20ac' + item.price.toLocaleString() : 'Zie advertentie';
+
+  box.innerHTML = '<button class="m-close" onclick="closeModal()">&times;</button>' +
+    '<div style="padding:1.5rem;">' +
+      // Header
+      '<div style="display:flex;gap:1rem;align-items:flex-start;margin-bottom:1rem;">' +
+        '<div style="width:80px;height:60px;flex-shrink:0;">' + stock.svg + '</div>' +
+        '<div>' +
+          '<h2 style="color:var(--primary);font-size:1.3rem;margin:0;">' + (item.brand||'') + ' ' + (item.model||'') + '</h2>' +
+          '<div style="color:var(--muted);font-size:0.85rem;">' + formatYear(item.year) + ' \u2022 ' + item.source + ' \u2022 ' + (item.region||'NL') + ' \u2022 <span style="color:#003DA5;font-weight:bold;">LIVE resultaat</span></div>' +
+        '</div>' +
+      '</div>' +
+      // Prijs
+      '<div style="font-size:1.8rem;font-weight:800;color:var(--primary);margin-bottom:1rem;">' + priceText + '</div>' +
+      // Info rijen
+      '<div class="dsec">' +
+        '<h4>Machine Info</h4>' +
+        '<p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.4rem;">Gegevens van ' + item.source + '</p>' +
+        '<table style="width:100%;font-size:0.88rem;border-collapse:collapse;">' +
+          '<tr><td style="padding:0.3rem 0;color:var(--muted);width:100px;">Merk</td><td style="font-weight:600;">' + (item.brand||'\u2014') + '</td></tr>' +
+          '<tr><td style="padding:0.3rem 0;color:var(--muted);">Model</td><td style="font-weight:600;">' + (item.model||'\u2014') + '</td></tr>' +
+          '<tr><td style="padding:0.3rem 0;color:var(--muted);">Jaar</td><td>' + formatYear(item.year) + '</td></tr>' +
+          '<tr><td style="padding:0.3rem 0;color:var(--muted);">Uren</td><td>' + formatHours(item.hours) + '</td></tr>' +
+          '<tr><td style="padding:0.3rem 0;color:var(--muted);">Regio</td><td>' + (item.region||'NL') + '</td></tr>' +
+          '<tr><td style="padding:0.3rem 0;color:var(--muted);">Bron</td><td>' + item.source + '</td></tr>' +
+        '</table>' +
+      '</div>' +
+      // Snippet
+      (item.snippet ? '<div class="dsec"><h4>Beschrijving</h4><p style="font-size:0.85rem;color:var(--muted);">' + item.snippet + '</p></div>' : '') +
+      // Acties
+      '<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;">' +
+        (item.source_url ? '<a href="' + item.source_url + '" target="_blank" style="padding:10px 20px;background:#003DA5;color:white;border-radius:6px;text-decoration:none;font-weight:bold;font-size:0.9rem;">\uD83D\uDD17 Bekijk advertentie</a>' : '') +
+        '<a href="https://www.google.com/search?q=' + encodeURIComponent((item.brand||'')+' '+(item.model||'')+' koop') + '" target="_blank" style="padding:10px 16px;background:#4285f4;color:white;border-radius:6px;text-decoration:none;font-size:0.85rem;">Google</a>' +
+        '<a href="' + getMascusUrl((item.brand||'')+' '+(item.model||''), 'www.mascus.nl') + '" target="_blank" style="padding:10px 16px;background:#e65100;color:white;border-radius:6px;text-decoration:none;font-size:0.85rem;">Mascus</a>' +
+      '</div>' +
+    '</div>';
+
+  m.classList.remove('hide');
 }
 
 function closeModal() { $('modal').classList.add('hide'); mItem = null; }
