@@ -1725,6 +1725,21 @@ function openModalById(id) {
   else { const ai = all.findIndex(l=>l.id===id); if(ai>=0){ filtered=[all[ai]]; openModal(0); } }
 }
 
+// V22: Database mediaan voor kruisvergelijking
+function getDatabaseMedian(query) {
+  if (!all || all.length === 0) return null;
+  var q = query.toLowerCase();
+  var matches = all.filter(function(l) {
+    return ((l.brand||'')+' '+(l.model||'')).toLowerCase().includes(q);
+  });
+  if (matches.length < 3) return null;
+  var prices = matches.map(function(l){return l.price;}).filter(function(p){return p>0;});
+  if (prices.length < 3) return null;
+  var sorted = prices.slice().sort(function(a,b){return a-b;});
+  var median = sorted[Math.floor(sorted.length/2)];
+  return { median: median, count: matches.length, source: 'database' };
+}
+
 // V21: Vereenvoudigde popup voor externe (live search) listings
 function showExternalPopup(item) {
   var m = $('modal');
@@ -1761,6 +1776,18 @@ function showExternalPopup(item) {
         '</table>' +
       '</div>' +
       // Snippet
+      // V22: Deal analyse blok
+      (function() {
+        if (item.marketAvg > 0 && item.price > 0) {
+          var diff = item.marketAvg - item.price;
+          var pct = Math.round((diff / item.marketAvg) * 100);
+          var good = diff > 0;
+          return '<div style="padding:12px 16px;background:' + (good?'#e8f5e9':'#fce4ec') + ';border-left:4px solid ' + (good?'#27ae60':'#e74c3c') + ';border-radius:4px;margin:12px 0;">' +
+            '<div style="font-weight:bold;font-size:14px;color:' + (good?'#1a6e34':'#b71c1c') + ';">' + (good?'\uD83D\uDC4D Goede deal':'\u26A0\uFE0F Boven gemiddeld') + ' \u2014 ' + Math.abs(pct) + '% ' + (good?'onder':'boven') + ' marktmediaan</div>' +
+            '<div style="font-size:12px;color:#666;margin-top:4px;">Vraagprijs: \u20ac' + item.price.toLocaleString() + ' | Mediaan: \u20ac' + item.marketAvg.toLocaleString() + (item.potentialNote ? ' | ' + item.potentialNote : '') + '</div></div>';
+        }
+        return '';
+      })() +
       (item.snippet ? '<div class="dsec"><h4>Beschrijving</h4><p style="font-size:0.85rem;color:var(--muted);">' + item.snippet + '</p></div>' : '') +
       // Acties
       '<div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;">' +
@@ -2339,17 +2366,37 @@ async function searchFromTable() {
     removeSearchBanner();
 
     if (data.results && data.results.length > 0) {
-      // LIVE RESULTS — show in table
+      // V22: Kruisvergelijking met database
+      var dbAvg = getDatabaseMedian(query.trim());
+      var liveResults = data.results;
+      if (dbAvg && dbAvg.median > 0) {
+        liveResults = data.results.map(function(l) {
+          var pct = l.price > 0 ? Math.round(((dbAvg.median - l.price) / dbAvg.median) * 100) : 0;
+          return Object.assign({}, l, {
+            marketAvg: dbAvg.median,
+            estimatedResale: dbAvg.median,
+            potentialNote: (pct > 0 ? '+' : '') + pct + '% vs. database (' + dbAvg.count + ' listings)'
+          });
+        });
+      }
+
+      // Banner met mediaan
+      var medianInfo = '';
+      var med = dbAvg ? dbAvg.median : (data.meta && data.meta.marketMedian ? data.meta.marketMedian : 0);
+      if (med > 0) {
+        var src = dbAvg ? 'Database' : 'Live';
+        medianInfo = ' &nbsp;|&nbsp; Marktmediaan: <strong>\u20ac' + med.toLocaleString() + '</strong> (' + src + ')';
+      }
+
       showSearchBanner(
-        '\uD83D\uDD34 LIVE \u2014 <strong>' + data.results.length + ' resultaten</strong> voor "<strong>' + query.trim() + '</strong>" van Machineseeker NL <button onclick="clearTableSearch2()" style="margin-left:12px;padding:3px 10px;background:#ccc;border:none;border-radius:4px;cursor:pointer;font-size:12px;">\u2715 Terug</button>',
+        '\uD83D\uDD34 LIVE \u2014 <strong>' + data.results.length + ' resultaten</strong> voor "<strong>' + query.trim() + '</strong>"' + medianInfo + ' <button onclick="clearTableSearch2()" style="margin-left:12px;padding:3px 10px;background:#ccc;border:none;border-radius:4px;cursor:pointer;font-size:12px;">\u2715 Terug</button>',
         'live'
       );
-      // Set filtered to live results and render
-      filtered = data.results;
+      filtered = liveResults;
       renderTable();
       updateInsights();
       logSearch(query.trim(), 'live_machineseeker', true);
-      toast(data.results.length + ' live resultaten van Machineseeker', 'ok');
+      toast(data.results.length + ' live resultaten', 'ok');
     } else {
       showMarketplaceInTable(query.trim());
       logSearch(query.trim(), 'live_machineseeker', false);
