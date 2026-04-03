@@ -1298,9 +1298,9 @@ function renderTable() {
       <td style="font-weight:700">\u20AC${it.price.toLocaleString()}</td>
       <td style="color:var(--muted)">${resaleTxt}</td>
       <td class="${mc}">${mTxt}</td>
-      <td class="cond">${stars(cs)} <small>${condText(cs)}</small></td>
+      <td class="cond">${it.liveResult ? '\u2014' : stars(cs) + ' <small>' + condText(cs) + '</small>'}</td>
       <td><span onclick="event.stopPropagation();filterByRegion('${it.region}')" style="cursor:pointer;" title="Filter op ${it.region}">${{'NL':'🇳🇱','DE':'🇩🇪','UK':'🇬🇧','FR':'\uD83C\uDDEB\uD83C\uDDF7','BE':'\uD83C\uDDE7\uD83C\uDDEA'}[it.region]||'\uD83C\uDF0D'} ${it.region}</span></td>
-      <td><span class="src-badge ${sc}">${it.source}</span></td>
+      <td><span class="src-badge ${it.liveResult ? 'src-truckscout24' : sc}">${it.liveResult ? 'LIVE' : it.source}</span></td>
     </tr>`;
   }).join('');
 }
