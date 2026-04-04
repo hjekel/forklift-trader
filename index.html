@@ -543,7 +543,7 @@
       <span style="font-weight:bold;color:#003DA5;white-space:nowrap;font-size:13px;">WAT ZOEK JE?</span>
       <input type="text" id="tableSearchInput" placeholder="bijv. Toyota 8FBE20T, JLG Toucan, Linde E16..." style="flex:1;padding:8px 12px;border:2px solid #003DA5;border-radius:6px;font-size:13px;outline:none;background:var(--card);color:var(--text);" onkeydown="if(event.key==='Enter')searchFromTable()">
       <button onclick="searchFromTable()" style="padding:8px 18px;background:#003DA5;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:bold;font-size:13px;white-space:nowrap;">ZOEK</button>
-      <button onclick="clearTableSearch2()" style="padding:8px 10px;background:#ccc;color:#333;border:none;border-radius:6px;cursor:pointer;font-size:12px;" title="Wis filter">\u2715</button>
+      <button onclick="clearTableSearch2()" style="padding:8px 10px;background:#ccc;color:#333;border:none;border-radius:6px;cursor:pointer;font-size:12px;" title="Wis filter">✕</button>
     </div>
     <div id="noResultsMarketplace" style="display:none;"></div>
     <!-- V20: Land filter -->
@@ -895,7 +895,7 @@
       <button class="btn-a" onclick="searchGoogle()" style="background:#4285f4;color:white;">&#x1F50D; Google</button>
       <button class="btn-a btn-a-p" onclick="searchMascus()" style="background:#e65100;">Search Mascus</button>
       <button class="btn-a btn-a-p" onclick="searchRitchieBros()" style="background:#E8600A;">Ritchie Bros.</button>
-      <button class="btn-a btn-a-p" id="mSrcBtn" onclick="openSrc()">Bekijk origineel</button>
+      <button class="btn-a btn-a-p" id="mSrcBtn" onclick="openSrc()" style="width:100%;padding:10px;font-size:14px;margin-bottom:8px;">\uD83D\uDD17 Bekijk advertentie op Mascus</button>
       <button class="btn-a btn-a-s" onclick="copyWA()" title="Kopieer een reactie-template naar clipboard">Reactie Template</button>
       <button class="btn-a btn-a-s" onclick="copyListing()" title="Kopieer listing details als tekst">Details</button>
       <button class="btn-a btn-a-s" id="mWatchBtn" onclick="toggleModalW()">Add to Watchlist</button>
@@ -961,7 +961,7 @@
   </div>
 </div>
 
-<footer><strong>ForkFlip v0.6</strong> &mdash; Trader Toolkit &bull; Mascus, TruckScout24, Live Search NL</footer>
+<footer><strong>ForkFlip v0.7</strong> &mdash; Trader Toolkit &bull; Mascus, TruckScout24, Live Search NL</footer>
 
 <script>
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
@@ -1286,17 +1286,15 @@ function renderTable() {
     const matchW = wMap[it.model]!==undefined && it.price<=wMap[it.model];
     const sc = it.source==='mascus'?'src-mascus':it.source==='truckscout24'?'src-truckscout24':'src-sample';
 
-    var liveStyle = '';
+    var dealStyle = '';
     if (it.liveResult) {
-      if (it.price > 0 && it.marketAvg > 0 && it.price < it.marketAvg * 0.85) {
-        liveStyle = 'background:#e8f5e9;border-left:4px solid #27ae60;';  // Goede deal
-      } else if (it.price > 0 && it.marketAvg > 0 && it.price > it.marketAvg * 1.15) {
-        liveStyle = 'background:#fff3e0;';  // Boven gemiddeld
-      } else {
-        liveStyle = 'background:#f0f8ff;';  // Normaal live
-      }
+      dealStyle = 'background:#f0f8ff;';
+    } else if (margin > 1000) {
+      dealStyle = 'border-left:4px solid #27ae60;background:linear-gradient(to right,#f0fff4 0%,transparent 80px);';
+    } else if (margin < -2000) {
+      dealStyle = 'border-left:2px solid #e74c3c;';
     }
-    return `<tr class="${isW?'watch-row':''} ${matchW?'match-row':''}" onclick="openModal(${i})" style="${liveStyle}" title="${it.liveResult?'Live resultaat van Machineseeker NL':''}">
+    return `<tr class="${isW?'watch-row':''} ${matchW?'match-row':''}" onclick="openModal(${i})" style="${dealStyle}">
       <td style="font-size:0.7rem; color:var(--muted); text-align:right; width:30px; padding-right:0.3rem;">${i+1}</td>
       <td class="chk-cell" onclick="event.stopPropagation()"><input type="checkbox" ${isSel?'checked':''} onchange="toggleSel('${it.id}')"></td>
       <td><button class="heart" onclick="event.stopPropagation();toggleW('${it.id}')">${heart}</button></td>
@@ -1306,7 +1304,7 @@ function renderTable() {
       <td>${it.hours > 0 ? it.hours.toLocaleString() : "\u2014"}</td>
       <td style="font-weight:700">\u20AC${it.price.toLocaleString()}</td>
       <td style="color:var(--muted)">${resaleTxt}</td>
-      <td class="${mc}">${mTxt}</td>
+      <td>${margin > 0 ? '<span style="background:#27ae60;color:white;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:bold;white-space:nowrap;">+\u20AC'+margin.toLocaleString()+'</span>' : margin < 0 ? '<span style="color:#e74c3c;font-size:11px;font-weight:bold;">\u20AC'+margin.toLocaleString()+'</span>' : '<span style="color:#999;">\u2014</span>'}</td>
       <td class="cond">${it.liveResult ? '\u2014' : stars(cs) + ' <small>' + condText(cs) + '</small>'}</td>
       <td><span onclick="event.stopPropagation();filterByRegion('${it.region}')" style="cursor:pointer;" title="Filter op ${it.region}">${{'NL':'🇳🇱','DE':'🇩🇪','UK':'🇬🇧','FR':'\uD83C\uDDEB\uD83C\uDDF7','BE':'\uD83C\uDDE7\uD83C\uDDEA'}[it.region]||'\uD83C\uDF0D'} ${it.region}</span></td>
       <td><span class="src-badge ${it.liveResult ? 'src-truckscout24' : sc}">${it.liveResult ? 'LIVE' : it.source}</span></td>
@@ -1581,7 +1579,7 @@ function removeWanted(id) {
 function updateWantedUI() {
   const el = $('wList');
   if (!wanted.length) { el.innerHTML='<p style="font-size:0.78rem;color:var(--muted);margin-top:0.4rem;">No wanted deals yet.</p>'; return; }
-  el.innerHTML = wanted.map(w => `<div class="wanted-chip"><span>${w.model} \u2264 \u20AC${w.budget.toLocaleString()}</span><button onclick="removeWanted(${w.id})">\u2715</button></div>`).join('');
+  el.innerHTML = wanted.map(w => `<div class="wanted-chip"><span>${w.model} \u2264 \u20AC${w.budget.toLocaleString()}</span><button onclick="removeWanted(${w.id})">✕</button></div>`).join('');
 }
 
 // ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
@@ -1614,7 +1612,13 @@ function openModal(idx) {
 
   $('mModel').textContent = ((mItem.brand||'').charAt(0).toUpperCase()+(mItem.brand||'').slice(1)) + ' ' + mItem.model;
   $('mSub').textContent = mItem.year+' • '+mItem.source+' • '+mItem.region;
-  $('mPrice').textContent = '\u20AC'+mItem.price.toLocaleString();
+  var popupPot = (estResale(mItem.model, mItem.year, mItem.hours)||0) - mItem.price;
+  var potBadge = popupPot > 0
+    ? ' <span style="background:#27ae60;color:white;padding:2px 10px;border-radius:12px;font-size:13px;font-weight:bold;">+\u20AC'+popupPot.toLocaleString()+' potentie</span>'
+    : popupPot < -1000
+    ? ' <span style="color:#e74c3c;font-size:13px;font-weight:bold;">\u20AC'+popupPot.toLocaleString()+' vs. gem.</span>'
+    : '';
+  $('mPrice').innerHTML = '\u20AC'+mItem.price.toLocaleString() + potBadge;
   $('mYear').textContent = formatYear(mItem.year);
   $('mHours').textContent = mItem.hours.toLocaleString()+'h';
   $('mCond').textContent = stars(cs)+' '+condText(cs);
@@ -2078,7 +2082,7 @@ function showFilterTag(text) {
   var el = $('activeFilter');
   if (!el) return;
   el.style.display = 'block';
-  el.innerHTML = '<span style="color:var(--primary);font-weight:600;">' + text + '</span> <button onclick="clearFilterTag()" style="margin-left:0.5rem;background:none;border:none;color:var(--red);cursor:pointer;font-size:0.85rem;">\u2715</button>';
+  el.innerHTML = '<span style="color:var(--primary);font-weight:600;">' + text + '</span> <button onclick="clearFilterTag()" style="margin-left:0.5rem;background:none;border:none;color:var(--red);cursor:pointer;font-size:0.85rem;">✕</button>';
 }
 function clearFilterTag() {
   var el = $('activeFilter');
@@ -2844,7 +2848,7 @@ function renderProfiles() {
         '<div style="display:flex; gap:0.3rem;">' +
           '<button onclick="viewProfileMatches(\'' + p.id + '\')" style="background:var(--primary);color:white;border:none;border-radius:4px;padding:0.25rem 0.5rem;cursor:pointer;font-size:0.72rem;">View</button>' +
           '<button onclick="toggleProfile(\'' + p.id + '\')" style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:0.25rem 0.4rem;cursor:pointer;font-size:0.72rem;">' + (p.enabled ? '\u23F8' : '\u25B6') + '</button>' +
-          '<button onclick="deleteProfile(\'' + p.id + '\')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:0.9rem;">\u2715</button>' +
+          '<button onclick="deleteProfile(\'' + p.id + '\')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:0.9rem;">✕</button>' +
         '</div></div>';
     }).join('');
 }
@@ -3330,7 +3334,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   updateDarkBtn();
   applyLang();
   checkAdmin();
-  if(all.length) { afterLoad(); sortBy('margin'); }
+  if(all.length) { afterLoad(); setTimeout(function(){ sortCol='margin'; sortDir='desc'; filtered.sort(function(a,b){var va=(a.estimatedResale||(estResale(a.model,a.year,a.hours)||0))-a.price;var vb=(b.estimatedResale||(estResale(b.model,b.year,b.hours)||0))-b.price;return vb-va;}); renderTable(); updateInsights(); },100); }
   // QA: Warn if data is empty
   if (all.length === 0) {
     var warn = document.createElement('div');
