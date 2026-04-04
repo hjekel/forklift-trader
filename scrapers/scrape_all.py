@@ -35,14 +35,27 @@ MIN_DELAY = 2
 MAX_DELAY = 5
 
 BRANDS = {
-    'toyota':       { 'slug_nl': 'toyota', 'slug_de': 'toyota', 'slug_uk': 'toyota', 'slug_fr': 'toyota', 'slug_ts24': 'toyota' },
-    'linde':        { 'slug_nl': 'linde', 'slug_de': 'linde', 'slug_uk': 'linde', 'slug_fr': 'linde', 'slug_ts24': 'linde' },
-    'still':        { 'slug_nl': 'still', 'slug_de': 'still', 'slug_uk': 'still', 'slug_fr': 'still', 'slug_ts24': 'still' },
-    'jungheinrich': { 'slug_nl': 'jungheinrich', 'slug_de': 'jungheinrich', 'slug_uk': 'jungheinrich', 'slug_fr': 'jungheinrich', 'slug_ts24': 'jungheinrich' },
-    'manitou':      { 'slug_nl': 'manitou', 'slug_de': 'manitou', 'slug_uk': 'manitou', 'slug_fr': 'manitou', 'slug_ts24': 'manitou' },
-    'jlg':          { 'slug_nl': 'jlg', 'slug_de': 'jlg', 'slug_uk': 'jlg', 'slug_fr': 'jlg', 'slug_ts24': 'jlg' },
-    'genie':        { 'slug_nl': 'genie', 'slug_de': 'genie', 'slug_uk': 'genie', 'slug_fr': 'genie', 'slug_ts24': 'genie' },
-    'haulotte':     { 'slug_nl': 'haulotte', 'slug_de': 'haulotte', 'slug_uk': 'haulotte', 'slug_fr': 'haulotte', 'slug_ts24': 'haulotte' },
+    # Heftrucks — kern
+    'toyota':       { 'slug_nl': 'toyota', 'slug_de': 'toyota', 'slug_uk': 'toyota', 'slug_fr': 'toyota', 'slug_be': 'toyota', 'slug_ts24': 'toyota' },
+    'linde':        { 'slug_nl': 'linde', 'slug_de': 'linde', 'slug_uk': 'linde', 'slug_fr': 'linde', 'slug_be': 'linde', 'slug_ts24': 'linde' },
+    'still':        { 'slug_nl': 'still', 'slug_de': 'still', 'slug_uk': 'still', 'slug_fr': 'still', 'slug_be': 'still', 'slug_ts24': 'still' },
+    'jungheinrich': { 'slug_nl': 'jungheinrich', 'slug_de': 'jungheinrich', 'slug_uk': 'jungheinrich', 'slug_fr': 'jungheinrich', 'slug_be': 'jungheinrich', 'slug_ts24': 'jungheinrich' },
+    'manitou':      { 'slug_nl': 'manitou', 'slug_de': 'manitou', 'slug_uk': 'manitou', 'slug_fr': 'manitou', 'slug_be': 'manitou', 'slug_ts24': 'manitou' },
+    # Heftrucks — uitbreiding
+    'hyster':       { 'slug_nl': 'hyster', 'slug_de': 'hyster', 'slug_uk': 'hyster', 'slug_fr': 'hyster', 'slug_be': 'hyster', 'slug_ts24': 'hyster' },
+    'yale':         { 'slug_nl': 'yale', 'slug_de': 'yale', 'slug_uk': 'yale', 'slug_fr': 'yale', 'slug_be': 'yale', 'slug_ts24': 'yale' },
+    'crown':        { 'slug_nl': 'crown', 'slug_de': 'crown', 'slug_uk': 'crown', 'slug_fr': 'crown', 'slug_be': 'crown', 'slug_ts24': 'crown' },
+    'caterpillar':  { 'slug_nl': 'caterpillar--cat-', 'slug_de': 'caterpillar--cat-', 'slug_uk': 'caterpillar--cat-', 'slug_fr': 'caterpillar--cat-', 'slug_be': 'caterpillar--cat-', 'slug_ts24': 'caterpillar' },
+    'komatsu':      { 'slug_nl': 'komatsu', 'slug_de': 'komatsu', 'slug_uk': 'komatsu', 'slug_fr': 'komatsu', 'slug_be': 'komatsu', 'slug_ts24': 'komatsu' },
+    'nissan':       { 'slug_nl': 'nissan', 'slug_de': 'nissan', 'slug_uk': 'nissan', 'slug_fr': 'nissan', 'slug_be': 'nissan', 'slug_ts24': 'nissan' },
+    'mitsubishi':   { 'slug_nl': 'mitsubishi', 'slug_de': 'mitsubishi', 'slug_uk': 'mitsubishi', 'slug_fr': 'mitsubishi', 'slug_be': 'mitsubishi', 'slug_ts24': 'mitsubishi' },
+    # Hoogwerkers/verreikers
+    'jlg':          { 'slug_nl': 'jlg', 'slug_de': 'jlg', 'slug_uk': 'jlg', 'slug_fr': 'jlg', 'slug_be': 'jlg', 'slug_ts24': 'jlg' },
+    'genie':        { 'slug_nl': 'genie', 'slug_de': 'genie', 'slug_uk': 'genie', 'slug_fr': 'genie', 'slug_be': 'genie', 'slug_ts24': 'genie' },
+    'haulotte':     { 'slug_nl': 'haulotte', 'slug_de': 'haulotte', 'slug_uk': 'haulotte', 'slug_fr': 'haulotte', 'slug_be': 'haulotte', 'slug_ts24': 'haulotte' },
+    'jcb':          { 'slug_nl': 'jcb', 'slug_de': 'jcb', 'slug_uk': 'jcb', 'slug_fr': 'jcb', 'slug_be': 'jcb', 'slug_ts24': 'jcb' },
+    'merlo':        { 'slug_nl': 'merlo', 'slug_de': 'merlo', 'slug_uk': 'merlo', 'slug_fr': 'merlo', 'slug_be': 'merlo', 'slug_ts24': 'merlo' },
+    'bobcat':       { 'slug_nl': 'bobcat', 'slug_de': 'bobcat', 'slug_uk': 'bobcat', 'slug_fr': 'bobcat', 'slug_be': 'bobcat', 'slug_ts24': 'bobcat' },
 }
 
 SOURCES = {
@@ -65,6 +78,11 @@ SOURCES = {
     'mascus_fr': {
         'base': 'https://www.mascus.fr/manutention/chariot-elevateur/{brand}?page={page}',
         'region': 'FR',
+        'source': 'mascus',
+    },
+    'mascus_be': {
+        'base': 'https://www.mascus.be/laden-en-lossen/heftrucks/{brand}?page={page}',
+        'region': 'BE',
         'source': 'mascus',
     },
     # TruckScout24 — JS-rendered site, uses category-ids + fulltext search
@@ -213,6 +231,7 @@ class ForkFlipScraper:
         if '_de' in source_key: slug_key = 'slug_de'
         elif '_uk' in source_key: slug_key = 'slug_uk'
         elif '_fr' in source_key: slug_key = 'slug_fr'
+        elif '_be' in source_key: slug_key = 'slug_be'
         brand_slug = BRANDS[brand].get(slug_key, brand)
         region = src['region']
         prefix = f'{brand.upper()}-{region}'
@@ -372,6 +391,7 @@ class ForkFlipScraper:
         self.scrape_mascus(brand, 'mascus_de', max_pages=pages_mascus)
         self.scrape_mascus(brand, 'mascus_uk', max_pages=pages_mascus)
         self.scrape_mascus(brand, 'mascus_fr', max_pages=pages_mascus)
+        self.scrape_mascus(brand, 'mascus_be', max_pages=pages_mascus)
         self.scrape_truckscout24(brand, 'truckscout24_de', max_pages=pages_ts24)
 
     def scrape_all(self, brands=None, pages_mascus=5, pages_ts24=3):

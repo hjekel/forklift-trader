@@ -23,8 +23,8 @@ jobs:
       - name: Install dependencies
         run: pip install requests beautifulsoup4
 
-      - name: Run forklift scraper (Mascus NL/DE/UK/FR)
-        run: cd scrapers && python scrape_all.py --pages 5
+      - name: Run forklift scraper (Mascus NL/DE/UK/FR/BE — 18 brands)
+        run: cd scrapers && python scrape_all.py --pages 8
         continue-on-error: true
 
       - name: Run Machineseeker scraper (specialist equipment)
@@ -45,6 +45,10 @@ jobs:
                       for row in reader:
                           # Normalize to standard fields
                           normalized = {k: row.get(k, '') for k in fieldnames}
+                          # Data quality filter
+                          if not normalized['model'] or not normalized['price']: continue
+                          if normalized['brand'] in ('', ' ', 'unknown'): continue
+                          if any(w in normalized['model'].lower() for w in ['guarantee', 'lifting height', 'good condition', 'battery']): continue
                           if normalized['model'] and normalized['price']:
                               all_rows.append(normalized)
               except Exception as e:
