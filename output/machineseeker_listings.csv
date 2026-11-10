@@ -1,422 +1,419 @@
 id,model,brand,year,hours,price,source,region
-MS-JLG-1,JLG TOUCAN 1210JLGTOUCAN 1210,JLG,2012,0,1210,machineseeker,EU
-MS-JLG-2,JLG Toucan 1010JLGToucan 1010,JLG,2008,0,0,machineseeker,EU
-MS-JLG-3,JLG TOUCAN 12E PLUSJLGTOUCAN 12E PLUS,JLG,2021,0,17000,machineseeker,EU
-MS-JLG-4,JLG Toucan 10E (nieuwe accu)JLGToucan 10E (new battery),JLG,2013,886,7750,machineseeker,EU
-MS-JLG-5,JLG Toucan 8E-LJLGToucan 8E-L,JLG,2019,0,7950,machineseeker,EU
-MS-JLG-6,JLG Toucan 12E Plus Hoogwerker MasthoogwerkerJLGToucan 12E P,JLG,2015,0,17950,machineseeker,EU
-MS-JLG-7,JLG Toucan 10 E-L KH10452JLGToucan 10 E-L,JLG,2019,0,16900,machineseeker,EU
-MS-JLG-8,"WerkplatformJLGT8E Toucan Mastbühne, Arbeitsbühne",JLG,2012,798,9900,machineseeker,EU
-MS-JLG-9,Verticale masthoogwerker met jibJLGT10E Toucan,JLG,2011,0,8890,machineseeker,EU
-MS-JLG-10,JLG Toucan T8EJLGToucan T8E,JLG,2011,0,6900,machineseeker,EU
-MS-JLG-11,Verticale mastJLGTOUCAN 10E-L,JLG,2021,238,13200,machineseeker,EU
-MS-JLG-12,Zelfrijdend werkplatformJLGToucan T 10 E (30453),JLG,2013,967,5900,machineseeker,EU
-MS-JLG-13,Telescopisch mastplatformJLGToucan 10E,JLG,2013,976,0,machineseeker,EU
-MS-JLG-14,Telescopisch werkplatformJLGToucan 12E+,JLG,2019,0,0,machineseeker,EU
-MS-JLG-15,JLG TOUCAN 1210JLGToucan 1210,JLG,2007,0,1210,machineseeker,EU
+MS-JLG-1,JLG Toucan 8E Knikarmhoogwerker Mast Hoogwerker Elektrisch 8,JLG,2012,0,4750,machineseeker,EU
+MS-JLG-2,JLG TOUCAN 1210JLGTOUCAN 1210,JLG,2012,0,1210,machineseeker,EU
+MS-JLG-3,JLG Toucan 1010JLGToucan 1010,JLG,2008,0,0,machineseeker,EU
+MS-JLG-4,JLG TOUCAN 12E PLUSJLGTOUCAN 12E PLUS,JLG,2021,0,17000,machineseeker,EU
+MS-JLG-5,JLG Toucan 10E (nieuwe accu)JLGToucan 10E (new battery),JLG,2013,886,7750,machineseeker,EU
+MS-JLG-6,JLG Toucan 8E-LJLGToucan 8E-L,JLG,2019,0,7950,machineseeker,EU
+MS-JLG-7,JLG Toucan 12E Plus Hoogwerker MasthoogwerkerJLGToucan 12E P,JLG,2015,0,17950,machineseeker,EU
+MS-JLG-8,JLG Toucan 10 E-L KH10452JLGToucan 10 E-L,JLG,2019,0,16900,machineseeker,EU
+MS-JLG-9,"WerkplatformJLGT8E Toucan Mastbühne, Arbeitsbühne",JLG,2012,798,9900,machineseeker,EU
+MS-JLG-10,Verticale masthoogwerker met jibJLGT10E Toucan,JLG,2011,0,8890,machineseeker,EU
+MS-JLG-11,JLG Toucan T8EJLGToucan T8E,JLG,2011,0,6900,machineseeker,EU
+MS-JLG-12,Verticale mastJLGTOUCAN 10E-L,JLG,2021,238,13200,machineseeker,EU
+MS-JLG-13,Zelfrijdend werkplatformJLGToucan T 10 E (30453),JLG,2013,967,5900,machineseeker,EU
+MS-JLG-14,Telescopisch mastplatformJLGToucan 10E,JLG,2013,976,0,machineseeker,EU
+MS-JLG-15,Telescopisch werkplatformJLGToucan 12E+,JLG,2019,0,0,machineseeker,EU
 MS-JLG-16,Telescopisch mastplatformJLGToucan 8E,JLG,2011,353,0,machineseeker,EU
 MS-JLG-17,Verticale liftJLGToucan 12E,JLG,2023,0,0,machineseeker,EU
-MS-JLG-18,HoogwerkerJLGToucan 10E-L,JLG,2022,0,0,machineseeker,EU
-MS-JLG-19,Verticale liftJLGToucan 12E+,JLG,2022,0,30900,machineseeker,EU
-MS-JLG-20,Scharnierend telescopisch platformJLGJLG E300 AJP,JLG,2010,0,11000,machineseeker,EU
-MS-JLG-21,Verticale liftJLGToucan 12E+,JLG,2024,0,44800,machineseeker,EU
-MS-JLG-22,Verticaal mastplatformJLGToucan 12E Plus,JLG,2023,0,0,machineseeker,EU
-MS-JLG-23,Articulerende giekJLGToucan 10E-L,JLG,2022,0,21300,machineseeker,EU
+MS-JLG-18,JLG TOUCAN 1210JLGToucan 1210,JLG,2007,0,1210,machineseeker,EU
+MS-JLG-19,HoogwerkerJLGToucan 10E-L,JLG,2022,0,0,machineseeker,EU
+MS-JLG-20,Verticale liftJLGToucan 12E+,JLG,2022,0,30900,machineseeker,EU
+MS-JLG-21,Scharnierend telescopisch platformJLGJLG E300 AJP,JLG,2010,0,11000,machineseeker,EU
+MS-JLG-22,Verticale liftJLGToucan 12E+,JLG,2024,0,44800,machineseeker,EU
+MS-JLG-23,Verticaal mastplatformJLGToucan 12E Plus,JLG,2023,0,0,machineseeker,EU
 MS-JLG-24,Articulerende giekJLGT8E-L Toucan,JLG,2020,0,22300,machineseeker,EU
-MS-JLG-25,Verticale mastliftJLGToucan 12E+,JLG,2020,0,31200,machineseeker,EU
-MS-JLG-26,"SchaarhoogwerkerJLGM 4069 14,19 m",JLG,2013,0,7800,machineseeker,EU
-MS-JLG-27,"SchaarhoogwerkerJLGM 4069 14,19 m",JLG,2013,0,8400,machineseeker,EU
-MS-JLG-28,Verticale mastliftJLGToucan 12E+ (Kopie),JLG,2020,0,31200,machineseeker,EU
-MS-JLG-29,Verticale mastliftJLGToucan 12E+,JLG,2023,0,39000,machineseeker,EU
-MS-JLG-30,SchaarliftJLGJLG 10 RS (40537),JLG,2014,479,9900,machineseeker,EU
-MS-JLG-31,Gebruikte schaarhoogwerker JLG 3246ESJLG3246ES,JLG,2012,0,5950,machineseeker,EU
-MS-JLG-32,Articulerende giekJLGToucan 10E-L,JLG,2026,0,27100,machineseeker,EU
-MS-JLG-33,Verticaal mastplatformJLGToucan 12E Plus,JLG,2023,0,46900,machineseeker,EU
+MS-JLG-25,Articulerende giekJLGToucan 10E-L,JLG,2022,0,21300,machineseeker,EU
+MS-JLG-26,Verticale mastliftJLGToucan 12E+,JLG,2020,0,31200,machineseeker,EU
+MS-JLG-27,Verticale mastliftJLGToucan 12E+ (Kopie),JLG,2020,0,31200,machineseeker,EU
+MS-JLG-28,Verticale mastliftJLGToucan 12E+,JLG,2023,0,39000,machineseeker,EU
+MS-JLG-29,SchaarliftJLGJLG 10 RS (40537),JLG,2014,479,9900,machineseeker,EU
+MS-JLG-30,"SchaarhoogwerkerJLGM 4069 14,19 m",JLG,2013,0,7800,machineseeker,EU
+MS-JLG-31,"SchaarhoogwerkerJLGM 4069 14,19 m",JLG,2013,0,8400,machineseeker,EU
+MS-JLG-32,Gebruikte schaarhoogwerker JLG 3246ESJLG3246ES,JLG,2012,0,5950,machineseeker,EU
+MS-JLG-33,Articulerende giekJLGToucan 10E-L,JLG,2026,0,27100,machineseeker,EU
 MS-JLG-34,"SchaarhoogwerkerJLG4069LE 14,19 m Arbeitshöhe",JLG,2006,0,8300,machineseeker,EU
-MS-JLG-35,Mobiel werkplatformJLGE300AJP,JLG,2008,0,9500,machineseeker,EU
-MS-JLG-36,"Telescopisch werkplatformJLG800AJ 26,46 m Arbeitshöhe",JLG,2000,0,11400,machineseeker,EU
-MS-JLG-37,JLG 450 AJ Knikarm hoogwerker / Arbeitsbuhne 15.72M werkhoog,JLG,2008,0,13950,machineseeker,EU
-MS-JLG-38,Verticale mastliftJLGToucan 12E+,JLG,2026,0,48300,machineseeker,EU
-MS-JLG-39,WerkplatformJLG660SJC,JLG,2007,11172,13750,machineseeker,EU
-MS-JLG-40,"Telescopisch werkplatformJLG260MRT Diesel Allrad 9,92 Meter",JLG,2008,4644,7700,machineseeker,EU
-MS-JLG-41,JLG 660SJ BE2284JLG660SJ,JLG,2012,4400,23950,machineseeker,EU
-MS-JLG-42,JLG 660SJ BE2087JLG660SJ,JLG,2011,5356,21950,machineseeker,EU
-MS-JLG-43,JLG 800AJ BE1694JLG800AJ,JLG,2007,0,18950,machineseeker,EU
-MS-JLG-44,Telescopisch werkplatformJLG1230ES,JLG,2016,0,3750,machineseeker,EU
-MS-JLG-45,SchaarhoogwerkerJLG3246ES,JLG,2015,0,9900,machineseeker,EU
-MS-JLG-46,JLG 800AJJLG800AJ,JLG,2014,0,24200,machineseeker,EU
-MS-JLG-47,JLG 400S P400S BE2997JLG400S P400S,JLG,2016,3022,27500,machineseeker,EU
+MS-JLG-35,Verticaal mastplatformJLGToucan 12E Plus,JLG,2023,0,46900,machineseeker,EU
+MS-JLG-36,JLG 450 AJ Knikarm hoogwerker / Arbeitsbuhne 15.72M werkhoog,JLG,2008,0,13950,machineseeker,EU
+MS-JLG-37,"Telescopisch werkplatformJLG800AJ 26,46 m Arbeitshöhe",JLG,2000,0,11400,machineseeker,EU
+MS-JLG-38,WerkplatformJLG660SJC,JLG,2007,11172,13750,machineseeker,EU
+MS-JLG-39,Mobiel werkplatformJLGE300AJP,JLG,2008,0,9500,machineseeker,EU
+MS-JLG-40,JLG 10 RSJLG10 RS,JLG,2013,0,6290,machineseeker,EU
+MS-JLG-41,Verticale mastliftJLGToucan 12E+,JLG,2026,0,48300,machineseeker,EU
+MS-JLG-42,JLG 660SJ BE2284JLG660SJ,JLG,2012,4400,23950,machineseeker,EU
+MS-JLG-43,"Telescopisch werkplatformJLG260MRT Diesel Allrad 9,92 Meter",JLG,2008,4644,7700,machineseeker,EU
+MS-JLG-44,JLG 660SJ BE2087JLG660SJ,JLG,2011,5356,21950,machineseeker,EU
+MS-JLG-45,Telescopisch werkplatformJLG1230ES,JLG,2016,0,3750,machineseeker,EU
+MS-JLG-46,JLG 800AJ BE1694JLG800AJ,JLG,2007,0,18950,machineseeker,EU
+MS-JLG-47,SchaarhoogwerkerJLG3246ES,JLG,2015,0,9900,machineseeker,EU
 MS-JLG-48,"Scharnierend telescopisch platformJLG600 AJ Diesel  20,46 m",JLG,2010,0,21300,machineseeker,EU
-MS-JLG-49,Scharnierend telescopisch platformJLG450 AJ - 15m - Allrad,JLG,2013,0,17990,machineseeker,EU
+MS-JLG-49,JLG 400S P400S BE2997JLG400S P400S,JLG,2016,3022,27500,machineseeker,EU
 MS-JLG-50,SchaarhoogwerkerJLG2030 ES,JLG,2006,0,4600,machineseeker,EU
-MS-JLG-51,JLG 1930ESJLG1930ES,JLG,2018,0,4100,machineseeker,EU
-MS-JLG-52,JLG 2630 ESJLG2630 ES,JLG,2003,0,2990,machineseeker,EU
-MS-JLG-53,Telescopisch werkplatformJLG400 S,JLG,2015,0,16500,machineseeker,EU
+MS-JLG-51,JLG 800AJJLG800AJ,JLG,2014,0,24200,machineseeker,EU
+MS-JLG-52,Telescopisch werkplatformJLG400 S,JLG,2015,0,16500,machineseeker,EU
+MS-JLG-53,JLG 1930ESJLG1930ES,JLG,2018,0,4100,machineseeker,EU
 MS-JLG-54,JLG 3246 ESJLG3246 ES,JLG,2005,0,0,machineseeker,EU
-MS-JLG-55,SchaarhoogwerkerJLGM3369 - 4x4 - 10m Plattformhöhe,JLG,2013,0,9800,machineseeker,EU
-MS-JLG-56,SchaarhoogwerkerJLG3246ES,JLG,2015,595,0,machineseeker,EU
-MS-JLG-57,JLG E300AJPJLGE300AJP,JLG,2015,0,12500,machineseeker,EU
-MS-JLG-58,JLG M600JPJLGM600JP,JLG,2015,0,15800,machineseeker,EU
+MS-JLG-55,JLG 2630 ESJLG2630 ES,JLG,2003,0,2990,machineseeker,EU
+MS-JLG-56,JLG E300AJPJLGE300AJP,JLG,2015,0,12500,machineseeker,EU
+MS-JLG-57,Scharnierend telescopisch platformJLG450 AJ - 15m - Allrad,JLG,2013,0,17990,machineseeker,EU
+MS-JLG-58,JLG 460 SJ 16m diesel 4x4 telescoophoogwerkerJLG460 SJ 16m D,JLG,2013,3488,17900,machineseeker,EU
 MS-JLG-59,Telescopisch platformJLG680 S Allrad,JLG,2006,0,15900,machineseeker,EU
-MS-JLG-60,JLG 460 SJ 16m diesel 4x4 telescoophoogwerkerJLG460 SJ 16m D,JLG,2013,3488,17900,machineseeker,EU
-MS-JLG-61,JLG E300 AJP BE3002JLGE300 AJP,JLG,2014,1036,11950,machineseeker,EU
-MS-JLG-62,Industrieel scharnierend platform JLG 510 AJJLG510 AJ (30203,JLG,2014,1600,32900,machineseeker,EU
-MS-JLG-63,"Scharnierend telescopisch platformJLGE300 AJP Elektro 11,14 ",JLG,2008,0,8300,machineseeker,EU
-MS-JLG-64,"JLG 860SJ telescoophoogwerker, 28 meter, vierwielaandrijving",JLG,2012,3468,27950,machineseeker,EU
-MS-JLG-65,"Scharnierend telescopisch platformJLG600 AJ Diesel  20,46 m",JLG,2007,0,15600,machineseeker,EU
-MS-JLG-66,Nifty Lift HR17 NE MK3Nifty LiftNifty Lift HR17 NE MK3,JLG,2017,0,17900,machineseeker,EU
-MS-JLG-67,JLG ECOLIFT 1.5JLGECOLIFT 1.5,JLG,2018,0,4500,machineseeker,EU
-MS-JLG-68,GENIE S-45 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2014,5532,14750,machineseeker,EU
-MS-JLG-69,Spin hoogwerkerJLGX17J+ Diesel Hatz,JLG,2026,0,65430,machineseeker,EU
-MS-JLG-70,Spin hoogwerkerJLGX26J+,JLG,2020,0,66800,machineseeker,EU
-MS-JLG-71,NIFTYLIFT Nifty HR12NDE Knikarmhoogwerker / Arbeitsbuhne HYB,JLG,2004,0,8750,machineseeker,EU
-MS-JLG-72,Nifty Lift 170 HAC Aanhanger Hoogwerker hubarbeitsbuhnen  23,JLG,2015,0,2015,machineseeker,EU
-MS-JLG-73,GENIE S-105 Telescoop hoogwerker / boomlift 4x4x4 DEUTZ DIES,JLG,2007,3800,2007,machineseeker,EU
-MS-JLG-74,Hoogwerker telescoophoogwerker genie s65GENIES65,JLG,2003,0,10950,machineseeker,EU
-MS-JLG-75,Knik-telescoophoogwerkerGenieZ-30/20 N,JLG,2014,859,9900,machineseeker,EU
-MS-JLG-76,NIFTYLIFT Nifty HR12NDE Knikarmhoogwerker / Arbeitsbuhne HYB,JLG,2011,0,9750,machineseeker,EU
-MS-JLG-77,GENIE S-45 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2007,0,2007,machineseeker,EU
-MS-JLG-78,Rupshoogwerker knikarmhoogwerkerFRONTEQFBZ-6T,JLG,2025,0,24990,machineseeker,EU
-MS-JLG-79,Manitou 150 AETJL Bi Energy Knikarmhoogwerker / Arbeitsbuhne,JLG,2010,0,11750,machineseeker,EU
-MS-JLG-80,Hoogwerker met knikarmJLGE450AJ,JLG,0,0,0,machineseeker,EU
-MS-JLG-81,GENIE S-65 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2014,5770,19750,machineseeker,EU
-MS-JLG-82,Manitou 180ATJ Knikarm hoogwerker / Arbeitsbuhne 18.18M werk,JLG,2008,0,16950,machineseeker,EU
-MS-JLG-83,Manitou 160ATJ Knikarm hoogwerker / Arbeitsbuhne 16M werkhoo,JLG,2006,0,14950,machineseeker,EU
-MS-JLG-84,Telescopisch werkplatformJLG460SJ,JLG,2020,903,0,machineseeker,EU
-MS-JLG-85,Hoogwerker aichi sr18aj hoogwerker rupshoogwerkerAICHISr18aj,JLG,2003,0,15500,machineseeker,EU
-MS-JLG-86,Scharnierend telescopisch platformManitou150 AETJ-C 3D Elekt,JLG,2011,0,6800,machineseeker,EU
-MS-JLG-87,Gebruikte knikhoogwerker Nagano NUL070-2NAGANONUL070-2,JLG,2007,0,13500,machineseeker,EU
-MS-JLG-88,Genie S-40 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2015,0,13750,machineseeker,EU
-MS-JLG-89,Genie Z45/25J Knikarmhoogwerker / Arbeitsbuhne 16M werkhoogt,JLG,2005,0,2005,machineseeker,EU
-MS-JLG-90,Genie Z45/25J Knikarmhoogwerker / Arbeitsbuhne 16M werkhoogt,JLG,2008,0,12950,machineseeker,EU
-MS-JLG-91,Telescopisch werkplatformJLG860SJ,JLG,2014,4571,0,machineseeker,EU
-MS-JLG-92,Gebruikte knikarmhoogwerker Maeda HF070R2MAEDAHF070R2,JLG,2009,0,13500,machineseeker,EU
-MS-JLG-93,WerkplatformJLGE 300 AJP ohne Batterien,JLG,2004,0,7999,machineseeker,EU
-MS-JLG-94,Genie Z30/20NRJ elektrische kniktelescoophoogwerkerGenieZ-30,JLG,2026,0,0,machineseeker,EU
-MS-JLG-95,GENIE S-45 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2015,5532,15750,machineseeker,EU
-MS-JLG-96,HITACHI HX99B-2 Rups hoogwerker telescoop NONMARKING 2008 KU,JLG,2008,0,19950,machineseeker,EU
-MS-JLG-97,Hoogwerker genie s45 telescoophoogwerkerGENIES45,JLG,2007,0,9750,machineseeker,EU
-MS-JLG-98,GENIE S-45 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2016,4545,2016,machineseeker,EU
-MS-JLG-99,GENIE S-45 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2014,5189,2014,machineseeker,EU
+MS-JLG-60,SchaarhoogwerkerJLG3246ES,JLG,2015,595,0,machineseeker,EU
+MS-JLG-61,Industrieel scharnierend platform JLG 510 AJJLG510 AJ (30203,JLG,2014,1600,32900,machineseeker,EU
+MS-JLG-62,"Scharnierend telescopisch platformJLGE300 AJP Elektro 11,14 ",JLG,2008,0,8300,machineseeker,EU
+MS-JLG-63,"JLG 860SJ telescoophoogwerker, 28 meter, vierwielaandrijving",JLG,2012,3468,27950,machineseeker,EU
+MS-JLG-64,Nifty Lift HR17 NE MK3Nifty LiftNifty Lift HR17 NE MK3,JLG,2017,0,17900,machineseeker,EU
+MS-JLG-65,JLG ECOLIFT 1.5JLGECOLIFT 1.5,JLG,2018,0,4500,machineseeker,EU
+MS-JLG-66,GENIE S-45 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2014,5532,14750,machineseeker,EU
+MS-JLG-67,Spin hoogwerkerJLGX17J+ Diesel Hatz,JLG,2026,0,65430,machineseeker,EU
+MS-JLG-68,SchaarhoogwerkerPB LiftPB Lift S06-7 ECS,JLG,2016,0,3900,machineseeker,EU
+MS-JLG-69,Spin hoogwerkerJLGX26J+,JLG,2020,0,66800,machineseeker,EU
+MS-JLG-70,Nifty Lift 170 HAC Aanhanger Hoogwerker hubarbeitsbuhnen  23,JLG,2015,0,2015,machineseeker,EU
+MS-JLG-71,GENIE S-105 Telescoop hoogwerker / boomlift 4x4x4 DEUTZ DIES,JLG,2007,3800,2007,machineseeker,EU
+MS-JLG-72,NIFTYLIFT Nifty HR12NDE Knikarmhoogwerker / Arbeitsbuhne HYB,JLG,2004,0,8750,machineseeker,EU
+MS-JLG-73,Manitou 100VJR Evolution Knikarmhoogwerker Mast Hoogwerker E,JLG,2012,0,5250,machineseeker,EU
+MS-JLG-74,Hoogwerker met knikarmJLGE450AJ,JLG,0,0,0,machineseeker,EU
+MS-JLG-75,GENIE S-45 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2007,0,2007,machineseeker,EU
+MS-JLG-76,Manitou 150 AETJL Bi Energy Knikarmhoogwerker / Arbeitsbuhne,JLG,2010,0,11750,machineseeker,EU
+MS-JLG-77,NIFTYLIFT Nifty HR12NDE Knikarmhoogwerker / Arbeitsbuhne HYB,JLG,2011,0,9750,machineseeker,EU
+MS-JLG-78,Manitou 100VJR Evolution Knikarmhoogwerker Mast Hoogwerker E,JLG,2013,0,5250,machineseeker,EU
+MS-JLG-79,GENIE S-65 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2014,5770,19750,machineseeker,EU
+MS-JLG-80,Rupshoogwerker knikarmhoogwerkerFRONTEQFBZ-6T,JLG,2025,0,24990,machineseeker,EU
+MS-JLG-81,Manitou 80VJR Evolution Knikarmhoogwerker Mast Hoogwerker El,JLG,2013,0,4750,machineseeker,EU
+MS-JLG-82,Manitou 160ATJ Knikarm hoogwerker / Arbeitsbuhne 16M werkhoo,JLG,2006,0,14950,machineseeker,EU
+MS-JLG-83,Manitou 180ATJ Knikarm hoogwerker / Arbeitsbuhne 18.18M werk,JLG,2008,0,16950,machineseeker,EU
+MS-JLG-84,Hoogwerker telescoophoogwerker genie s65GENIES65,JLG,2003,0,10950,machineseeker,EU
+MS-JLG-85,HITACHI HX99B-2 Rups hoogwerker telescoop NONMARKING 2008 KU,JLG,2008,0,19950,machineseeker,EU
+MS-JLG-86,WerkplatformJLGE 300 AJP ohne Batterien,JLG,2004,0,7999,machineseeker,EU
+MS-JLG-87,Scharnierend telescopisch platformManitou150 AETJ-C 3D Elekt,JLG,2011,0,6800,machineseeker,EU
+MS-JLG-88,Manitou 100VJR Evolution Knikarmhoogwerker Mast Hoogwerker E,JLG,2011,0,5250,machineseeker,EU
+MS-JLG-89,Genie S-40 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2015,0,13750,machineseeker,EU
+MS-JLG-90,Gebruikte knikhoogwerker Nagano NUL070-2NAGANONUL070-2,JLG,2007,0,13500,machineseeker,EU
+MS-JLG-91,Knik-telescoophoogwerkerGenieZ-30/20 N,JLG,2014,859,9900,machineseeker,EU
+MS-JLG-92,Genie Z45/25J Knikarmhoogwerker / Arbeitsbuhne 16M werkhoogt,JLG,2005,0,2005,machineseeker,EU
+MS-JLG-93,Genie Z45/25J Knikarmhoogwerker / Arbeitsbuhne 16M werkhoogt,JLG,2008,0,12950,machineseeker,EU
+MS-JLG-94,Telescopisch werkplatformJLG860SJ,JLG,2014,4571,0,machineseeker,EU
+MS-JLG-95,"Knikgiek hoogwerkerSnorkelA38E, Jaar 2014, 13.5m Werkhoogte",JLG,2014,0,8450,machineseeker,EU
+MS-JLG-96,Gebruikte knikarmhoogwerker Maeda HF070R2MAEDAHF070R2,JLG,2009,0,13500,machineseeker,EU
+MS-JLG-97,Genie Z30/20NRJ elektrische kniktelescoophoogwerkerGenieZ-30,JLG,2026,0,0,machineseeker,EU
+MS-JLG-98,Telescopisch werkplatformJLG460SJ,JLG,2020,903,0,machineseeker,EU
+MS-JLG-99,Genie Z-34/22 Knikarmhoogwerker / Arbeitsbuhne 12.5M werkhoo,JLG,2015,0,2015,machineseeker,EU
 MS-JLG-100,GENIE S-45 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2014,5532,2014,machineseeker,EU
-MS-JLG-101,"Knikgiek hoogwerkerSnorkelA38E, Jaar 2014, 13.5m Werkhoogte",JLG,2014,0,8950,machineseeker,EU
-MS-JLG-102,Genie Z-34/22 Knikarmhoogwerker / Arbeitsbuhne 12.5M werkhoo,JLG,2015,0,2015,machineseeker,EU
-MS-JLG-103,WerkplatformJLGEcoLift,JLG,2025,0,3500,machineseeker,EU
-MS-JLG-104,Scharnierend telescopisch platformManitou120 AETJ-C 2 Elektr,JLG,2019,0,12600,machineseeker,EU
+MS-JLG-101,GENIE S-45 Telescoop hoogwerker / boomlift  4x4 DEUTZ DIESEL,JLG,2015,5532,15750,machineseeker,EU
+MS-JLG-102,WerkplatformJLGEcoLift,JLG,2025,0,3500,machineseeker,EU
+MS-JLG-103,Hoogwerker aichi sr18aj hoogwerker rupshoogwerkerAICHISr18aj,JLG,2003,0,15500,machineseeker,EU
+MS-JLG-104,Terrein-kniktelescoophoogwerker – dieselmotor defect en moet,JLG,2000,0,6900,machineseeker,EU
 MS-JLG-105,Renault Master 2.3DCI Klubb K32 Arbeitsbuhne / Autohoogwerke,JLG,2018,0,13950,machineseeker,EU
-MS-JLG-106,Knikarmhoogwerker  Nifty Lift HR17 NDE 2009Nifty LiftHR17 ND,JLG,2009,0,0,machineseeker,EU
-MS-JLG-107,Scharnierend telescopisch platformManitou150 AETJ-C 3D Elekt,JLG,2016,0,19300,machineseeker,EU
-MS-JLG-108,Genie Z-45/25 JDC elektrische kniktelescoophoogwerkerGenieZ4,JLG,2025,0,0,machineseeker,EU
-MS-JLG-109,Gebruikte knik hoogwerker op rups Maeda NUL070MAEDANUL070,JLG,2008,0,13500,machineseeker,EU
-MS-JLG-110,JLG Pecolift verticale liftJLGPecolift Senkrechtlift,JLG,2023,0,3913,machineseeker,EU
-MS-JLG-111,Scharnierend telescopisch platformNiftyliftHR 28 Bi-Energy E,JLG,2020,0,76000,machineseeker,EU
+MS-JLG-106,Hoogwerker genie s45 telescoophoogwerkerGENIES45,JLG,2007,0,9750,machineseeker,EU
+MS-JLG-107,Scharnierend telescopisch platformManitou120 AETJ-C 2 Elektr,JLG,2019,0,12600,machineseeker,EU
+MS-JLG-108,Knikarmhoogwerker  Nifty Lift HR17 NDE 2009Nifty LiftHR17 ND,JLG,2009,0,0,machineseeker,EU
+MS-JLG-109,Genie Z-45/25 JDC elektrische kniktelescoophoogwerkerGenieZ4,JLG,2025,0,0,machineseeker,EU
+MS-JLG-110,Scharnierend telescopisch platformManitou150 AETJ-C 3D Elekt,JLG,2016,0,19300,machineseeker,EU
+MS-JLG-111,Genie Z-45 FE hybride kniktelescoophoogwerkerGenieZ-45 FE,JLG,2025,0,0,machineseeker,EU
 MS-JLG-112,Knik-telescoophoogwerkerAiroA15 JE,JLG,2012,0,24900,machineseeker,EU
-MS-JLG-113,Knikarm werkplatformManitou170 AETJL,JLG,2008,0,11995,machineseeker,EU
-MS-JLG-114,Knikarm werkplatformAIROA12 E,JLG,2011,576,9000,machineseeker,EU
-MS-JLG-115,"Knik-telescoophoogwerkerManitou120 AETJ-C 3D Elektro 11,95 m",JLG,2016,0,16800,machineseeker,EU
-MS-JLG-116,Genie Z-45 FE hybride kniktelescoophoogwerkerGenieZ-45 FE,JLG,2025,0,0,machineseeker,EU
-MS-JLG-117,Gebruikte schaarhoogwerker JLG 2630esJLG2630ES,JLG,2012,0,5000,machineseeker,EU
-MS-JLG-118,Genie S-65 XC diesel telescoophoogwerkerGenieS65XC,JLG,2026,0,0,machineseeker,EU
-MS-JLG-119,Genie S60J telescoophoogwerkerGenieS-60 J,JLG,2025,0,0,machineseeker,EU
-MS-JLG-120,Knikarmhoogwerker  Genie Z-40/23N 2008GenieZ-40/23N,JLG,2008,0,8950,machineseeker,EU
-MS-JLG-121,Scharnierend telescopisch platformManitou120 AETJ-C 3D Elekt,JLG,2016,0,16800,machineseeker,EU
-MS-JLG-122,Genie Z-60FE hybride kniktelescoophoogwerkerGenieZ-60 FE,JLG,2025,0,0,machineseeker,EU
-MS-Genie-123,Genie Z60/34 Hoogwerker Knikarmhoogwerker (2010)GenieZ60/34 ,Genie,2010,0,17950,machineseeker,EU
-MS-Genie-124,Genie GS 4069 RT Schaarhoogwerker / Scissor Lift / Arbeitsbu,Genie,2014,0,10750,machineseeker,EU
+MS-JLG-113,Gebruikte knik hoogwerker op rups Maeda NUL070MAEDANUL070,JLG,2008,0,13500,machineseeker,EU
+MS-JLG-114,Scharnierend telescopisch platformNiftyliftHR 28 Bi-Energy E,JLG,2020,0,76000,machineseeker,EU
+MS-JLG-115,Scharnierend telescopisch platformNiftyliftHR 28 Bi-Energy E,JLG,2019,0,52000,machineseeker,EU
+MS-JLG-116,Gebruikte schaarhoogwerker JLG 2630esJLG2630ES,JLG,2012,0,5000,machineseeker,EU
+MS-JLG-117,Knikarm werkplatformManitou170 AETJL,JLG,2008,0,11995,machineseeker,EU
+MS-JLG-118,"Knik-telescoophoogwerkerManitou120 AETJ-C 3D Elektro 11,95 m",JLG,2016,0,16800,machineseeker,EU
+MS-JLG-119,Genie S-65 XC diesel telescoophoogwerkerGenieS65XC,JLG,2026,0,0,machineseeker,EU
+MS-JLG-120,Genie S60J telescoophoogwerkerGenieS-60 J,JLG,2025,0,0,machineseeker,EU
+MS-Genie-121,Genie GS 4069 RT Schaarhoogwerker / Scissor Lift / Arbeitsbu,Genie,2014,0,10750,machineseeker,EU
+MS-Genie-122,Genie Z60/34 Hoogwerker Knikarmhoogwerker (2010)GenieZ60/34 ,Genie,2010,0,17950,machineseeker,EU
+MS-Genie-123,Genie GS 4390 RT Schaarhoogwerker / Scissor Lift / Arbeitsbu,Genie,2007,0,10750,machineseeker,EU
+MS-Genie-124,Genie GS2032 Hoogwerker Schaarhoogwerker Schaarlift (2012)Ge,Genie,2012,0,4250,machineseeker,EU
 MS-Genie-125,Genie GS1532 schaarhoogwerker SCISSOR  6.60M Werkhoogte Elek,Genie,2012,0,2995,machineseeker,EU
-MS-Genie-126,Genie GS2032 Hoogwerker Schaarhoogwerker Schaarlift (2012)Ge,Genie,2012,0,4250,machineseeker,EU
-MS-Genie-127,Genie GS 4390 RT Schaarhoogwerker / Scissor Lift / Arbeitsbu,Genie,2007,0,10750,machineseeker,EU
-MS-Genie-128,Genie Z30/20N RJ Hoogwerker Knikarmhoogwerker (2014)GenieZ30,Genie,2014,0,13950,machineseeker,EU
-MS-Genie-129,"2010 Genie GS3246, Schaar hoogwerker, 12 meterGenieGS3246, S",Genie,2010,620,5250,machineseeker,EU
-MS-Genie-130,"2010 Genie GS2632, Schaar hoogwerker, 10 meterGenieGS2632, S",Genie,2010,543,4650,machineseeker,EU
-MS-Genie-131,Genie GS2032 Hoogwerker Schaarhoogwerker Schaarlift (2011)Ge,Genie,2011,0,3950,machineseeker,EU
+MS-Genie-126,"2010 Genie GS3246, Schaar hoogwerker, 12 meterGenieGS3246, S",Genie,2010,620,5250,machineseeker,EU
+MS-Genie-127,Genie Z30/20N RJ Hoogwerker Knikarmhoogwerker (2014)GenieZ30,Genie,2014,0,13950,machineseeker,EU
+MS-Genie-128,"2010 Genie GS2632, Schaar hoogwerker, 10 meterGenieGS2632, S",Genie,2010,543,4650,machineseeker,EU
+MS-Genie-129,Genie GS2032 Hoogwerker Schaarhoogwerker Schaarlift (2011)Ge,Genie,2011,0,3950,machineseeker,EU
+MS-Genie-130,Genie GS - 2632  SchaarHoogwerker / Arbeitsbuhne / Sciccor 1,Genie,2014,0,4450,machineseeker,EU
+MS-Genie-131,Genie GS - 2646  SchaarHoogwerker / Arbeitsbuhne / Sciccor 1,Genie,2014,0,4450,machineseeker,EU
 MS-Genie-132,Genie GS3268 Hoogwerker Schaarhoogwerker Schaarlift (2008)Ge,Genie,2008,0,4950,machineseeker,EU
-MS-Genie-133,Genie GS - 2632  SchaarHoogwerker / Arbeitsbuhne / Sciccor 1,Genie,2014,0,4450,machineseeker,EU
-MS-Genie-134,Genie GS - 2646  SchaarHoogwerker / Arbeitsbuhne / Sciccor 1,Genie,2014,0,4450,machineseeker,EU
-MS-Genie-135,Genie Z30/20N RJ Hoogwerker Knikarmhoogwerker (2010)GenieZ30,Genie,2010,0,8950,machineseeker,EU
-MS-Genie-136,Genie GS2646 GS2646 Hoogwerker Schaarhoogwerker (2013)GenieG,Genie,2013,346,5450,machineseeker,EU
-MS-Genie-137,Genie GS2632 Hoogwerker Schaarhoogwerker (2007)GenieGS2632 H,Genie,2007,0,4450,machineseeker,EU
-MS-Genie-138,Genie GS2669DC Hoogwerker SchaarhoogwerkerGenieGS2669DC Hoog,Genie,2013,0,8950,machineseeker,EU
-MS-Genie-139,Genie Z34/22N Hoogwerker KnikarmhoogwerkerGenieZ34/22N Hoogw,Genie,2011,0,11950,machineseeker,EU
-MS-Genie-140,Genie GS2646 Hoogwerker SchaarhoogwerkerGenieGS2646 Hoogwerk,Genie,2016,0,5950,machineseeker,EU
-MS-Genie-141,Genie Z45/25J DC Hoogwerker KnikarmhoogwerkerGenieZ45/25J DC,Genie,2007,1980,9950,machineseeker,EU
-MS-Genie-142,Genie GS2646 Hoogwerker SchaarhoogwerkerGenieGS2646 Hoogwerk,Genie,2013,0,5450,machineseeker,EU
-MS-Genie-143,Genie GS2669DC Hoogwerker SchaarhoogwerkerGenieGS2669DC Hoog,Genie,2013,0,6950,machineseeker,EU
-MS-Genie-144,Genie GS4069DC Hoogwerker SchaarhoogwerkerGenieGS4069DC Hoog,Genie,2014,0,11950,machineseeker,EU
-MS-Genie-145,Genie GS3369RT Hoogwerker Schaarhoogwerker voor ruw terreinG,Genie,2012,0,11950,machineseeker,EU
-MS-Genie-146,Genie GS2032 Hoogwerker SchaarhoogwerkerGenieGS2032 Hoogwerk,Genie,2007,0,3450,machineseeker,EU
-MS-Genie-147,Genie Z34/22N Hoogwerker KnikarmhoogwerkerGenieZ34/22N Hoogw,Genie,2008,0,9950,machineseeker,EU
-MS-Genie-148,Schaar hoogwerker Genie GS1930 (nieuwe batterijen)GENIEGS193,Genie,2007,0,1930,machineseeker,EU
-MS-Genie-149,Schaar hoogwerker Genie GS4047 ( met nieuwe batterijen)GENIE,Genie,2014,0,4047,machineseeker,EU
-MS-Genie-150,Genie s65 hoogwerker telescoophoogwerkerGENIES65,Genie,2012,0,16500,machineseeker,EU
-MS-Genie-151,Gebruikte schaar hoogwerker Genie gs1930(nieuwe batterijen)G,Genie,2013,0,1930,machineseeker,EU
-MS-Genie-152,Gebruikte schaar hoogwerker Genie GS1930(nieuwe batterijen)G,Genie,2015,0,1930,machineseeker,EU
-MS-Genie-153,Gebruikte schaar hoogwerker Genie GS1932 (nieuwe batterijen),Genie,2015,0,1932,machineseeker,EU
-MS-Genie-154,Gebruikte schaarhoogwerker Genie GS-2646GENIEGS 2646,Genie,2015,182,2646,machineseeker,EU
-MS-Genie-155,Gebruikte schaarhoogwerker genie gs3246 (incl nieuwe batteri,Genie,2015,0,3246,machineseeker,EU
-MS-Genie-156,"Genie GS2032, Schaarhoogwerker, 8 meterGenieGS2032, Schaarho",Genie,2010,470,4150,machineseeker,EU
-MS-Genie-157,Genie Runabout GR-20 elektrische hoogwerkerGenieGR-20,Genie,2025,0,0,machineseeker,EU
-MS-Genie-158,Schaarhoogwerker Genie GS2646 (nieuwe batterijen)GENIEGS2646,Genie,2009,0,2646,machineseeker,EU
-MS-Genie-159,"Genie GS3246 - elektrische schaarhoogwerker, 11,75 mGenieGS3",Genie,2016,99,7500,machineseeker,EU
-MS-Genie-160,Schaarhoogwerker  Genie GS-3268 2007GenieGS-3268,Genie,2007,0,3268,machineseeker,EU
-MS-Genie-161,Telescopisch werkplatformGenieS-65,Genie,2013,0,23750,machineseeker,EU
-MS-Genie-162,"Genie GS 2032 8,20m schaarhoogwerkerGenieGS 2032 8,20m Scher",Genie,2016,293,5700,machineseeker,EU
-MS-Genie-163,"Genie GS 2032 8,20m schaarhoogwerkerGenieGS 2032 8,20m Scher",Genie,2014,505,5400,machineseeker,EU
+MS-Genie-133,Genie GS2646 GS2646 Hoogwerker Schaarhoogwerker (2013)GenieG,Genie,2013,346,5450,machineseeker,EU
+MS-Genie-134,Genie Z30/20N RJ Hoogwerker Knikarmhoogwerker (2010)GenieZ30,Genie,2010,0,8950,machineseeker,EU
+MS-Genie-135,Genie GS2669DC Hoogwerker SchaarhoogwerkerGenieGS2669DC Hoog,Genie,2013,0,8950,machineseeker,EU
+MS-Genie-136,Genie GS2632 Hoogwerker Schaarhoogwerker (2007)GenieGS2632 H,Genie,2007,0,4450,machineseeker,EU
+MS-Genie-137,Genie GS2646 Hoogwerker SchaarhoogwerkerGenieGS2646 Hoogwerk,Genie,2016,0,5950,machineseeker,EU
+MS-Genie-138,Genie Z45/25J DC Hoogwerker KnikarmhoogwerkerGenieZ45/25J DC,Genie,2007,1980,9950,machineseeker,EU
+MS-Genie-139,Genie GS2669DC Hoogwerker SchaarhoogwerkerGenieGS2669DC Hoog,Genie,2013,0,6950,machineseeker,EU
+MS-Genie-140,Genie GS4069DC Hoogwerker SchaarhoogwerkerGenieGS4069DC Hoog,Genie,2014,0,11950,machineseeker,EU
+MS-Genie-141,Genie GS2646 Hoogwerker SchaarhoogwerkerGenieGS2646 Hoogwerk,Genie,2013,0,5450,machineseeker,EU
+MS-Genie-142,Genie Z34/22N Hoogwerker KnikarmhoogwerkerGenieZ34/22N Hoogw,Genie,2011,0,11950,machineseeker,EU
+MS-Genie-143,Genie GS3369RT Hoogwerker Schaarhoogwerker voor ruw terreinG,Genie,2012,0,11950,machineseeker,EU
+MS-Genie-144,Genie GS2032 Hoogwerker SchaarhoogwerkerGenieGS2032 Hoogwerk,Genie,2007,0,3450,machineseeker,EU
+MS-Genie-145,Genie Z34/22N Hoogwerker KnikarmhoogwerkerGenieZ34/22N Hoogw,Genie,2008,0,9950,machineseeker,EU
+MS-Genie-146,Schaar hoogwerker Genie GS1930 (nieuwe batterijen)GENIEGS193,Genie,2007,0,1930,machineseeker,EU
+MS-Genie-147,Genie s65 hoogwerker telescoophoogwerkerGENIES65,Genie,2012,0,16500,machineseeker,EU
+MS-Genie-148,Schaar hoogwerker Genie GS4047 ( met nieuwe batterijen)GENIE,Genie,2014,0,4047,machineseeker,EU
+MS-Genie-149,Gebruikte schaar hoogwerker Genie gs1930(nieuwe batterijen)G,Genie,2013,0,1930,machineseeker,EU
+MS-Genie-150,Gebruikte schaar hoogwerker Genie GS1930(nieuwe batterijen)G,Genie,2015,0,1930,machineseeker,EU
+MS-Genie-151,Gebruikte schaar hoogwerker Genie GS1932 (nieuwe batterijen),Genie,2015,0,1932,machineseeker,EU
+MS-Genie-152,Gebruikte schaarhoogwerker Genie GS-2646GENIEGS 2646,Genie,2015,182,2646,machineseeker,EU
+MS-Genie-153,Gebruikte schaarhoogwerker genie gs3246 (incl nieuwe batteri,Genie,2015,0,3246,machineseeker,EU
+MS-Genie-154,"Genie GS2032, Schaarhoogwerker, 8 meterGenieGS2032, Schaarho",Genie,2010,470,4150,machineseeker,EU
+MS-Genie-155,Genie Runabout GR-20 elektrische hoogwerkerGenieGR-20,Genie,2025,0,0,machineseeker,EU
+MS-Genie-156,Schaarhoogwerker Genie GS2646 (nieuwe batterijen)GENIEGS2646,Genie,2009,0,2646,machineseeker,EU
+MS-Genie-157,Schaarhoogwerker  Genie GS-3268 2007GenieGS-3268,Genie,2007,0,3268,machineseeker,EU
+MS-Genie-158,"Genie GS3246 - elektrische schaarhoogwerker, 11,75 mGenieGS3",Genie,2016,99,7500,machineseeker,EU
+MS-Genie-159,"Genie GS 2032 8,20m schaarhoogwerkerGenieGS 2032 8,20m Scher",Genie,2016,293,5700,machineseeker,EU
+MS-Genie-160,"Genie GS 2032 8,20m schaarhoogwerkerGenieGS 2032 8,20m Scher",Genie,2014,505,5400,machineseeker,EU
+MS-Genie-161,Knikarmhoogwerker  Genie Z-40/23N 2008GenieZ-40/23N,Genie,2008,0,8950,machineseeker,EU
+MS-Genie-162,WerkplatformGENIES65 / 4x4 Diesel / 21.8 Meter,Genie,2008,0,14900,machineseeker,EU
+MS-Genie-163,Telescopisch werkplatformGenieS-65,Genie,2013,0,23750,machineseeker,EU
 MS-Genie-164,Gebruikte schaarhoogwerker Genie GS1932GENIEGS1932,Genie,2012,0,1932,machineseeker,EU
-MS-Genie-165,WerkplatformGENIES65 / 4x4 Diesel / 21.8 Meter,Genie,2008,0,14900,machineseeker,EU
-MS-Genie-166,Genie Z80/60 diesel 4x4x4 26m - (1881)GenieZ80/60 diesel 4x4,Genie,2011,2414,28900,machineseeker,EU
-MS-Genie-167,Genie S85XC FE HYBRID telescoophoogwerkerGenieS-85 XC FE Hyb,Genie,2026,0,0,machineseeker,EU
-MS-Genie-168,"Genie Z34/22 Bi-Energy - 12,5m knik-telescoophoogwerkerGenie",Genie,2014,245,16900,machineseeker,EU
-MS-Genie-169,Genie GS-4390 RT ALLRAD diesel schaarhoogwerker voor alle te,Genie,2026,0,0,machineseeker,EU
-MS-Genie-170,Genie GS-1432m E-Drive Micro-schaarhoogwerkerGenieGS1432m,Genie,2025,0,0,machineseeker,EU
-MS-Genie-171,Genie GS3246 E-Drive elektrische schaarhoogwerkerGenieGS-324,Genie,2026,0,0,machineseeker,EU
-MS-Genie-172,Genie GS3232 VOLGENDE GENERATIE E-Drive elektrische schaarho,Genie,2026,0,0,machineseeker,EU
-MS-Genie-173,Genie GS-1932e NEXT GENERATION elektrische schaarhoogwerkerG,Genie,2026,0,0,machineseeker,EU
-MS-Genie-174,Genie Z-34/22 IC diesel kniktelescoophoogwerkerGenieZ-34/22 ,Genie,2026,0,0,machineseeker,EU
-MS-Haulotte-175,Haulotte HA15IP Hoogwerker Knikarmhoogwerker (2014)HaulotteH,Haulotte,2014,0,13950,machineseeker,EU
-MS-Haulotte-176,Haulotte Compact 8 Hoogwerker Schaarhoogwerker Schaarlift (2,Haulotte,2011,0,3750,machineseeker,EU
-MS-Haulotte-177,Haulotte Optimum 6 Hoogwerker Schaarhoogwerker Schaarlift (2,Haulotte,2013,772,3450,machineseeker,EU
-MS-Haulotte-178,Haulotte Star 10 Hoogwerker Masthoogwerker (2012)HaulotteSta,Haulotte,2012,238,6450,machineseeker,EU
-MS-Haulotte-179,Haulotte Compact 12 Hoogwerker Schaarhoogwerker Schaarlift (,Haulotte,2015,0,6450,machineseeker,EU
-MS-Haulotte-180,Haulotte Star 10 Hoogwerker Masthoogwerker (2011)HaulotteSta,Haulotte,2011,0,6450,machineseeker,EU
-MS-Haulotte-181,Haulotte Star 10 Hoogwerker Masthoogwerker (2011)HaulotteSta,Haulotte,2011,0,5950,machineseeker,EU
-MS-Haulotte-182,Haulotte Compact 8W Hoogwerker SchaarhoogwerkerHaulotteCompa,Haulotte,2007,0,2950,machineseeker,EU
+MS-Genie-165,Genie S85XC FE HYBRID telescoophoogwerkerGenieS-85 XC FE Hyb,Genie,2026,0,0,machineseeker,EU
+MS-Genie-166,"Genie Z34/22 Bi-Energy - 12,5m knik-telescoophoogwerkerGenie",Genie,2014,245,16900,machineseeker,EU
+MS-Genie-167,Genie GS-4390 RT ALLRAD diesel schaarhoogwerker voor alle te,Genie,2026,0,0,machineseeker,EU
+MS-Genie-168,Genie Z80/60 diesel 4x4x4 26m - (1881)GenieZ80/60 diesel 4x4,Genie,2011,2414,28900,machineseeker,EU
+MS-Genie-169,Genie GS-1432m E-Drive Micro-schaarhoogwerkerGenieGS1432m,Genie,2025,0,0,machineseeker,EU
+MS-Genie-170,Genie GS3246 E-Drive elektrische schaarhoogwerkerGenieGS-324,Genie,2026,0,0,machineseeker,EU
+MS-Genie-171,Genie GS3232 VOLGENDE GENERATIE E-Drive elektrische schaarho,Genie,2026,0,0,machineseeker,EU
+MS-Genie-172,Genie GS-1932e NEXT GENERATION elektrische schaarhoogwerkerG,Genie,2026,0,0,machineseeker,EU
+MS-Genie-173,Genie Z-34/22 IC diesel kniktelescoophoogwerkerGenieZ-34/22 ,Genie,2026,0,0,machineseeker,EU
+MS-Genie-174,Genie S-45 Trax-XC (Xtra Capacity) telescoophoogwerkerGenieS,Genie,2026,0,0,machineseeker,EU
+MS-Genie-175,Genie Z-60FE hybride kniktelescoophoogwerkerGenieZ-60 FE,Genie,2025,0,0,machineseeker,EU
+MS-Haulotte-176,Haulotte Compact 10 schaarhoogwerker SCISSOR  10M Werkhoogte,Haulotte,2012,0,4450,machineseeker,EU
+MS-Haulotte-177,Haulotte HA15IP Hoogwerker Knikarmhoogwerker (2014)HaulotteH,Haulotte,2014,0,13950,machineseeker,EU
+MS-Haulotte-178,Haulotte Compact 8 Hoogwerker Schaarhoogwerker Schaarlift (2,Haulotte,2011,0,3750,machineseeker,EU
+MS-Haulotte-179,Haulotte Optimum 6 Hoogwerker Schaarhoogwerker Schaarlift (2,Haulotte,2013,772,3450,machineseeker,EU
+MS-Haulotte-180,Haulotte Compact 12 Hoogwerker Schaarhoogwerker Schaarlift (,Haulotte,2015,0,6450,machineseeker,EU
+MS-Haulotte-181,Haulotte Star 10 Hoogwerker Masthoogwerker (2012)HaulotteSta,Haulotte,2012,238,6450,machineseeker,EU
+MS-Haulotte-182,Haulotte Star 10 Hoogwerker Masthoogwerker (2011)HaulotteSta,Haulotte,2011,0,6450,machineseeker,EU
 MS-Haulotte-183,"Haulotte Star 10 elektrische hoogwerker, 10 m werkhoogteHaul",Haulotte,2007,0,6750,machineseeker,EU
-MS-Haulotte-184,Haulotte Compact 14 Hoogwerker SchaarhoogwerkerHaulotteCompa,Haulotte,2010,0,5500,machineseeker,EU
-MS-Haulotte-185,Haulotte Star 10 AC 10m elektrische masthoogwerker *accu NIE,Haulotte,2018,174,14200,machineseeker,EU
-MS-Haulotte-186,Haulotte Star 10 10m elektrische masthoogwerker *accu NIEUW*,Haulotte,2006,777,9200,machineseeker,EU
-MS-Haulotte-187,Haulotte Compact 12 DX 12m diesel schaarhoogwerkerHaulotteCo,Haulotte,2007,2985,10500,machineseeker,EU
-MS-Haulotte-188,"Haulotte HA 12 CJ+ 11,70 m knik-telescoophoogwerkerHaulotteH",Haulotte,2012,1619,13600,machineseeker,EU
-MS-Haulotte-189,Haulotte Star 10 10m elektrische masthoogwerkerHaulotteStar ,Haulotte,2014,441,9500,machineseeker,EU
-MS-Haulotte-190,"Haulotte Compact 8 - Schaarhoogwerker 8,2 m, bouwjaar 2021Ha",Haulotte,2021,115,2021,machineseeker,EU
-MS-Haulotte-191,SchaarhoogwerkerHaulotteStar 10,Haulotte,2014,780,5950,machineseeker,EU
-MS-Haulotte-192,Manitou 170AETJ L Hoogwerker KnikarmhoogwerkerManitou170AETJ,Haulotte,2012,0,14450,machineseeker,EU
-MS-Haulotte-193,Manitou 170AETJ L Hoogwerker KnikarmhoogwerkerManitou170AETJ,Haulotte,2013,0,14950,machineseeker,EU
-MS-Haulotte-194,"JLG E400AJPN Hoogwerker, KnikarmhoogwerkerJLGE400AJPN Hoogwe",Haulotte,2012,0,15950,machineseeker,EU
-MS-Haulotte-195,"Manitou 120AETJ-C 3D knikarmhoogwerker, hoogwerker (2011)Man",Haulotte,2011,0,10950,machineseeker,EU
-MS-Haulotte-196,JLG M4069LE Hoogwerker Schaarhoogwerker Hybride (2008)JLGM40,Haulotte,2008,0,9950,machineseeker,EU
-MS-Haulotte-197,"SchaarhoogwerkerHaulotteCompact 12 DX 12,06 m",Haulotte,2006,0,6000,machineseeker,EU
-MS-Haulotte-198,Niftylift HR21 HYBRID 4X4 hoogwerker KnikarmhoogwerkerNiftyl,Haulotte,2013,0,22950,machineseeker,EU
-MS-Haulotte-199,"JLG 4069LE schaarhoogwerker, bouwjaar 2005JLG4069LE hoogwerk",Haulotte,2005,0,7950,machineseeker,EU
-MS-Haulotte-200,"Telemast hoogwerkerHaulotteHA 12 CJ 11,68 m",Haulotte,2011,0,7800,machineseeker,EU
-MS-Haulotte-201,JLG 2646ES Hoogwerker SchaarhoogwerkerJLG2646ES Hoogwerker S,Haulotte,2014,0,5250,machineseeker,EU
-MS-Haulotte-202,JLG 2646ES Hoogwerker SchaarhoogwerkerJLG2646ES Hoogwerker S,Haulotte,2015,0,5450,machineseeker,EU
-MS-Haulotte-203,"JLG E400AJPN Hoogwerker, KnikarmhoogwerkerJLGE400AJPN Hoogwe",Haulotte,2010,0,14950,machineseeker,EU
-MS-Haulotte-204,Niftylift HR17NE Hoogwerker KnikarmhoogwerkerNiftyliftHR17NE,Haulotte,2013,1090,18950,machineseeker,EU
-MS-Haulotte-205,Manitou 170AETJ L Hoogwerker KnikarmhoogwerkerManitou170AETJ,Haulotte,2011,0,13950,machineseeker,EU
-MS-Haulotte-206,Airo X14EW Hoogwerker SchaarhoogwerkerAiroX14EW Hoogwerker S,Haulotte,2011,0,5950,machineseeker,EU
-MS-Haulotte-207,JLG E300AJPN Hoogwerker KnikarmhoogwerkerJLGE300AJPN Hoogwer,Haulotte,2011,0,14950,machineseeker,EU
-MS-Haulotte-208,"Liftlux PB Lift S171-12E hoogwerker, schaarhoogwerkerLiftlux",Haulotte,2008,0,9950,machineseeker,EU
-MS-Haulotte-209,WerkplatformHAULOTTEHA18PX,Haulotte,2000,0,9500,machineseeker,EU
-MS-Haulotte-210,Haulotte HT 28 RTJ ProHaulotteHT 28 RTJ Pro,Haulotte,2017,2400,0,machineseeker,EU
-MS-Haulotte-211,Haulotte HA12 CJ+HaulotteHA12 CJ+,Haulotte,2013,0,8500,machineseeker,EU
-MS-Haulotte-212,Haulotte Star 10HaulotteSTAR 10,Haulotte,2014,0,5100,machineseeker,EU
-MS-Haulotte-213,"Telemast hoogwerkerHaulotteHA 12 CJ 11,68 m",Haulotte,2016,0,12000,machineseeker,EU
-MS-Haulotte-214,Haulotte Compact 12 DXHaulotteCOMPACT 12 DX,Haulotte,2016,0,10600,machineseeker,EU
-MS-Haulotte-215,Haulotte HA 18 PXHaulotteHA 18 PX,Haulotte,2010,5590,0,machineseeker,EU
-MS-Haulotte-216,Haulotte COMPACT 10 DXHaulotteCOMPACT 10 DX,Haulotte,2016,0,10900,machineseeker,EU
-MS-Haulotte-217,Haulotte Compact 12 DXHaulotteCOMPACT 12 DX,Haulotte,2016,0,7000,machineseeker,EU
-MS-Haulotte-218,Haulotte Star 10HaulotteSTAR 10,Haulotte,2014,0,6100,machineseeker,EU
-MS-Haulotte-219,Haulotte HA15 IPHaulotteHA15 IP,Haulotte,2016,0,14000,machineseeker,EU
-MS-Haulotte-220,WerkplatformHaulotteHA 12 CJ,Haulotte,2012,1445,12900,machineseeker,EU
-MS-Haulotte-221,Haulotte HA 15 IPHaulotteHA 15 IP,Haulotte,2015,936,0,machineseeker,EU
-MS-Haulotte-222,Haulotte Star 10HaulotteSTAR 10,Haulotte,2014,0,5800,machineseeker,EU
-MS-Haulotte-223,Haulotte HA12 IPHaulotteHA12 IP,Haulotte,2013,0,10400,machineseeker,EU
-MS-Haulotte-224,Haulotte Star 10HaulotteSTAR 10,Haulotte,2016,0,7200,machineseeker,EU
+MS-Haulotte-184,Haulotte Star 10 Hoogwerker Masthoogwerker (2011)HaulotteSta,Haulotte,2011,0,5950,machineseeker,EU
+MS-Haulotte-185,Haulotte Compact 8W Hoogwerker SchaarhoogwerkerHaulotteCompa,Haulotte,2007,0,2950,machineseeker,EU
+MS-Haulotte-186,Haulotte Compact 14 Hoogwerker SchaarhoogwerkerHaulotteCompa,Haulotte,2010,0,5500,machineseeker,EU
+MS-Haulotte-187,Haulotte Star 10 AC 10m elektrische masthoogwerker *accu NIE,Haulotte,2018,174,14200,machineseeker,EU
+MS-Haulotte-188,Haulotte Star 10 10m elektrische masthoogwerker *accu NIEUW*,Haulotte,2006,777,9200,machineseeker,EU
+MS-Haulotte-189,Haulotte Compact 12 DX 12m diesel schaarhoogwerkerHaulotteCo,Haulotte,2007,2985,10500,machineseeker,EU
+MS-Haulotte-190,"Haulotte HA 12 CJ+ 11,70 m knik-telescoophoogwerkerHaulotteH",Haulotte,2012,1619,13600,machineseeker,EU
+MS-Haulotte-191,Haulotte Star 10 10m elektrische masthoogwerkerHaulotteStar ,Haulotte,2014,441,9500,machineseeker,EU
+MS-Haulotte-192,"Haulotte Compact 8 - Schaarhoogwerker 8,2 m, bouwjaar 2021Ha",Haulotte,2021,115,2021,machineseeker,EU
+MS-Haulotte-193,SchaarhoogwerkerHaulotteStar 10,Haulotte,2014,780,5950,machineseeker,EU
+MS-Haulotte-194,"SchaarhoogwerkerHaulotteCompact 12 DX 12,06 m",Haulotte,2006,0,6000,machineseeker,EU
+MS-Haulotte-195,WerkplatformHaulotteHA 12 CJ,Haulotte,2012,1445,11000,machineseeker,EU
+MS-Haulotte-196,Manitou 170AETJ L Hoogwerker KnikarmhoogwerkerManitou170AETJ,Haulotte,2012,0,14450,machineseeker,EU
+MS-Haulotte-197,Manitou 170AETJ L Hoogwerker KnikarmhoogwerkerManitou170AETJ,Haulotte,2013,0,14950,machineseeker,EU
+MS-Haulotte-198,"JLG E400AJPN Hoogwerker, KnikarmhoogwerkerJLGE400AJPN Hoogwe",Haulotte,2012,0,15950,machineseeker,EU
+MS-Haulotte-199,"Telemast hoogwerkerHaulotteHA 12 CJ 11,68 m",Haulotte,2011,0,7800,machineseeker,EU
+MS-Haulotte-200,Niftylift HR21 HYBRID 4X4 hoogwerker KnikarmhoogwerkerNiftyl,Haulotte,2013,0,22950,machineseeker,EU
+MS-Haulotte-201,"Manitou 120AETJ-C 3D knikarmhoogwerker, hoogwerker (2011)Man",Haulotte,2011,0,10950,machineseeker,EU
+MS-Haulotte-202,JLG 2646ES Hoogwerker SchaarhoogwerkerJLG2646ES Hoogwerker S,Haulotte,2014,0,5250,machineseeker,EU
+MS-Haulotte-203,JLG 2646ES Hoogwerker SchaarhoogwerkerJLG2646ES Hoogwerker S,Haulotte,2015,0,5450,machineseeker,EU
+MS-Haulotte-204,JLG M4069LE Hoogwerker Schaarhoogwerker Hybride (2008)JLGM40,Haulotte,2008,0,9950,machineseeker,EU
+MS-Haulotte-205,"JLG 4069LE schaarhoogwerker, bouwjaar 2005JLG4069LE hoogwerk",Haulotte,2005,0,7950,machineseeker,EU
+MS-Haulotte-206,"JLG E400AJPN Hoogwerker, KnikarmhoogwerkerJLGE400AJPN Hoogwe",Haulotte,2010,0,14950,machineseeker,EU
+MS-Haulotte-207,Niftylift HR17NE Hoogwerker KnikarmhoogwerkerNiftyliftHR17NE,Haulotte,2013,1090,18950,machineseeker,EU
+MS-Haulotte-208,Manitou 170AETJ L Hoogwerker KnikarmhoogwerkerManitou170AETJ,Haulotte,2011,0,13950,machineseeker,EU
+MS-Haulotte-209,Airo X14EW Hoogwerker SchaarhoogwerkerAiroX14EW Hoogwerker S,Haulotte,2011,0,5950,machineseeker,EU
+MS-Haulotte-210,JLG E300AJPN Hoogwerker KnikarmhoogwerkerJLGE300AJPN Hoogwer,Haulotte,2011,0,14950,machineseeker,EU
+MS-Haulotte-211,WerkplatformHAULOTTEHA18PX,Haulotte,2000,0,9500,machineseeker,EU
+MS-Haulotte-212,Haulotte HT 28 RTJ ProHaulotteHT 28 RTJ Pro,Haulotte,2017,2400,0,machineseeker,EU
+MS-Haulotte-213,"Liftlux PB Lift S171-12E hoogwerker, schaarhoogwerkerLiftlux",Haulotte,2008,0,9950,machineseeker,EU
+MS-Haulotte-214,Haulotte HA12 CJ+HaulotteHA12 CJ+,Haulotte,2013,0,8500,machineseeker,EU
+MS-Haulotte-215,"SchaarhoogwerkerHaulotteH12SXLNT 4x4, Jaar 2013, 12m Werkhoo",Haulotte,2013,0,8250,machineseeker,EU
+MS-Haulotte-216,Haulotte Star 10HaulotteSTAR 10,Haulotte,2014,0,5100,machineseeker,EU
+MS-Haulotte-217,"Telemast hoogwerkerHaulotteHA 12 CJ 11,68 m",Haulotte,2016,0,12000,machineseeker,EU
+MS-Haulotte-218,Haulotte Compact 12 DXHaulotteCOMPACT 12 DX,Haulotte,2016,0,10600,machineseeker,EU
+MS-Haulotte-219,Haulotte COMPACT 10 DXHaulotteCOMPACT 10 DX,Haulotte,2016,0,10900,machineseeker,EU
+MS-Haulotte-220,Haulotte HA 18 PXHaulotteHA 18 PX,Haulotte,2010,5590,0,machineseeker,EU
+MS-Haulotte-221,Haulotte Star 10HaulotteSTAR 10,Haulotte,2014,0,6100,machineseeker,EU
+MS-Haulotte-222,Haulotte Compact 12 DXHaulotteCOMPACT 12 DX,Haulotte,2016,0,7000,machineseeker,EU
+MS-Haulotte-223,Haulotte Star 10HaulotteSTAR 10,Haulotte,2014,0,5800,machineseeker,EU
+MS-Haulotte-224,Haulotte HA 15 IPHaulotteHA 15 IP,Haulotte,2015,936,0,machineseeker,EU
 MS-Niftylift-225,WerkplatformNiftylift120 TAC,Niftylift,2014,0,14500,machineseeker,EU
 MS-Niftylift-226,"2002 Niftylift 170 HDE, Aanhanger hoogwerker, 17 meterNiftyl",Niftylift,2002,0,12950,machineseeker,EU
 MS-Niftylift-227,WerkplatformNIFTYLIFTHR21 4x4 Diesel Hybrid / 20.8 Meter / 1,Niftylift,2016,0,16900,machineseeker,EU
 MS-Niftylift-228,Niftylift HR12 4x4 - 12 m diesel knik-telescoophoogwerkerNif,Niftylift,2014,0,16900,machineseeker,EU
-MS-Niftylift-229,Niftylift HR28 HYBRIDE 4X4NiftyliftHR28 HYBRID 4X4,Niftylift,2017,0,44900,machineseeker,EU
+MS-Niftylift-229,"2015 Niftylift 170 HDACT, Aanhanger hoogwerker, 17 meterNift",Niftylift,2015,0,15950,machineseeker,EU
 MS-Niftylift-230,Niftylift HR 28 Hybrid 4x4 MK2NiftyliftHR 28 Hybrid 4x4 MK2,Niftylift,2019,0,0,machineseeker,EU
-MS-Niftylift-231,"2015 Niftylift 170 HDACT, Aanhanger hoogwerker, 17 meterNift",Niftylift,2015,0,15950,machineseeker,EU
-MS-Niftylift-232,Niftylift HR15NENiftyliftHR15NE,Niftylift,2017,0,22800,machineseeker,EU
-MS-Niftylift-233,Niftylift HR21 HYBRIDE 4X4NiftyliftHR21 HYBRID 4X4,Niftylift,2015,0,28200,machineseeker,EU
-MS-Niftylift-234,Niftylift HR28 HYBRIDE 4X4NiftyliftHR28 HYBRID 4X4,Niftylift,2017,0,39500,machineseeker,EU
-MS-Niftylift-235,Niftylift HR28 HYBRIDE 4X4NiftyliftHR28 HYBRID 4X4,Niftylift,2019,0,51300,machineseeker,EU
-MS-Niftylift-236,Niftylift HR21 HYBRIDE 4X4NiftyliftHR21 HYBRID 4X4,Niftylift,2017,0,34300,machineseeker,EU
-MS-Niftylift-237,"2016 Niftylift 120TAC, Aanhanger hoogwerker, 12 meterNiftyli",Niftylift,2016,0,13600,machineseeker,EU
-MS-Niftylift-238,Niftylift HR17 HYBRID 4X4NiftyliftHR17 HYBRID 4X4,Niftylift,2016,0,19500,machineseeker,EU
+MS-Niftylift-231,Niftylift HR28 HYBRIDE 4X4NiftyliftHR28 HYBRID 4X4,Niftylift,2017,0,39500,machineseeker,EU
+MS-Niftylift-232,Niftylift HR21 HYBRIDE 4X4NiftyliftHR21 HYBRID 4X4,Niftylift,2015,0,28200,machineseeker,EU
+MS-Niftylift-233,Niftylift HR15NENiftyliftHR15NE,Niftylift,2017,0,22800,machineseeker,EU
+MS-Niftylift-234,"2016 Niftylift 120TAC, Aanhanger hoogwerker, 12 meterNiftyli",Niftylift,2016,0,13600,machineseeker,EU
+MS-Niftylift-235,Niftylift HR17 HYBRID 4X4NiftyliftHR17 HYBRID 4X4,Niftylift,2016,0,19500,machineseeker,EU
+MS-Niftylift-236,Niftylift HR28 HYBRIDE 4X4NiftyliftHR28 HYBRID 4X4,Niftylift,2019,0,51300,machineseeker,EU
+MS-Niftylift-237,Niftylift HR21 HYBRIDE 4X4NiftyliftHR21 HYBRID 4X4,Niftylift,2017,0,34300,machineseeker,EU
+MS-Niftylift-238,Scharnierend telescopisch platformNiftyliftLift HR17 NE MK3,Niftylift,2014,0,13900,machineseeker,EU
 MS-Niftylift-239,"2011 Niftylift HR21DE, Hoogwerker 21 meter, Diesel + Accu, B",Niftylift,2011,1789,19500,machineseeker,EU
-MS-Niftylift-240,Scharnierend telescopisch platformNiftyliftLift HR17 NE MK3,Niftylift,2014,0,13900,machineseeker,EU
-MS-Niftylift-241,Nifty HR12NE 2010NiftyliftHR12NE,Niftylift,2010,0,15000,machineseeker,EU
-MS-Niftylift-242,"Zelfrijdend werkplatformNiftyliftHR28 Hybid, nur 1200 Std.",Niftylift,2015,1200,32500,machineseeker,EU
-MS-Niftylift-243,Scharnierend telescopisch platformNiftyliftLift HR 28 Hybrid,Niftylift,2015,0,33900,machineseeker,EU
+MS-Niftylift-240,Nifty HR12NE 2010NiftyliftHR12NE,Niftylift,2010,0,15000,machineseeker,EU
+MS-Niftylift-241,"Zelfrijdend werkplatformNiftyliftHR28 Hybid, nur 1200 Std.",Niftylift,2015,1200,32500,machineseeker,EU
+MS-Niftylift-242,Scharnierend telescopisch platformNiftyliftLift HR 28 Hybrid,Niftylift,2015,0,33900,machineseeker,EU
+MS-Niftylift-243,Niftylift HR17 Hybrid MKIINiftyliftHR17 Hybrid MKII,Niftylift,2016,0,29000,machineseeker,EU
 MS-Niftylift-244,WerkplatformNiftyliftNifty 120T,Niftylift,2026,0,0,machineseeker,EU
-MS-Niftylift-245,Niftylift HR17 Hybrid MKIINiftyliftHR17 Hybrid MKII,Niftylift,2016,0,29000,machineseeker,EU
-MS-Niftylift-246,Niftylift BS2191-HR21NiftyliftBS2191-HR21,Niftylift,2016,0,25900,machineseeker,EU
-MS-Niftylift-247,WerkplatformNiftyliftNifty 150T,Niftylift,0,0,0,machineseeker,EU
-MS-Niftylift-248,2015 Niftylift  Hr10 10 mtr werkhoogte/workingheigthNiftylif,Niftylift,2015,0,12500,machineseeker,EU
-MS-Niftylift-249,Scharnierend telescopisch platformNiftyliftHR 28 Bi-Energy E,Niftylift,2019,0,52000,machineseeker,EU
-MS-Niftylift-250,Niftylift HR17NE MK3NiftyliftHR17NE MK3,Niftylift,2013,0,18300,machineseeker,EU
-MS-Niftylift-251,Niftylift HR 28NiftyliftHR 28,Niftylift,2015,0,45900,machineseeker,EU
-MS-Niftylift-252,Niftylift BS2191-HR21NiftyliftBS2191-HR21,Niftylift,2014,0,23900,machineseeker,EU
-MS-Niftylift-253,Mobiel werkplatformNiftyliftHR17NE,Niftylift,2026,0,72500,machineseeker,EU
-MS-Niftylift-254,Niftylift BS 2191-HR21NiftyliftBS 2191-HR21,Niftylift,2014,0,25500,machineseeker,EU
-MS-Niftylift-255,Articulerende giekNiftyliftHR17NE,Niftylift,2024,0,56300,machineseeker,EU
-MS-Niftylift-256,Articulerende giekNiftyliftHR17NE,Niftylift,2022,0,51300,machineseeker,EU
-MS-Niftylift-257,Niftylift BS2191 - HR21NiftyliftBS2191 - HR21,Niftylift,2013,0,22500,machineseeker,EU
-MS-Niftylift-258,Niftylift BS2191-HR21NiftyliftBS2191-HR21,Niftylift,2013,0,19900,machineseeker,EU
-MS-Niftylift-259,Articulerende giekNiftyliftHR 28 Hybrid,Niftylift,2020,0,85740,machineseeker,EU
-MS-Niftylift-260,Articulerende giekNiftyliftHR17NE,Niftylift,2024,0,58900,machineseeker,EU
-MS-Niftylift-261,Articulerende giekNiftyliftHR 28 Hybrid,Niftylift,2020,0,84700,machineseeker,EU
-MS-Niftylift-262,Articulerende giekNiftyliftHR17E,Niftylift,2026,0,67850,machineseeker,EU
-MS-Niftylift-263,Articulerende giekNiftyliftHR17NE,Niftylift,2026,0,73400,machineseeker,EU
-MS-Niftylift-264,Scharnierend telescopisch platformNiftyliftHR12NE 2x4 MK2,Niftylift,2024,0,48500,machineseeker,EU
-MS-Skyjack-265,Skyjack SJ 6826RT Schaarhoogwerker 10 M / Scissor / Arbeitsb,Skyjack,2018,0,8250,machineseeker,EU
-MS-Skyjack-266,2009 Skyjack  Sj 3226 10 mtr schaarhoogwerkerSkyjackSj 3226 ,Skyjack,2009,0,4950,machineseeker,EU
-MS-Skyjack-267,"Skyjack SJ 4620 8,1m schaarhoogwerkerSkyjackSJ 4620 8.1m Sch",Skyjack,2007,0,3200,machineseeker,EU
-MS-Skyjack-268,"2003 Skyjack SJIII-3219, Schaarhoogwerker, 8 meterSkyjackSJI",Skyjack,2003,247,2950,machineseeker,EU
-MS-Skyjack-269,"Schaarhoogwerker 9,9 m SKYJACK SJ4626SKYJACK SJ-III 4626Work",Skyjack,2015,177,7900,machineseeker,EU
-MS-Skyjack-270,"SkyJack SJ9250 - 17,24 m diesel 4x4 schaarhoogwerkerSkyJackS",Skyjack,2015,2034,14900,machineseeker,EU
-MS-Skyjack-271,Schaarhoogwerker SKYJACK SJ III 4632Skyjack SKYJACK SJ III 4,Skyjack,2020,69,9900,machineseeker,EU
-MS-Skyjack-272,"SkyJack SJ 16 - 6,75m elektrische masthoogwerker *accu's NIE",Skyjack,2016,196,4000,machineseeker,EU
-MS-Skyjack-273,Schaarhoogwerker Skyjack SJIII4626SKYJACKSJIII4626,Skyjack,2015,0,4626,machineseeker,EU
-MS-Skyjack-274,"Schaarhoogwerker SKYJACK SJ III 4632Skyjack SJ III4632 11,8m",Skyjack,2011,374,0,machineseeker,EU
-MS-Skyjack-275,"SchaarhoogwerkerSkyjackSJ6832RTE 4x4, Jaar 2017, 12m Werkhoo",Skyjack,2017,192,7950,machineseeker,EU
-MS-Skyjack-276,SchaarhoogwerkerSkyjackSJIII 3219,Skyjack,2017,361,3219,machineseeker,EU
-MS-Skyjack-277,Mobiel werkplatformSkyjackSJ16,Skyjack,2014,0,2800,machineseeker,EU
-MS-Skyjack-278,"Elektrische schaarlift Skyjack SJ4626Skyjack SJ4626  9,9m",Skyjack,2006,435,4200,machineseeker,EU
-MS-Dingli-279,Dingli BTH 34mtr RT 4x4x4DingliBTH 34mtr RT 4x4x4,Dingli,2023,0,0,machineseeker,EU
-MS-Dingli-280,"Dingli Magni GTBZ20AE 4x4 / 20,2 m / 327 uur / elektrischDin",Dingli,2018,327,39890,machineseeker,EU
-MS-Dingli-281,"WerkplatformDingliBT22BERT 22,5m Teleskopbühne 2x vorh.",Dingli,2024,0,84500,machineseeker,EU
-MS-Dingli-282,WerkplatformDingliBA28BERT 3x vorh. 28m Elekt Teleskopbühne,Dingli,2024,0,109500,machineseeker,EU
-MS-Dingli-283,"1997 Omme 2500 EBDZ, Aanhanger hoogwerkerOmme2500 EBDZ, Aanh",Dingli,1997,9333,17450,machineseeker,EU
-MS-Dingli-284,Defecte hoogwerkerUp-Right66923-001,Dingli,2000,0,0,machineseeker,EU
-MS-Dingli-285,Dingli JCPT1418DC BE2901DingliJCPT1418DC,Dingli,2023,73,23500,machineseeker,EU
-MS-Dingli-286,Gebruikte hoogwerker Nagano NUL070RNAGANONUL070R,Dingli,2002,0,12500,machineseeker,EU
-MS-Dingli-287,"2003 Oil & Steel Octopussy 14.65, Spin hoogwerkerOil & Steel",Dingli,2003,1450,2950,machineseeker,EU
-MS-Dingli-288,Hoogwerker rupshoogwerker hollandlift schaarhoogwerkerHollan,Dingli,2007,0,16500,machineseeker,EU
-MS-Dingli-289,WerkplatformDingliJCPT1212AC 12m Scherenbühne 14x vorh.,Dingli,2024,0,12900,machineseeker,EU
-MS-Dingli-290,"2002 Aichi SP21AJ, 23 meter HoogwerkerAichiSP21AJ, 23 meter ",Dingli,2002,8378,15950,machineseeker,EU
-MS-Dingli-291,Hoogwerker rupshoogwerker hollandlift schaarhoogwerkerHollan,Dingli,2007,0,7750,machineseeker,EU
-MS-Dingli-292,Schaarhoogwerker hoogwerkerUp-RightMX19,Dingli,1996,0,0,machineseeker,EU
-MS-JLG-293,JLG 3246ES BE2324JLG3246ES,JLG,2016,357,9950,machineseeker,EU
-MS-JLG-294,SchaarhoogwerkerJLG260 MRT-A (40622),JLG,2011,2448,8900,machineseeker,EU
-MS-JLG-295,SchaarliftJLG3246 ES (40523),JLG,2013,1600,10900,machineseeker,EU
-MS-JLG-296,SchaarliftJLG2030 ES (40309),JLG,2011,516,4990,machineseeker,EU
-MS-JLG-297,SchaarheftafelJLG3246ES,JLG,2019,0,0,machineseeker,EU
-MS-JLG-298,SchaarhoogwerkerJLG3246 ES,JLG,2005,0,4900,machineseeker,EU
-MS-JLG-299,JLG 1930ESJLG1930ES,JLG,2018,0,3500,machineseeker,EU
-MS-JLG-300,JLG 530LRT BE1866JLG530LRT,JLG,2019,1453,36500,machineseeker,EU
-MS-JLG-301,JLG 3246 ESJLG3246 ES,JLG,2019,0,9975,machineseeker,EU
-MS-JLG-302,SchaarhoogwerkerJLG3394 RT,JLG,2012,0,10400,machineseeker,EU
-MS-JLG-303,JLG M4069JLGM4069,JLG,2016,0,4069,machineseeker,EU
-MS-JLG-304,JLG M3369JLGM3369,JLG,2013,0,3369,machineseeker,EU
-MS-JLG-305,JLG 2646ESJLG2646ES,JLG,2019,0,5000,machineseeker,EU
-MS-JLG-306,JLG 4069LEJLG4069LE,JLG,2015,0,11400,machineseeker,EU
-MS-JLG-307,SchaarhoogwerkerJLG1930 ES (ID3561),JLG,2019,0,5900,machineseeker,EU
-MS-JLG-308,JLG 10RSJLG10RS,JLG,2016,0,9500,machineseeker,EU
-MS-JLG-309,JLG 2032ESJLG2032ES,JLG,2015,0,2800,machineseeker,EU
-MS-JLG-310,JLG 2646ESJLG2646ES,JLG,2016,0,3800,machineseeker,EU
-MS-JLG-311,SchaarhoogwerkerJLG4069 LE,JLG,2015,387,0,machineseeker,EU
-MS-JLG-312,"2011 JLG 3394RT, Schaar hoogwerker, 4x4JLG3394RT, Schaar hoo",JLG,2011,0,14650,machineseeker,EU
-MS-JLG-313,JLG 6RSJLG6RS,JLG,2015,0,2400,machineseeker,EU
-MS-JLG-314,JLG 6RSJLG6RS,JLG,2015,0,2900,machineseeker,EU
-MS-JLG-315,JLG 2630ESJLG2630ES,JLG,2011,0,2650,machineseeker,EU
-MS-JLG-316,JLG 6RSJLG6RS,JLG,2015,0,4609,machineseeker,EU
-MS-JLG-317,SchaarheftafelJLG1930 Es,JLG,2010,542,4500,machineseeker,EU
-MS-JLG-318,JLG 10RSJLG10RS,JLG,2015,0,5000,machineseeker,EU
-MS-JLG-319,JLG 6RSJLG6RS,JLG,2016,0,0,machineseeker,EU
-MS-JLG-320,SchaarhoogwerkerJLG1930ES,JLG,2017,0,4900,machineseeker,EU
-MS-Manitou-321,"Mobiel werkplatformManitouMANITOU 120 AETJC 2 | 11,95 M",Manitou,2014,306,19900,machineseeker,EU
-MS-Manitou-322,"Telescopisch werkplatformManitouMANITOU 120 AETJC 2 | 11,95 ",Manitou,2014,293,19900,machineseeker,EU
-MS-Manitou-323,Telescopisch werkplatformManitou120 AETJ C,Manitou,2009,0,7700,machineseeker,EU
-MS-Manitou-324,Telescopisch werkplatformMANITOUMLT629-120,Manitou,2001,0,18900,machineseeker,EU
-MS-Manitou-325,Hoogwerker zelfrijdendManitou100 VJR Teleskopmastbühne Elekt,Manitou,2017,0,7900,machineseeker,EU
-MS-Manitou-326,Manitou 120 AETJC 3DManitou120 AETJC 3D,Manitou,2017,98,10750,machineseeker,EU
-MS-Manitou-327,Manitou 150 AETJ CManitou150 AETJ C,Manitou,2013,0,9750,machineseeker,EU
-MS-Manitou-328,Manitou 150AETJ C 3DManitou150AETJ C 3D,Manitou,2013,0,11300,machineseeker,EU
-MS-Manitou-329,Hoogwerker zelfrijdendManitou100 VJR Teleskopmastbühne Elekt,Manitou,2017,0,10200,machineseeker,EU
-MS-Manitou-330,Manitou 170AETJ L BIManitou170AETJ L BI,Manitou,2016,0,13700,machineseeker,EU
-MS-Manitou-331,Scharnierend telescopisch platformManitou170 AET,Manitou,2007,0,9900,machineseeker,EU
-MS-Manitou-332,Manitou 150AETJ C 3DManitou150AETJ C 3D,Manitou,2014,0,12700,machineseeker,EU
-MS-Manitou-333,Manitou 160 ATJ+ 4x4x4Manitou160 ATJ+ 4x4x4,Manitou,2016,0,0,machineseeker,EU
-MS-Manitou-334,Telemast hoogwerkerManitou100 VJR Teleskopmastbühne Elektro ,Manitou,2016,0,10100,machineseeker,EU
-MS-Manitou-335,Telescopisch mastplatformManitou105VJR2,Manitou,2007,0,6000,machineseeker,EU
+MS-Niftylift-245,Niftylift BS2191-HR21NiftyliftBS2191-HR21,Niftylift,2016,0,25900,machineseeker,EU
+MS-Niftylift-246,WerkplatformNiftyliftNifty 150T,Niftylift,0,0,0,machineseeker,EU
+MS-Niftylift-247,Niftylift HR17NE MK3NiftyliftHR17NE MK3,Niftylift,2013,0,18300,machineseeker,EU
+MS-Niftylift-248,Niftylift HR 28NiftyliftHR 28,Niftylift,2015,0,45900,machineseeker,EU
+MS-Niftylift-249,Niftylift BS2191-HR21NiftyliftBS2191-HR21,Niftylift,2014,0,23900,machineseeker,EU
+MS-Niftylift-250,Niftylift BS 2191-HR21NiftyliftBS 2191-HR21,Niftylift,2014,0,25500,machineseeker,EU
+MS-Niftylift-251,Articulerende giekNiftyliftHR17NE,Niftylift,2024,0,56300,machineseeker,EU
+MS-Niftylift-252,Niftylift BS2191 - HR21NiftyliftBS2191 - HR21,Niftylift,2013,0,22500,machineseeker,EU
+MS-Niftylift-253,Niftylift BS2191-HR21NiftyliftBS2191-HR21,Niftylift,2013,0,19900,machineseeker,EU
+MS-Niftylift-254,Articulerende giekNiftyliftHR 28 Hybrid,Niftylift,2020,0,85740,machineseeker,EU
+MS-Niftylift-255,Articulerende giekNiftyliftHR17NE,Niftylift,2022,0,51300,machineseeker,EU
+MS-Niftylift-256,Mobiel werkplatformNiftyliftHR17NE,Niftylift,2026,0,72500,machineseeker,EU
+MS-Niftylift-257,Articulerende giekNiftyliftHR17NE,Niftylift,2024,0,58900,machineseeker,EU
+MS-Niftylift-258,Articulerende giekNiftyliftHR 28 Hybrid,Niftylift,2020,0,84700,machineseeker,EU
+MS-Niftylift-259,Articulerende giekNiftyliftHR17E,Niftylift,2026,0,67850,machineseeker,EU
+MS-Niftylift-260,Articulerende giekNiftyliftHR17NE,Niftylift,2026,0,73400,machineseeker,EU
+MS-Niftylift-261,Scharnierend telescopisch platformNiftyliftHR12NE 2x4 MK2,Niftylift,2024,0,48500,machineseeker,EU
+MS-Skyjack-262,Skyjack SJ 6826RT Schaarhoogwerker 10 M / Scissor / Arbeitsb,Skyjack,2018,0,8250,machineseeker,EU
+MS-Skyjack-263,"Skyjack SJ 4620 8,1m schaarhoogwerkerSkyjackSJ 4620 8.1m Sch",Skyjack,2007,0,3200,machineseeker,EU
+MS-Skyjack-264,2009 Skyjack  Sj 3226 10 mtr schaarhoogwerkerSkyjackSj 3226 ,Skyjack,2009,0,4950,machineseeker,EU
+MS-Skyjack-265,"2003 Skyjack SJIII-3219, Schaarhoogwerker, 8 meterSkyjackSJI",Skyjack,2003,247,2950,machineseeker,EU
+MS-Skyjack-266,"Schaarhoogwerker 9,9 m SKYJACK SJ4626SKYJACK SJ-III 4626Work",Skyjack,2015,177,7900,machineseeker,EU
+MS-Skyjack-267,"SkyJack SJ9250 - 17,24 m diesel 4x4 schaarhoogwerkerSkyJackS",Skyjack,2015,2034,14900,machineseeker,EU
+MS-Skyjack-268,Schaarhoogwerker SKYJACK SJ III 4632Skyjack SKYJACK SJ III 4,Skyjack,2020,69,9900,machineseeker,EU
+MS-Skyjack-269,Schaarhoogwerker Skyjack SJIII4626SKYJACKSJIII4626,Skyjack,2015,0,4626,machineseeker,EU
+MS-Skyjack-270,"SkyJack SJ 16 - 6,75m elektrische masthoogwerker *accu's NIE",Skyjack,2016,196,4000,machineseeker,EU
+MS-Skyjack-271,"SchaarhoogwerkerSkyjackSJ6832RTE 4x4, Jaar 2017, 12m Werkhoo",Skyjack,2017,192,7450,machineseeker,EU
+MS-Skyjack-272,"Schaarhoogwerker SKYJACK SJ III 4632Skyjack SJ III4632 11,8m",Skyjack,2011,374,0,machineseeker,EU
+MS-Skyjack-273,Mobiel werkplatformSkyjackSJ16,Skyjack,2014,0,2800,machineseeker,EU
+MS-Skyjack-274,"Elektrische schaarlift Skyjack SJ4626Skyjack SJ4626  9,9m",Skyjack,2006,435,4200,machineseeker,EU
+MS-Skyjack-275,SchaarhoogwerkerSkyjackSJIII 3219,Skyjack,2011,243,3219,machineseeker,EU
+MS-Dingli-276,Dingli BTH 34mtr RT 4x4x4DingliBTH 34mtr RT 4x4x4,Dingli,2023,0,0,machineseeker,EU
+MS-Dingli-277,"Dingli Magni GTBZ20AE 4x4 / 20,2 m / 327 uur / elektrischDin",Dingli,2018,327,39890,machineseeker,EU
+MS-Dingli-278,"WerkplatformDingliBT22BERT 22,5m Teleskopbühne 2x vorh.",Dingli,2024,0,84500,machineseeker,EU
+MS-Dingli-279,WerkplatformDingliBA28BERT 3x vorh. 28m Elekt Teleskopbühne,Dingli,2024,0,109500,machineseeker,EU
+MS-Dingli-280,Dingli JCPT1418DC BE2901DingliJCPT1418DC,Dingli,2023,73,23500,machineseeker,EU
+MS-Dingli-281,Defecte hoogwerkerUp-Right66923-001,Dingli,2000,0,0,machineseeker,EU
+MS-Dingli-282,"1997 Omme 2500 EBDZ, Aanhanger hoogwerkerOmme2500 EBDZ, Aanh",Dingli,1997,9333,17450,machineseeker,EU
+MS-Dingli-283,Gebruikte hoogwerker Nagano NUL070RNAGANONUL070R,Dingli,2002,0,12500,machineseeker,EU
+MS-Dingli-284,"2003 Oil & Steel Octopussy 14.65, Spin hoogwerkerOil & Steel",Dingli,2003,1450,2950,machineseeker,EU
+MS-Dingli-285,WerkplatformDingliJCPT1212AC 12m Scherenbühne 14x vorh.,Dingli,2024,0,12900,machineseeker,EU
+MS-Dingli-286,Hoogwerker rupshoogwerker hollandlift schaarhoogwerkerHollan,Dingli,2007,0,16500,machineseeker,EU
+MS-Dingli-287,"2002 Aichi SP21AJ, 23 meter HoogwerkerAichiSP21AJ, 23 meter ",Dingli,2002,8378,15950,machineseeker,EU
+MS-Dingli-288,Hoogwerker rupshoogwerker hollandlift schaarhoogwerkerHollan,Dingli,2007,0,7750,machineseeker,EU
+MS-JLG-289,SchaarhoogwerkerJLG260 MRT-A (40622),JLG,2011,2448,8900,machineseeker,EU
+MS-JLG-290,JLG 3246ES BE2324JLG3246ES,JLG,2016,357,9950,machineseeker,EU
+MS-JLG-291,SchaarliftJLG3246 ES (40523),JLG,2013,1600,10900,machineseeker,EU
+MS-JLG-292,SchaarliftJLG2030 ES (40309),JLG,2011,516,4990,machineseeker,EU
+MS-JLG-293,SchaarheftafelJLG3246ES,JLG,2019,0,0,machineseeker,EU
+MS-JLG-294,SchaarhoogwerkerJLG3246 ES,JLG,2005,0,4900,machineseeker,EU
+MS-JLG-295,SchaarhoogwerkerJLGM3369 - 4x4 - 10m Plattformhöhe,JLG,2013,0,9800,machineseeker,EU
+MS-JLG-296,JLG 1930ESJLG1930ES,JLG,2018,0,3500,machineseeker,EU
+MS-JLG-297,JLG 530LRT BE1866JLG530LRT,JLG,2019,1453,36500,machineseeker,EU
+MS-JLG-298,JLG 3246 ESJLG3246 ES,JLG,2019,0,9975,machineseeker,EU
+MS-JLG-299,SchaarhoogwerkerJLG3394 RT,JLG,2012,0,10400,machineseeker,EU
+MS-JLG-300,JLG M4069JLGM4069,JLG,2016,0,4069,machineseeker,EU
+MS-JLG-301,JLG M3369JLGM3369,JLG,2013,0,3369,machineseeker,EU
+MS-JLG-302,JLG 2646ESJLG2646ES,JLG,2019,0,5000,machineseeker,EU
+MS-JLG-303,SchaarhoogwerkerJLG1930 ES (ID3561),JLG,2019,0,5900,machineseeker,EU
+MS-JLG-304,JLG 4069LEJLG4069LE,JLG,2015,0,11400,machineseeker,EU
+MS-JLG-305,JLG 2032ESJLG2032ES,JLG,2015,0,2800,machineseeker,EU
+MS-JLG-306,JLG 10RSJLG10RS,JLG,2016,0,9500,machineseeker,EU
+MS-JLG-307,SchaarhoogwerkerJLG4069 LE,JLG,2015,387,0,machineseeker,EU
+MS-JLG-308,"2011 JLG 3394RT, Schaar hoogwerker, 4x4JLG3394RT, Schaar hoo",JLG,2011,0,14650,machineseeker,EU
+MS-JLG-309,JLG 2646ESJLG2646ES,JLG,2016,0,3800,machineseeker,EU
+MS-JLG-310,JLG 6RSJLG6RS,JLG,2015,0,2400,machineseeker,EU
+MS-JLG-311,SchaarhoogwerkerJLGR2646,JLG,2022,0,2646,machineseeker,EU
+MS-JLG-312,JLG 6RSJLG6RS,JLG,2015,0,2900,machineseeker,EU
+MS-JLG-313,JLG 2630ESJLG2630ES,JLG,2011,0,2650,machineseeker,EU
+MS-JLG-314,JLG 6RSJLG6RS,JLG,2015,0,4609,machineseeker,EU
+MS-JLG-315,SchaarheftafelJLG1930 Es,JLG,2010,542,4500,machineseeker,EU
+MS-JLG-316,JLG 10RSJLG10RS,JLG,2015,0,5000,machineseeker,EU
+MS-JLG-317,JLG 6RSJLG6RS,JLG,2016,0,0,machineseeker,EU
+MS-JLG-318,SchaarhoogwerkerJLG4045R,JLG,2017,666,0,machineseeker,EU
+MS-JLG-319,SchaarhoogwerkerJLG1930ES,JLG,2017,0,4900,machineseeker,EU
+MS-JLG-320,SchaarhoogwerkerJLG1930ES,JLG,2017,0,4300,machineseeker,EU
+MS-JLG-321,SchaarhoogwerkerJLG1930ES,JLG,2019,0,5900,machineseeker,EU
+MS-Manitou-322,"Mobiel werkplatformManitouMANITOU 120 AETJC 2 | 11,95 M",Manitou,2014,306,19900,machineseeker,EU
+MS-Manitou-323,"Telescopisch werkplatformManitouMANITOU 120 AETJC 2 | 11,95 ",Manitou,2014,293,19900,machineseeker,EU
+MS-Manitou-324,Telescopisch werkplatformManitou120 AETJ C,Manitou,2009,0,7700,machineseeker,EU
+MS-Manitou-325,Manitou 120 AETJC 3DManitou120 AETJC 3D,Manitou,2017,98,10750,machineseeker,EU
+MS-Manitou-326,Telescopisch werkplatformMANITOUMLT629-120,Manitou,2001,0,18900,machineseeker,EU
+MS-Manitou-327,Hoogwerker zelfrijdendManitou100 VJR Teleskopmastbühne Elekt,Manitou,2017,0,7900,machineseeker,EU
+MS-Manitou-328,Manitou 150 AETJ CManitou150 AETJ C,Manitou,2013,0,9750,machineseeker,EU
+MS-Manitou-329,Scharnierend telescopisch platformManitou170 AET,Manitou,2007,0,9900,machineseeker,EU
+MS-Manitou-330,Manitou 150AETJ C 3DManitou150AETJ C 3D,Manitou,2013,0,11300,machineseeker,EU
+MS-Manitou-331,Hoogwerker zelfrijdendManitou100 VJR Teleskopmastbühne Elekt,Manitou,2017,0,10200,machineseeker,EU
+MS-Manitou-332,Telemast hoogwerkerManitou100 VJR Teleskopmastbühne Elektro ,Manitou,2016,0,10100,machineseeker,EU
+MS-Manitou-333,Manitou 170AETJ L BIManitou170AETJ L BI,Manitou,2016,0,13700,machineseeker,EU
+MS-Manitou-334,Manitou 160 ATJ+ 4x4x4Manitou160 ATJ+ 4x4x4,Manitou,2016,0,0,machineseeker,EU
+MS-Manitou-335,Manitou 150AETJ C 3DManitou150AETJ C 3D,Manitou,2014,0,12700,machineseeker,EU
 MS-Manitou-336,WerkplatformMANITOU120 AE,Manitou,2002,0,9900,machineseeker,EU
-MS-Manitou-337,Manitou 120AETJ C 3DManitou120AETJ C 3D,Manitou,2014,0,10600,machineseeker,EU
-MS-Manitou-338,Manitou 150AETJ C 3DManitou150AETJ C 3D,Manitou,2012,0,11000,machineseeker,EU
+MS-Manitou-337,Telescopisch mastplatformManitou105VJR2,Manitou,2007,0,6000,machineseeker,EU
+MS-Manitou-338,"Hoogwerker zelfrijdendManitou150 AETJ-C 3D Elektro 15,00 m",Manitou,2019,0,29000,machineseeker,EU
 MS-Manitou-339,Manitou 100 VJR 10m elektrische masthoogwerkerManitou100 VJR,Manitou,2015,527,10900,machineseeker,EU
-MS-Manitou-340,"Hoogwerker zelfrijdendManitou150 AETJ-C 3D Elektro 15,00 m",Manitou,2019,0,29000,machineseeker,EU
-MS-Manitou-341,Manitou 120AETJ C 3DManitou120AETJ C 3D,Manitou,2014,0,11900,machineseeker,EU
-MS-Manitou-342,Manitou 150AETJ C 3DManitou150AETJ C 3D,Manitou,2012,0,12600,machineseeker,EU
-MS-Manitou-343,WerkplatformMANITOU150 AET2 Teleskop-Hubarbeitsbühne 15m,Manitou,2003,0,7500,machineseeker,EU
-MS-Manitou-344,Manitou 200 ATJManitou200 ATJ,Manitou,2019,0,39750,machineseeker,EU
-MS-Manitou-345,Manitou 180ATJManitou180ATJ,Manitou,2007,0,16000,machineseeker,EU
-MS-Manitou-346,Scharnierende telescopische hoogwerkerManitou160 ATJ + Diese,Manitou,2015,0,15600,machineseeker,EU
-MS-Manitou-347,Verticale liftManitou100 VJR Evolution,Manitou,2012,0,0,machineseeker,EU
-MS-Manitou-348,Scharnierende telescopische hoogwerkerManitou120 AETJ-C Elek,Manitou,2013,0,6800,machineseeker,EU
-MS-Manitou-349,Manitou MAN GO 12ManitouMAN GO 12,Manitou,2016,0,21000,machineseeker,EU
-MS-Manitou-350,Manitou 180ATJManitou180ATJ,Manitou,2007,0,19000,machineseeker,EU
-MS-Manitou-351,Telemast hoogwerkerManitou100 VJR Teleskopmastbühne Elektro ,Manitou,2017,0,10200,machineseeker,EU
-MS-Manitou-352,"WerkplatformMANITOU120 AETJ,  240 Betriebsstunden, 12 m",Manitou,2019,0,22990,machineseeker,EU
+MS-Manitou-340,WerkplatformMANITOU150 AET2 Teleskop-Hubarbeitsbühne 15m,Manitou,2003,0,7500,machineseeker,EU
+MS-Manitou-341,Manitou 120AETJ C 3DManitou120AETJ C 3D,Manitou,2014,0,10600,machineseeker,EU
+MS-Manitou-342,Manitou 200 ATJManitou200 ATJ,Manitou,2019,0,39750,machineseeker,EU
+MS-Manitou-343,Manitou MAN GO 12ManitouMAN GO 12,Manitou,2016,0,21000,machineseeker,EU
+MS-Manitou-344,Manitou 150AETJ C 3DManitou150AETJ C 3D,Manitou,2012,0,11000,machineseeker,EU
+MS-Manitou-345,Manitou 120AETJ C 3DManitou120AETJ C 3D,Manitou,2014,0,11900,machineseeker,EU
+MS-Manitou-346,Manitou 150AETJ C 3DManitou150AETJ C 3D,Manitou,2012,0,12600,machineseeker,EU
+MS-Manitou-347,Manitou 180ATJManitou180ATJ,Manitou,2007,0,16000,machineseeker,EU
+MS-Manitou-348,Scharnierende telescopische hoogwerkerManitou160 ATJ + Diese,Manitou,2015,0,15600,machineseeker,EU
+MS-Manitou-349,Telescopisch mastplatformManitou100VJR,Manitou,2022,0,19900,machineseeker,EU
+MS-Manitou-350,Scharnierende telescopische hoogwerkerManitou120 AETJ-C Elek,Manitou,2013,0,6800,machineseeker,EU
+MS-Manitou-351,Verticale liftManitou100 VJR Evolution,Manitou,2012,0,0,machineseeker,EU
+MS-Manitou-352,Telemast hoogwerkerManitou100 VJR Teleskopmastbühne Elektro ,Manitou,2017,0,10200,machineseeker,EU
 MS-Manitou-353,Scharnierend telescopisch platformManitou160 ATJ PA,Manitou,2023,0,0,machineseeker,EU
-MS-Manitou-354,"Hoogwerker zelfrijdendManitou120 AETJ-C 3D Elektro 11,95 m",Manitou,2017,0,16800,machineseeker,EU
-MS-Manitou-355,Manitou MAN GO 12ManitouMAN GO 12,Manitou,2016,0,22000,machineseeker,EU
-MS-Manitou-356,Manitou 280TJManitou280TJ,Manitou,2019,0,85000,machineseeker,EU
-MS-Manitou-357,Scharnierend telescopisch platformManitou120 AETJ,Manitou,2011,0,0,machineseeker,EU
-MS-Manitou-358,Manitou 200ATJManitou200ATJ,Manitou,2017,0,45000,machineseeker,EU
-MS-Manitou-359,Manitou 200ATJManitou200ATJ,Manitou,2017,0,40000,machineseeker,EU
-MS-Manitou-360,Manitou 160ATJManitou160ATJ,Manitou,2007,0,16000,machineseeker,EU
+MS-Manitou-354,Manitou 180ATJManitou180ATJ,Manitou,2007,0,19000,machineseeker,EU
+MS-Manitou-355,"WerkplatformMANITOU120 AETJ,  240 Betriebsstunden, 12 m",Manitou,2019,0,22990,machineseeker,EU
+MS-Manitou-356,"Hoogwerker zelfrijdendManitou120 AETJ-C 3D Elektro 11,95 m",Manitou,2017,0,16800,machineseeker,EU
+MS-Manitou-357,Manitou MAN GO 12ManitouMAN GO 12,Manitou,2016,0,22000,machineseeker,EU
+MS-Manitou-358,Manitou 280TJManitou280TJ,Manitou,2019,0,85000,machineseeker,EU
+MS-Manitou-359,Scharnierend telescopisch platformManitou120 AETJ,Manitou,2011,0,0,machineseeker,EU
+MS-Manitou-360,Manitou 200ATJManitou200ATJ,Manitou,2017,0,45000,machineseeker,EU
 MS-Manitou-361,Manitou 200 ATJManitou200 ATJ,Manitou,2012,0,26900,machineseeker,EU
-MS-Manitou-362,Verticale liftManitou100 VJR,Manitou,2021,0,0,machineseeker,EU
-MS-Manitou-363,"Hoogwerker zelfrijdendManitou150 AETJ-C 3D Elektro 15,00 m",Manitou,2016,0,19300,machineseeker,EU
-MS-Manitou-364,Manitou 150 AETJCManitou150 AETJC,Manitou,2008,0,11300,machineseeker,EU
-MS-Manitou-365,Scharnierend telescopisch platformManitou180ATJRCPA,Manitou,2016,0,44700,machineseeker,EU
-MS-Manitou-366,Manitou 180ATJManitou180ATJ,Manitou,2007,0,0,machineseeker,EU
-MS-Manitou-367,Telescopisch werkplatformManitou280TJ 4x4,Manitou,2017,0,0,machineseeker,EU
-MS-Manitou-368,Manitou 150AETJ CManitou150AETJ C,Manitou,2007,0,12000,machineseeker,EU
-MS-Manitou-369,Manitou 150AETJ CManitou150AETJ C,Manitou,2007,0,15000,machineseeker,EU
-MS-Manitou-370,Manitou MAN GO 12ManitouMAN GO 12,Manitou,2016,0,23900,machineseeker,EU
-MS-Manitou-371,Gelede telescopische platformManitou170 AETJL,Manitou,2008,994,18900,machineseeker,EU
-MS-Manitou-372,Hoogwerker zelfrijdendManitou100 VJR Teleskopmastbühne Elekt,Manitou,2016,0,10100,machineseeker,EU
-MS-JCB-373,JCB S 3246 E KH10111JCBS 3246 E,JCB,2022,0,9250,machineseeker,EU
-MS-JCB-374,VS-22789 Schaar hoogwerker JCB S3246EJCBS3246E,JCB,2019,0,7500,machineseeker,EU
-MS-JCB-375,WerkplatformJCBS1932E EDRV Elektrische Scherenbühne *NEU*,JCB,2026,0,9250,machineseeker,EU
-MS-JCB-376,JCB S4550EJCBS4550E,JCB,2019,0,13000,machineseeker,EU
-MS-JCB-377,SchaarliftJCBS2632E,JCB,2021,0,8900,machineseeker,EU
-MS-JCB-378,JCB S 2032 E KH10370JCBS 2032 E Nieuwe Keuring,JCB,2021,0,7250,machineseeker,EU
-MS-JCB-379,JCB S 1930 E KH10369JCBS 1930 E,JCB,2020,0,5500,machineseeker,EU
-MS-JCB-380,JCB S 2646 E KH10376JCBS 2646 E,JCB,2019,0,6950,machineseeker,EU
-MS-JCB-381,SchaarliftJCBS2646E,JCB,2021,0,9000,machineseeker,EU
-MS-JCB-382,HefplatformMagniArbeitskorb 4.5 drehbar ausziehbar / 500 kg ,JCB,0,0,10490,machineseeker,EU
-MS-JCB-383,WerkplatformJCBS2646E Arbeitsbühne Elektro NEU Bj. 2025 10x ,JCB,2025,0,11900,machineseeker,EU
-MS-JCB-384,WerkplatformJCBElektrische Scherenbühne S 1930 E,JCB,2017,0,7500,machineseeker,EU
-MS-JCB-385,SchaarliftJCBS2646E,JCB,2018,0,9950,machineseeker,EU
-MS-JCB-386,Scharnierende telescopische hoogwerkerMagniEAB22RT 4x4 / 22m,JCB,2024,0,2024,machineseeker,EU
-MS-JCB-387,"Scharnierende telescopische hoogwerkerMagniEAB20RT 4x4 / 20,",JCB,2024,0,2024,machineseeker,EU
-MS-Toyota-388,SchaarliftSnorkel Hebebühne Arbeitsbühne TM12Scherenbühne TM,Toyota,2020,79,8500,machineseeker,EU
-MS-Toyota-389,Telescopisch werkplatformJLGX20J+,Toyota,2024,0,0,machineseeker,EU
-MS-Toyota-390,Mobiel werkplatformMantallXE59 MINI,Toyota,2026,1,0,machineseeker,EU
-MS-Toyota-391,SchaarhoogwerkerHangcha80XENS,Toyota,2023,0,0,machineseeker,EU
-MS-Toyota-392,SchaarhoogwerkerSnorkelS 3220 E - NEUGERÄT !!!,Toyota,2022,0,11950,machineseeker,EU
-MS-Toyota-393,WerkplatformMAGNIMagni ES1212AC 12m Scherenbühne elektrisch ,Toyota,2024,0,14900,machineseeker,EU
-MS-Toyota-394,Telescopisch werkplatformJLGM450AJ HYBRID ONLY-235H 15700MM,Toyota,2017,235,27900,machineseeker,EU
-MS-Toyota-395,Telescopisch werkplatformUp-RightAB 38,Toyota,2001,0,0,machineseeker,EU
-MS-Toyota-396,SchaarhoogwerkerSnorkelS3010E,Toyota,2026,0,0,machineseeker,EU
-MS-Toyota-397,SchaarhoogwerkerGALENES0808,Toyota,2026,0,808,machineseeker,EU
-MS-Toyota-398,SchaarhoogwerkerNobleliftSC12E,Toyota,2026,0,0,machineseeker,EU
-MS-Toyota-399,Massieve rubberen banden 2 stuksGumasolG.L.E 8.25-15 6.0-15,Toyota,0,0,0,machineseeker,EU
-MS-Toyota-400,"Massieve rubberen banden 2 stuksVorwerk Rota7.00-15 Felge 5,",Toyota,0,0,0,machineseeker,EU
-MS-Toyota-401,Massieve rubberen banden 2 stuksVorwerk Rota23x9-10 (225/75-,Toyota,0,0,0,machineseeker,EU
-MS-Toyota-402,Massieve rubberen banden 3 stuksVorwerk Rota18x7-8 Felge 4.3,Toyota,0,0,0,machineseeker,EU
-MS-Toyota-403,SchaarhoogwerkerHaulotteCompakt 8NAE,Toyota,2026,0,13300,machineseeker,EU
-MS-Toyota-404,Massieve rubberen banden 2 stuksContinentalCSE-Robust 23 x 5,Toyota,0,0,0,machineseeker,EU
-MS-Toyota-405,Massieve rubberen banden 2 stuksMaster SolidSuper Elastic 6.,Toyota,0,0,0,machineseeker,EU
-MS-Toyota-406,Massieve rubberen banden 2 stuksSolideal23x9-10 RIM 6.50F-10,Toyota,0,0,0,machineseeker,EU
-MS-Toyota-407,Massieve rubberen bandenRigdon23 x 9-10 6.50 F-10,Toyota,0,0,0,machineseeker,EU
-MS-Still-408,VS-22990 hoogwerker Still LUI MINI SKSTILLLUI MINI SK,Still,2017,0,4999,machineseeker,EU
-MS-Still-409,Genie Z62 40 BE2356GenieZ62 40,Still,2017,2480,6240,machineseeker,EU
-MS-Still-410,Skyjack SJ6832 RTE BE2396SkyjackSJ6832 RTE,Still,2018,227,14500,machineseeker,EU
-MS-Still-411,LGMG A09JE BE2886LGMGA09JE,Still,2023,96,23950,machineseeker,EU
-MS-Still-412,Iteco IT 12122ItecoIT 12122,Still,2006,0,12122,machineseeker,EU
-MS-Still-413,"Magni ES 0607 M 5,90m schaarhoogwerkerMagniES 0607 M 5,90m S",Still,2023,5,2950,machineseeker,EU
-MS-Still-414,Genie GS2032 BE1545GenieGS2032,Still,2008,529,2032,machineseeker,EU
-MS-Still-415,RupswerkplatformTeupenLEO30Tplus,Still,2020,0,88000,machineseeker,EU
-MS-Still-416,Hollandlift Q-135EL24 BE1965Holland LiftQ-135EL24,Still,2006,594,6950,machineseeker,EU
-MS-Still-417,SchaarheftafelGenieGS-1530,Still,2012,230,1530,machineseeker,EU
-MS-Still-418,Haulotte H18SDX BE2343HaulotteH18SDX,Still,2016,1852,19950,machineseeker,EU
-MS-Still-419,Haulotte HT23RTJO BE2362HaulotteHT23RTJO,Still,2016,3940,24500,machineseeker,EU
-MS-MachineryZone-420,Bravi Leonardo Lui Mini verticale heftruckBraviLeonardo Lui ,MachineryZone,2011,0,2990,machineseeker,EU
-MS-MachineryZone-421,HeftruckJLG800AJ,MachineryZone,2004,0,0,machineseeker,EU
+MS-Manitou-362,Manitou 200ATJManitou200ATJ,Manitou,2017,0,40000,machineseeker,EU
+MS-Manitou-363,Verticale liftManitou100 VJR,Manitou,2021,0,0,machineseeker,EU
+MS-Manitou-364,Manitou 160ATJManitou160ATJ,Manitou,2007,0,16000,machineseeker,EU
+MS-Manitou-365,Manitou 150 AETJCManitou150 AETJC,Manitou,2008,0,11300,machineseeker,EU
+MS-Manitou-366,"Hoogwerker zelfrijdendManitou150 AETJ-C 3D Elektro 15,00 m",Manitou,2016,0,19300,machineseeker,EU
+MS-Manitou-367,Hoogwerker zelfrijdendManitou100 VJR Teleskopmastbühne Elekt,Manitou,2016,0,10100,machineseeker,EU
+MS-Manitou-368,Scharnierend telescopisch platformManitou180ATJRCPA,Manitou,2016,0,44700,machineseeker,EU
+MS-Manitou-369,Telescopisch werkplatformManitou280TJ 4x4,Manitou,2017,0,0,machineseeker,EU
+MS-JCB-370,JCB S 3246 E KH10111JCBS 3246 E,JCB,2022,0,9250,machineseeker,EU
+MS-JCB-371,VS-22789 Schaar hoogwerker JCB S3246EJCBS3246E,JCB,2019,0,7500,machineseeker,EU
+MS-JCB-372,JCB S4550EJCBS4550E,JCB,2019,0,13000,machineseeker,EU
+MS-JCB-373,WerkplatformJCBS1932E EDRV Elektrische Scherenbühne *NEU*,JCB,2026,0,9250,machineseeker,EU
+MS-JCB-374,SchaarliftJCBS2632E,JCB,2021,0,8900,machineseeker,EU
+MS-JCB-375,JCB S 2032 E KH10370JCBS 2032 E Nieuwe Keuring,JCB,2021,0,7250,machineseeker,EU
+MS-JCB-376,JCB S 1930 E KH10369JCBS 1930 E,JCB,2020,0,5500,machineseeker,EU
+MS-JCB-377,JCB S 2646 E KH10376JCBS 2646 E,JCB,2019,0,6950,machineseeker,EU
+MS-JCB-378,SchaarliftJCBS2646E,JCB,2021,0,9000,machineseeker,EU
+MS-JCB-379,WerkplatformJCBS2646E Arbeitsbühne Elektro NEU Bj. 2025 10x ,JCB,2025,0,11900,machineseeker,EU
+MS-JCB-380,HefplatformMagniArbeitskorb 4.5 drehbar ausziehbar / 500 kg ,JCB,0,0,10490,machineseeker,EU
+MS-JCB-381,WerkplatformJCBElektrische Scherenbühne S 1930 E,JCB,2017,0,7500,machineseeker,EU
+MS-JCB-382,SchaarliftJCBS2646E,JCB,2018,0,9950,machineseeker,EU
+MS-JCB-383,Scharnierende telescopische hoogwerkerMagniEAB22RT 4x4 / 22m,JCB,2024,0,2024,machineseeker,EU
+MS-JCB-384,"Scharnierende telescopische hoogwerkerMagniEAB20RT 4x4 / 20,",JCB,2024,0,2024,machineseeker,EU
+MS-Toyota-385,SchaarliftSnorkel Hebebühne Arbeitsbühne TM12Scherenbühne TM,Toyota,2020,79,8500,machineseeker,EU
+MS-Toyota-386,Telescopisch werkplatformJLGX20J+,Toyota,2024,0,0,machineseeker,EU
+MS-Toyota-387,Mobiel werkplatformMantallXE59 MINI,Toyota,2026,1,0,machineseeker,EU
+MS-Toyota-388,SchaarhoogwerkerHangcha80XENS,Toyota,2023,0,0,machineseeker,EU
+MS-Toyota-389,SchaarhoogwerkerSnorkelS 3220 E - NEUGERÄT !!!,Toyota,2022,0,11950,machineseeker,EU
+MS-Toyota-390,WerkplatformMAGNIMagni ES1212AC 12m Scherenbühne elektrisch ,Toyota,2024,0,14900,machineseeker,EU
+MS-Toyota-391,Telescopisch werkplatformUp-RightAB 38,Toyota,2001,0,0,machineseeker,EU
+MS-Toyota-392,Telescopisch werkplatformJLGM450AJ HYBRID ONLY-235H 15700MM,Toyota,2017,235,27900,machineseeker,EU
+MS-Toyota-393,SchaarhoogwerkerSnorkelS3010E,Toyota,2026,0,0,machineseeker,EU
+MS-Toyota-394,SchaarhoogwerkerGALENES0808,Toyota,2026,0,808,machineseeker,EU
+MS-Toyota-395,SchaarhoogwerkerNobleliftSC12E,Toyota,2026,0,0,machineseeker,EU
+MS-Toyota-396,Massieve rubberen banden 2 stuksGumasolG.L.E 8.25-15 6.0-15,Toyota,0,0,0,machineseeker,EU
+MS-Toyota-397,"Massieve rubberen banden 2 stuksVorwerk Rota7.00-15 Felge 5,",Toyota,0,0,0,machineseeker,EU
+MS-Toyota-398,Massieve rubberen banden 2 stuksVorwerk Rota23x9-10 (225/75-,Toyota,0,0,0,machineseeker,EU
+MS-Toyota-399,Massieve rubberen banden 3 stuksVorwerk Rota18x7-8 Felge 4.3,Toyota,0,0,0,machineseeker,EU
+MS-Toyota-400,Massieve rubberen banden 2 stuksContinentalCSE-Robust 23 x 5,Toyota,0,0,0,machineseeker,EU
+MS-Toyota-401,Massieve rubberen banden 2 stuksMaster SolidSuper Elastic 6.,Toyota,0,0,0,machineseeker,EU
+MS-Toyota-402,Massieve rubberen banden 2 stuksSolideal23x9-10 RIM 6.50F-10,Toyota,0,0,0,machineseeker,EU
+MS-Toyota-403,Massieve rubberen bandenRigdon23 x 9-10 6.50 F-10,Toyota,0,0,0,machineseeker,EU
+MS-Toyota-404,SchaarhoogwerkerHaulotteCompakt 8NAE,Toyota,2026,0,13300,machineseeker,EU
+MS-Still-405,VS-22990 hoogwerker Still LUI MINI SKSTILLLUI MINI SK,Still,2017,0,4999,machineseeker,EU
+MS-Still-406,Genie Z62 40 BE2356GenieZ62 40,Still,2017,2480,6240,machineseeker,EU
+MS-Still-407,Skyjack SJ6832 RTE BE2396SkyjackSJ6832 RTE,Still,2018,227,14500,machineseeker,EU
+MS-Still-408,LGMG A09JE BE2886LGMGA09JE,Still,2023,96,23950,machineseeker,EU
+MS-Still-409,Iteco IT 12122ItecoIT 12122,Still,2006,0,12122,machineseeker,EU
+MS-Still-410,"Magni ES 0607 M 5,90m schaarhoogwerkerMagniES 0607 M 5,90m S",Still,2023,5,2950,machineseeker,EU
+MS-Still-411,Genie GS2032 BE1545GenieGS2032,Still,2008,529,2032,machineseeker,EU
+MS-Still-412,RupswerkplatformTeupenLEO30Tplus,Still,2020,0,88000,machineseeker,EU
+MS-Still-413,Hollandlift Q-135EL24 BE1965Holland LiftQ-135EL24,Still,2006,594,6950,machineseeker,EU
+MS-Still-414,SchaarheftafelGenieGS-1530,Still,2012,230,1530,machineseeker,EU
+MS-Still-415,Haulotte H18SDX BE2343HaulotteH18SDX,Still,2016,1852,19950,machineseeker,EU
+MS-Still-416,Haulotte HT23RTJO BE2362HaulotteHT23RTJO,Still,2016,3940,24500,machineseeker,EU
+MS-MachineryZone-417,Bravi Leonardo Lui Mini verticale heftruckBraviLeonardo Lui ,MachineryZone,2011,0,2990,machineseeker,EU
+MS-MachineryZone-418,HeftruckJLG800AJ,MachineryZone,2004,0,0,machineseeker,EU
